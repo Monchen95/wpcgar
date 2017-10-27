@@ -1,0 +1,1 @@
+include ':lib_shared', ':lib_vuforia', ':lib_arcore', ':app', ':app_pjenke'

@@ -1,0 +1,3 @@
+cannon.obj/.mtl: https://3docean.net/item/low-poly-cannon/14489574, licensed by Philipp Jenke, non-commercial usage
+
+plane.obj/.mtl: Hansa Brandenburg Airplane by Milan Van Damme is licensed under CC Attribution-NonCommercial

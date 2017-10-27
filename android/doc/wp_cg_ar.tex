@@ -1,0 +1,198 @@
+\documentclass[9pt,technote]{IEEEtran}
+\usepackage[applemac]{inputenc}
+\usepackage{authblk}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+
+\title{WP Computergrafik für Android - Framework}
+\author[1]{Philipp Jenke}
+\affil[1]{Hochschule für Angewandte Wissenschaften (HAW) Hamburg}
+
+\begin{document}
+
+\maketitle
+
+In diesem Dokument werden die grundsätzlichen Funktionalitäten des Frameworks beschrieben. 
+
+\section{Quick Start}
+
+\begin{itemize}
+\item Auswählen der Activitiy: Modul \emph{app} $\rightarrow$ \emph{AndroidManifest.xml} $\rightarrow$ Tag \emph{android:name} setzen (entweder \emph{.opengl.OpenGLActivity} oder \emph{.vuforia.VuforiaActivity}
+\item Auswählen der Szene: Im Konstruktor der Activity (OpenGL oder Vuforia), Setzen der Instanzvariablen \verb+scene+.
+\item Aufbau des Szenengraphen: Einfügen der verwendeten Knoten der  Methode \verb+onSetup+ der Szene.
+\item Kompilieren und Starten
+\end{itemize}
+
+\section{Einrichtung}
+
+Das Framework kann von einem privaten Git-Repository mit der URL (\emph{https://gitlab.informatik.haw-hamburg.de/wp\_cg/wpcgar.git}) gekloned werden. Es ist Teil eines etwas umfangreicheren Repositories mit Frameworks für Java (Desktop), C\# (Desktop) und eben diesem zur Android-Entwicklung. Diese Dokumentation bezieht sich nur auf den Android-Teil. Das Teilprojekt ist mit einem Gradle-Buildsystem konfiguriert. Die Entwicklung erfolgt über Android Studio (\emph{https://developer.android.com/studio/index.html}). Zur Einrichtung sind folgende Schritte notwendig:
+\begin{itemize}
+\item Android Studio installieren (inklusive des Android SDKs, im Installer enthalten)
+\item Pfad-Variable \emph{ANDROID\_HOME} setzen (auf das Verzeichnis in dem das Android SDK installiert wurde)
+\item Framework aus dem Git-Repository klonen
+\item Android-Projekt in Android-Studio als Projekt öffnen
+\end{itemize}
+
+
+\section{Einführung}
+
+Das Framework besteht aus vier Modulen:
+\begin{itemize}
+\item \textbf{lib\_shared:} gemeinsamer Code für alle anderen Module
+\item \textbf{lib\_arcore:} experimentelles Modul zur Unterstützung der Google-ARCore-Technologie\footnote{https://developers.google.com/ar/}.
+\item \textbf{lib\_vuforia:} Unterstützung der Vuforia-Funktionalität, insbesonders das Marker-Tracking
+\item \textbf{app:} eigentliche App mit Einstiegs-Activities für OpenGL, Vuforia und ArCore 
+\end{itemize}
+
+Die Abhängigkeiten zwischen den Modulen sind in Abbildung \ref{fig:module} dargestellt.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.6\linewidth]{images/module.png}
+\caption{Abhängigkeiten der Module im Framework.}
+\label{fig:module}
+\end{figure}
+
+Die App startet immer mit einer der Activities \emph{OpenGLActivity}, \emph{VuforiaActivity} oder \emph{ARCoreActivity}. Die verwendete Activity wird in der Manifest-Datei \emph{AndroidManifest.xml} des Moduls \emph{app} gesetzt (Feld \emph{android:name}).
+
+Eine App hat immer die Stuktur in Abbildung \ref{fig:app_struktur}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.7\linewidth]{images/ueberblick.png}
+\caption{Grundsätzlicher Aufbau einer App im Framework.}
+\label{fig:app_struktur}
+\end{figure}
+
+\section{Projekte}
+
+Bei der Entwicklung mobiler Apps für Android stehen im Kern immer sogenannte \emph{Activities}. In diesem Framework gibt es für jedes ausführbare Modul je eine \emph{Activity}:
+\begin{itemize}
+\item opengl $\rightarrow$ \emph{OpenGLActivity.java}
+\item vuforia $\rightarrow$ \emph{VuforiaActivity.java}
+\item arcore $\rightarrow$ \emph{ARCoreActivity.java}
+\end{itemize}
+
+Die Activities werden bei der Umsetzung eines neuen Projektes (beispielsweise bei der Bearbeitung einer neuen Praktikumsaufgabe kaum verändert. Jede der drei genannten Activities hat eine Objektvariable \verb+scene+ vom Typ \verb+Scene+. Für ein neues Projekt implementiert man eine neue Szene, indem man eine Klasse schreibt, die von \verb+Scene+ erbt. Im Modul \emph{ARCore} gibt es ein spezialisierte Variante der Szene, \emph{ARCoreScene}, von der man erben muss. Die Szene verwaltet dabei alle relevanten Informationen, insbesondere den Szenengraph, dessen Wurzelknoten man in der Szene mit \verb+getRoot()+ bekommt. Die Integration der eigenen Szene ist denkbar einfach. Man instanziiert ein Objekt des eigenen Szenentyps und initialisiert damit die \verb+scene+-Referenz im Konstruktor der \emph{Activity}:
+
+\begin{verbatim}
+// Application specific scene
+scene = new DefaultOpenGLScene();
+\end{verbatim}        
+
+Bei der Implementierung einer eigenen Szenen-Klasse müssen insbesondere die folgende Methoden überschrieben werden:
+\begin{itemize}
+\item \verb+onSetup()+: In dieser Methode baut man den Szenengraph auf.
+\item \verb+onTimerTick()+: In der Szene kann man einen Timer konfigurieren. Bei jedem Timeout des Timers wird diese Methode aufgerufen.
+\item \verb+onSceneRedraw()+: Diese Methode wird immer dann aufgerufen, wenn der Bildinhalt von OpenGL ES neu gezeichnet wird.
+\end{itemize}
+
+\section{Vuforia}
+
+Für die Entwicklung von AR-Anwendungen verwendet das Framework ein Marker-Tracking-System. Dieses ist durch eine externe Bibliothek (Vuforia) umgesetzt. Um mit Vuforia arbeiten zu können, muss man sich auf der Vuforia-Webseite (\emph{https://developer.vuforia.com/}) als Entwickler (\emph{Developer}) kostenlos registrieren. Dies hat zwei Gründe: Zum einen bekommt man damit eine ID, die im Code eingetragen wird, damit man die Bibliothek verwenden kann. Zum anderen generiert man Marker auf der Webseite aus Bildern, die dann in der Anwendung verwendet werden können. 
+
+Hat man eine ID generiert, dann wird sie an dieser Stelle im Code benötigt: Modul \emph{vuforia} $\rightarrow$ Klasse \emph{Session} $\rightarrow$ Methode \emph{onSurfaceCreated}, 
+\begin{verbatim}
+Vuforia.setInitParameters(mActivity, 
+  mVuforiaFlags, hier-die-ID-eintragen);
+\end{verbatim}
+
+Im Framework wird an der Stelle auf \verb+VuforiaKey.KEY+ verwiesen. Sie müssen also zunächst eine entsprechende Klasse \verb+VuforiaKey+ im Modul \emph{vuforia} anlegen und in der Klasse den Schlüssel als statisches Feld ablegen:
+\begin{verbatim}
+public static final String KEY = 
+  <copy key here>;
+\end{verbatim} 
+
+Auch die verwendeten Marker werden über die Vuforia-Developer-Seite verwaltet. Zum Erstellen eines Markers muss zunächst ein Bild ausgewählt werden. Bilder sind unterschiedlich gut geeignet. Beim Eintragen eines Bildes auf der Vuforia-Seite bekommt das Bild eine Sterne-Wertung. Optimalerweise hat das Bild fünf Sterne und ist damit optimal geeignet. Die Marker werden in einer sogenannten \emph{Target Database} verwaltet, die dann in die Android-Studio Anwendung integriert wird. Dazu sind folgende Schritte notwendig:
+\begin{itemize}
+\item Anlegen einer \emph{Target Database} auf der Vuforia-Developer-Seite unter \emph{Develop} $\rightarrow$ \emph{Target Manager}
+\item Einfügen eines oder mehrerer Bilder mit \emph{Add Target}
+\item Exportieren der \emph{Target Database} mit \emph{Download Database (All)} = Zip-Datei
+\item Ablegen der entpackten ZIP-Datei im Ordner \emph{assets} des Moduls \emph{vuforia}
+\item Auflisten der XML-Datei aus der \emph{Target Database} im Konstruktor der Klasse \verb+AndroidActivity+: \verb+mDatasetStrings.add("CGforAR.xml");+
+\end{itemize}
+
+Welcher der Marker aus einer \emph{Target Database} in der Anwendung verwendet wird, wird über die \verb+VuforiaMarkerNode+ gesteuert. Als Identifikation dient der Name (\emph{target name}). Die maximale Anzahl parallel getrackter Marker wird in der \verb+VuforiaActivity+ in dem Feld \verb+MAX_NUM_TARGETS+ festgelegt (Default: $2$).
+
+\section{Dreiecksnetze}
+
+Dreiecksnetze werden im Framework durch das Interface \verb+ITriangleMesh+ beschrieben. Eine Implementierung des Interfaces ist bereits umgesetzt. In einem \verb+TriangleMesh+ werden die Vertices und Dreiecke als Index-Listen verwaltet. Ein Dreiecksnetz kann einfach durch das Hinzufügen von Vertices und Dreiecken erzeugt werden. 
+
+Eine Alternative für das Erzeugen von Dreiecksnetzen bietet die Factory-Klasse \verb+TriangleMeshFactory+. Damit lassen sich einige einfache Körper wie Kugeln  erzeugen.
+
+Die mächtigste Möglichkeit, um Dreiecksnetzen zu generieren, ist das Einlesen mit dem \verb+ObjReader+. Der ist in der Lage, Wavefront-OBJ-Dateien\footnote{https://de.wikipedia.org/wiki/Wavefront\_OBJ} (\emph{.obj}) zusammen mit Materialinformationen (\emph{.mtl}) einzulesen und daraus eine Liste von Dreiecksnetze zu generieren (teilweise werden mehrere Meshes aus einer OBJ-Datei erzeugt): 
+
+\begin{verbatim}
+ObjReader reader = new ObjReader();
+List<ITriangleMesh> meshes = 
+  reader.read("meshes/square.obj");
+\end{verbatim}
+
+\section{Texturen}
+
+Texturen werden bei den Resourcen \emph{src/main/res} im Verzeichnis \emph{drawable} abgelegt. Üblicherweise werden PNG-Bilder oder JPG-Bilder verwendet. Die Auflösung der Bilder sollte so klein wie möglich sein (ohne Qualitätseinbußen).
+
+Zur Verwaltung der Texturen steht die Singleton-Klasse \emph{TextureManager} zur Verfügung. Diese verwaltet die Texturen über ihren Namen (Dateinamen)
+
+\begin{verbatim}
+Texture tex = TextureManager.getInstance().
+  getTexture("lego");
+\end{verbatim}
+
+Auf die Angabe der Endung (hier: .png") kann verzichtet werden. Wird ein Dreiecksnetz aus einer OBJ-Datei eingelesen, dann steht der Texturname in der zugehörigen Materialdatei. Bei der Verwendung von Buttons wird der Texturname als Argument an den Konstruktor übergeben. 
+
+\section{Buttons}
+
+Zur Interaktion der Anwenderin mit der App können auch Buttons umgesetzt werden. Dies sind rechteckige Felder auf dem Bildschirm. Bei einem Touch-Ereignis auf ein solches Button-Feld wird ein Ereignis ausgelöst, auf das reagiert werden kann. Buttons sind in der Klasse \emph{Button} umgesetzt. 
+
+Zum Erzeugen eines Buttons benötigt man eine Textur. Außerdem gibt man die Position und Größe des Buttons auf dem Bildschirm an. Dazu wird das folgende Koordinatensystem verwendet: Die x-Achse verläuft horizontal und die y-Achse verläuft vertikal. Der Ursprung des Koordinatensystems ist die Mitte des Displays. Auf beiden Achsen ist der Bereich von $-1$ bis $1$ abgedeckt. Die linke untere Ecke des Displays hat die Koordinaten $(-1,-1)$ und die rechte obere Ecke des Koordinatensystems hat die Koordinaten $(1,1)$. Der folgende Button
+
+\begin{verbatim}
+Button button = new Button(
+  "button.png",
+   -1, -0.8, 0.3,
+   handler);
+\end{verbatim}
+
+hat seine linke obere Ecke bei $(-1, -0.8)$ und eine Breite von $0.3$. Die Höhe wird automatisch so angepasst, dass der Button quadratisch erscheint. 
+
+Zur Umsetzung des Handlers implementiert man das Interface \emph{ButtonHandler}. Dies kann beispielsweise über eine innere Klasse
+\begin{verbatim}
+new ButtonHandler() {
+  @Override
+  public void handle() {
+    Log.i(Constants.LOGTAG, 
+      "Button 2 pressed!");
+  }}
+\end{verbatim}
+
+oder einen Lambda-Ausdruck erfolgen:
+
+\begin{verbatim}
+() -> Log.i(Constants.LOGTAG, 
+  "Button 1 pressed!")
+\end{verbatim}
+
+\section{[tmp] Unterschiede Android Studio 2.3 und AndroidStudio 3}
+
+\begin{itemize}
+\item In allen build.gradle-Dateien muss bei Version 2.3 der Bezeichner \emph{compile} verwendet werden, bei Version 3 wird \emph{implementation} verwendet. Anstelle von \emph{testCompile} with \emph{testImplementation} verwendet.
+\item In der build.gradle im Wurzelverzeichnis \emph{android} muss der passende Classpath verwendet werden (der jeweils andere wird auskommentiert).
+\end{itemize}
+
+\section{Framework in eigenes Git-Repo}
+
+Dieser Abschnitt beschreibt, wie das Framework in ein eigenes Git-Repository überführt werden kann.
+
+\begin{itemize}
+\item Repository anlegen (z.B. auf dem Informatik-Gitlab): liefert $<$repo-url$>$
+\item Kommandozeile (oder GitBash) im Wurzelverzeichnis des lokalen Repositories öffnen.
+\item \emph{git remote add $<$repo-name$>$ $<$repo-url$>$} (Beispiel: \emph{git remote add gitlab https://gitlab.informatik.haw-hamburg.de/abc007/wp\_cg\_ar.git})
+\item \emph{git push $<$repo-name$>$ master} (Beispiel: \emph{git push gitlab master})
+\end{itemize}
+
+Fertig!
+
+Zum Überblick außerdem nützlich: \emph{git remote -v} listet alle konfigurierten Repositories auf und \emph{git remote rm $<$repo-name$>$} entfernt die Verbindung zum Remote-Repository $<$repo-name$>$.
+
+\end{document}

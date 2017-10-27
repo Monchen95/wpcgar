@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
+
+    sourceSets {
+        main {
+            assets.srcDirs = ['../assets']
+            res.srcDirs = ['../res']
+        }
+    }
+
+    defaultConfig {
+        applicationId "edu.hawhamburg.app"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs '../libs'
+    }
+}
+
+dependencies {
+    // AndroidStudio 2.3
+    compile project(':lib_shared')
+    compile project(':lib_arcore')
+    compile project(':lib_vuforia')
+    compile 'com.android.support:design:26.+'
+    compile(name: 'Vuforia', ext: 'jar')
+    compile(name: 'arcore_client', ext: 'aar')
+    compile(name: 'obj-0.2.1', ext: 'jar')
+
+    // AndroidStudio 3
+    //implementation project(':lib_shared')
+    //implementation project(':lib_arcore')
+    //implementation project(':lib_vuforia')
+    //implementation 'com.android.support:design:26.+'
+    //implementation(name: 'Vuforia', ext: 'jar')
+    //implementation(name: 'arcore_client', ext: 'aar')
+    //implementation(name: 'obj-0.2.1', ext: 'jar')
+}

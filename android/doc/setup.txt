@@ -1,0 +1,26 @@
+- Installieren
+  - Android Studio 2.3.3 (https://developer.android.com/studio/index.html)
+  - Android SDK (falls nicht zusammen mit Android Studio)
+  - Git installieren (Windows: https://git-for-windows.github.io/, maxOS: zusammen mit den XCode-Tools)
+  - Oracle Java installieren 8 oder 9 (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+
+Framework
+  - 1 x xEinloggen bei gitlab.informatik.haw-hamburg.de
+  - Zugang zum Projekt per Mail bei Jenke anfordern, Angabe der HAW a-Kennung 
+  - Repository clonen: git clone https://gitlab.informatik.haw-hamburg.de/wp_cg/wpcgar.git
+  - auf den Pool-Rechnern unter H:
+
+Einrichten
+  - Android Studio starten
+  - Import -> Gradle -> Unterverzeichnis „android“ auswählen
+  - Klasse VuforiaKey.java anlegen und befüllen
+  - Gradle Build
+
+
+App installieren
+  - Device vorbereiten: Entwicklermodus aktivieren, USB-Debugging zulassen (je nach Device und Android-Version etwas unterschiedliche)
+  - Modul 2opengl“ (oder „vuforia“ auswählen)
+  - „Play“ klicken
+  - Device im ADT Manager auswählen
+  - auf dem Android-Ger‰t: USB-Debugging zulassen/aktivieren
+  - falls „vuforia“: Zugriff auf Kamera zulassen

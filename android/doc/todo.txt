@@ -1,0 +1,2 @@
+- Shadows
+- Texture material in OBJ-Reader -> Start new mesh

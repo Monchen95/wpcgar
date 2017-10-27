@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+
+def VUFORIA_SDK_DIR = '../../..'
+def NATIVE_LIB_DIR = 'build/lib'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
+
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDir "$VUFORIA_SDK_DIR/$NATIVE_LIB_DIR/"
+            assets.srcDirs = ['../assets']
+            res.srcDirs = ['../res']
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs '../libs'
+    }
+}
+
+dependencies {
+    // AndroidStudio 2.3
+    compile project(':lib_shared')
+    compile(name: 'Vuforia', ext: 'jar')
+    compile 'com.android.support:design:26.+'
+
+    // AndroidStudio 3
+    //implementation project(':lib_shared')
+    //implementation(name: 'Vuforia', ext: 'jar')
+    //implementation 'com.android.support:design:26.+'
+}
