@@ -77,9 +77,9 @@ public class HalfEdgeUtility {
         hEMesh.computeTriangleNormals();
         hEMesh.computeVertexNormals();
 
+        Vector color = new Vector(1, 0.25, 0.25, 1);
 
-
-
+        hEMesh.setColor(color);
 
         System.out.println("test");
 
