@@ -19,46 +19,11 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
     protected List<HalfEdge> halfEdgeList = new ArrayList<>();
     protected List<HalfEdgeVertex> vertexList = new ArrayList<>();
     protected List<HalfEdgeTriangle> triangleList = new ArrayList<>();
+    protected List<AbstractTriangle> tList = new ArrayList<>();
 
-    public boolean containsOppositeTriangleSideA(HalfEdgeTriangle t){
-        HalfEdgeVertex tempVertex1 = t.getHalfEdge().getStartVertex();
-        HalfEdgeVertex tempVertex2 = t.getHalfEdge().getSuccessorHE().getStartVertex();
 
-        for(HalfEdgeTriangle tempTriangle: triangleList){
-            if(tempTriangle.getHalfEdge().getStartVertex()==tempVertex1 && tempTriangle.getHalfEdge().getSuccessorHE().getStartVertex()==tempVertex2){
-                return true;
-            }
-        }
-        return false;
-    }
 
-    public boolean containsOppositeTriangleSideB(HalfEdgeTriangle t){
-        HalfEdgeVertex tempVertex2 = t.getHalfEdge().getSuccessorHE().getStartVertex();
-        HalfEdgeVertex tempVertex3 = t.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex();
 
-        for(HalfEdgeTriangle tempTriangle: triangleList){
-            if(tempTriangle.getHalfEdge().getSuccessorHE().getStartVertex()==tempVertex2 && tempTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex()==tempVertex3){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean containsOppositeTriangleSideC(HalfEdgeTriangle t){
-        HalfEdgeVertex tempVertex3 = t.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex();
-        HalfEdgeVertex tempVertex1 = t.getHalfEdge().getStartVertex();
-
-        for(HalfEdgeTriangle tempTriangle: triangleList){
-            if(tempTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex()==tempVertex3 && tempTriangle.getHalfEdge().getStartVertex()==tempVertex1 ){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void setAllOpposites(){
-
-    }
 
     /**
      * Add a new vertex (given by position) to the vertex list. The new vertex is
@@ -69,12 +34,9 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
     @Override
     public int addVertex(Vector position) {
 
-        HalfEdgeVertex tempVertex = new HalfEdgeVertex(position);
-        HalfEdge tempEdge = new HalfEdge(tempVertex);
-        tempVertex.setOutGoingHE(tempEdge);
+        HalfEdgeVertex tempVertex = new HalfEdgeVertex(position,null);
 
         vertexList.add(tempVertex);
-        halfEdgeList.add(tempEdge);
 
         return 0;
     }
@@ -155,7 +117,7 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
 
         triangleList.add(tempTriangle);
 
-
+/*
         //opposite setzen
         for(int i=0;i<getNumberOfTriangles();i++){
 
@@ -236,7 +198,7 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
             }
 
         }
-
+*/
     }
 
     /**
@@ -247,9 +209,12 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public void addTriangle(AbstractTriangle t) {
-        //eine contains triangle methode schreiben, um herauszufinden ob opposite gesetzt werden kann
-        //in abstract sind nur texturkoordinaten :(
+        triangleList.add((HalfEdgeTriangle) t);
 
+    }
+
+    public void addTriangle(HalfEdgeTriangle t){
+        triangleList.add(t);
     }
 
     /**
