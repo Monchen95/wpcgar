@@ -1,5 +1,11 @@
 package edu.hawhamburg.shared.datastructures.halfEdgeMesh;
 
+import android.util.Pair;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.Triangle;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
@@ -11,6 +17,9 @@ import edu.hawhamburg.shared.math.Vector;
 
 public class HalfEdgeUtility {
     public static HalfEdgeTriangleMesh convert(ITriangleMesh tm){
+       // Map<HalfEdge,HalfEdgeVertex> oppositeMap = new HashMap<>();
+        Map<HalfEdge,HalfEdgeMapEntry> oppositeMap = new HashMap<>();
+
         HalfEdgeTriangleMesh hEMesh = new HalfEdgeTriangleMesh();
 
         for(int i=0;i<tm.getNumberOfVertices();i++) {
@@ -46,7 +55,27 @@ public class HalfEdgeUtility {
             hEMesh.halfEdgeList.add(h3);
 
             hEMesh.addTriangle(triangle);
+
+            oppositeMap.put(h1,new HalfEdgeMapEntry(hEMesh.vertexList.indexOf(h1.getStartVertex()),hEMesh.vertexList.indexOf(h1.getSuccessorHE().getStartVertex())));
+            oppositeMap.put(h2,new HalfEdgeMapEntry(hEMesh.vertexList.indexOf(h2.getStartVertex()),hEMesh.vertexList.indexOf(h2.getSuccessorHE().getStartVertex())));
+            oppositeMap.put(h3,new HalfEdgeMapEntry(hEMesh.vertexList.indexOf(h3.getStartVertex()),hEMesh.vertexList.indexOf(h3.getSuccessorHE().getStartVertex())));
         }
+
+        for(Map.Entry<HalfEdge, HalfEdgeMapEntry> h1: oppositeMap.entrySet()){
+            for(Map.Entry<HalfEdge, HalfEdgeMapEntry> h2: oppositeMap.entrySet()){
+                if(!(h1.getKey().equals(h2.getKey()))){
+                    if(h1.getValue().equals(h2.getValue())){
+                       int tmpIdx1 = hEMesh.halfEdgeList.indexOf(h1.getKey());
+                       int tmpIdx2 = hEMesh.halfEdgeList.indexOf(h2.getKey());
+                        hEMesh.halfEdgeList.get(tmpIdx1).setOppositeHE(hEMesh.halfEdgeList.get(tmpIdx2));
+                        hEMesh.halfEdgeList.get(tmpIdx2).setOppositeHE(hEMesh.halfEdgeList.get(tmpIdx1));
+                    }
+                }
+            }
+        }
+
+        hEMesh.computeTriangleNormals();
+        hEMesh.computeVertexNormals();
 
 
 

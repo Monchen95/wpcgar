@@ -258,7 +258,58 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public void computeTriangleNormals() {
-        // to do
+        for (HalfEdgeTriangle triangle : triangleList) {
+
+            //Drei Punkte des Dreicks extrahieren
+            Vector a = triangle.getHalfEdge().getStartVertex().getPosition();
+            Vector b = triangle.getHalfEdge().getSuccessorHE().getStartVertex().getPosition();
+            Vector c = triangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex().getPosition();
+
+            //Vektor ab und Vektor ac bilden
+            Vector ab = b.subtract(a);
+            Vector ac = c.subtract(a);
+
+            //Kreuzprodukt von Vektor ab und Vektor ac --> Normalenvektor
+            Vector n = ab.cross(ac);
+
+            //Normalenvektor normieren
+            n.normalize();
+
+            triangle.setNormal(n);
+        }
+    }
+
+    /**
+     * Compute the vertex normals.
+     */
+    public void computeVertexNormals() {
+        for (HalfEdgeVertex vertex : vertexList) {
+
+            Vector n = new Vector(0, 0, 0);
+
+            //Liste für alle Dreiecke, die den betreffenden Punkt beinhalten
+            List<HalfEdgeTriangle> foundedTriangels = new ArrayList<>();
+
+            for (HalfEdgeTriangle triangle : triangleList) {
+                HalfEdgeVertex a = triangle.getHalfEdge().getStartVertex();
+                HalfEdgeVertex b = triangle.getHalfEdge().getSuccessorHE().getStartVertex();
+                HalfEdgeVertex c = triangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex();
+
+                if (a == vertex || b == vertex || c == vertex) {
+                    foundedTriangels.add(triangle);
+                }
+
+                //Die (bereits normierten) Normalen der gefundenen Dreiecke werden aufaddiert
+                for (HalfEdgeTriangle foundedTriangle : foundedTriangels) {
+                    n = n.add(foundedTriangle.getNormal());
+                }
+            }
+
+            //Normalenvektor normieren
+            n.normalize();
+
+            vertex.setNormal(n);
+        }
     }
 
     @Override
