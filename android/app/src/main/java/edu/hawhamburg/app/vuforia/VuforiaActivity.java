@@ -96,7 +96,8 @@ public class VuforiaActivity extends Activity implements SessionControllable {
         AssetPath.getInstance().init(getAssets());
 
         // Application specific scene - must be set exactly here
-        scene = new DefaultVuforiaScene();
+        //scene = new DefaultVuforiaScene();
+        scene = new OberverScene();
 
         TextureManager.getInstance().setup("edu.hawhamburg.pjenke", getApplicationContext());
         scene.onSetup(scene.getRoot());
