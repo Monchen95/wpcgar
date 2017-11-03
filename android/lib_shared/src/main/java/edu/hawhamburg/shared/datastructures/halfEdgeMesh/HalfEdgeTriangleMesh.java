@@ -1,5 +1,7 @@
 package edu.hawhamburg.shared.datastructures.halfEdgeMesh;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.Vertex;
 import edu.hawhamburg.shared.math.AxisAlignedBoundingBox;
 import edu.hawhamburg.shared.math.Vector;
+import edu.hawhamburg.shared.misc.Constants;
 import edu.hawhamburg.shared.rendering.Texture;
 
 /**
@@ -20,10 +23,6 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
     protected List<HalfEdgeVertex> vertexList = new ArrayList<>();
     protected List<HalfEdgeTriangle> triangleList = new ArrayList<>();
     protected List<AbstractTriangle> tList = new ArrayList<>();
-
-
-
-
 
     /**
      * Add a new vertex (given by position) to the vertex list. The new vertex is
@@ -85,120 +84,6 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
     @Override
     public void addTriangle(int vertexIndex1, int vertexIndex2, int vertexIndex3) {
 
-        //eine contains triangle methode schreiben, um herauszufinden ob opposite gesetzt werden kann
-
-        if(vertexList.get(vertexIndex1).getOutGoingHE().getSuccessorHE()!=null){
-            HalfEdge tempHalfEdge1 = new HalfEdge(vertexList.get(vertexIndex1));
-            vertexList.get(vertexIndex1).setOutGoingHE(tempHalfEdge1);
-            halfEdgeList.add(tempHalfEdge1);
-        }
-
-        if(vertexList.get(vertexIndex2).getOutGoingHE().getSuccessorHE()!=null){
-            HalfEdge tempHalfEdge2 = new HalfEdge(vertexList.get(vertexIndex2));
-            vertexList.get(vertexIndex2).setOutGoingHE(tempHalfEdge2);
-            halfEdgeList.add(tempHalfEdge2);
-        }
-
-        if(vertexList.get(vertexIndex3).getOutGoingHE().getSuccessorHE()!=null){
-            HalfEdge tempHalfEdge3 = new HalfEdge(vertexList.get(vertexIndex3));
-            vertexList.get(vertexIndex3).setOutGoingHE(tempHalfEdge3);
-            halfEdgeList.add(tempHalfEdge3);
-        }
-
-        vertexList.get(vertexIndex1).getOutGoingHE().setSuccessorHE(vertexList.get(vertexIndex2).getOutGoingHE());
-        vertexList.get(vertexIndex2).getOutGoingHE().setSuccessorHE(vertexList.get(vertexIndex3).getOutGoingHE());
-        vertexList.get(vertexIndex3).getOutGoingHE().setSuccessorHE(vertexList.get(vertexIndex1).getOutGoingHE());
-
-        HalfEdgeTriangle tempTriangle = new HalfEdgeTriangle(vertexList.get(vertexIndex1).getOutGoingHE());
-
-        vertexList.get(vertexIndex1).getOutGoingHE().setFacet(tempTriangle);
-        vertexList.get(vertexIndex2).getOutGoingHE().setFacet(tempTriangle);
-        vertexList.get(vertexIndex3).getOutGoingHE().setFacet(tempTriangle);
-
-        triangleList.add(tempTriangle);
-
-/*
-        //opposite setzen
-        for(int i=0;i<getNumberOfTriangles();i++){
-
-            int otherIndex1 = vertexList.indexOf(getVertex(triangleList.get(i),0));
-            int otherIndex2 = vertexList.indexOf(getVertex(triangleList.get(i),1));
-            int otherIndex3 = vertexList.indexOf(getVertex(triangleList.get(i),2));
-
-            List<Integer> tempOtherList = new ArrayList<>();
-            tempOtherList.add(otherIndex1);
-            tempOtherList.add(otherIndex2);
-            tempOtherList.add(otherIndex3);
-
-            List<Integer> tempThisList = new ArrayList<>();
-            tempThisList.add(vertexIndex1);
-            tempThisList.add(vertexIndex2);
-            tempThisList.add(vertexIndex3);
-
-            int newVertex1Memory = 0;
-            int newVertex2Memory = 0;
-
-            int sameVertex = 0;
-            int vertex1Memory = 0;
-            int vertex2Memory = 0;
-            HalfEdgeTriangle matchingTriangle = triangleList.get(i);
-
-            for(int j=0;j<3;j++){
-                for(int k=0;k<3;k++){
-                    if(sameVertex==0&&(tempOtherList.get(j)==tempThisList.get(k))){
-                        vertex1Memory = tempOtherList.get(j);
-                        newVertex1Memory = tempThisList.get(k);
-                        sameVertex ++;
-                    }
-                    if(sameVertex==1&&(tempOtherList.get(j)==tempThisList.get(k))){
-                        vertex2Memory = tempOtherList.get(j);
-                        newVertex2Memory = tempThisList.get(k);
-                        sameVertex ++;
-                    }
-                    if(sameVertex==2){
-
-                        if(matchingTriangle.getHalfEdge().getStartVertex().equals(vertexList.get(vertex1Memory))){
-                            if(matchingTriangle.getHalfEdge().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex2Memory))){
-                                matchingTriangle.getHalfEdge().setOppositeHE(vertexList.get(newVertex2Memory).getOutGoingHE());
-                                vertexList.get(newVertex2Memory).getOutGoingHE().setOppositeHE(matchingTriangle.getHalfEdge());
-                            }
-                            if(matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex2Memory))){
-                                matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().setOppositeHE(vertexList.get(newVertex1Memory).getOutGoingHE());
-                                vertexList.get(newVertex1Memory).getOutGoingHE().setOppositeHE(matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE());
-                            }
-
-                        }
-                        if(matchingTriangle.getHalfEdge().getStartVertex().equals(vertexList.get(vertex2Memory))){
-                            if(matchingTriangle.getHalfEdge().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex1Memory))){
-                                matchingTriangle.getHalfEdge().getSuccessorHE().setOppositeHE(vertexList.get(newVertex1Memory).getOutGoingHE());
-                                vertexList.get(newVertex1Memory).getOutGoingHE().setOppositeHE(matchingTriangle.getHalfEdge());
-                            }
-                            if(matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex1Memory))){
-                                matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().setOppositeHE(vertexList.get(newVertex2Memory).getOutGoingHE());
-                                vertexList.get(newVertex2Memory).getOutGoingHE().setOppositeHE(matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE());
-                            }
-                        }
-                        if(matchingTriangle.getHalfEdge().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex1Memory))){
-
-                            if(matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex2Memory))){
-                                matchingTriangle.getHalfEdge().getSuccessorHE().setOppositeHE(vertexList.get(newVertex2Memory).getOutGoingHE());
-                                vertexList.get(newVertex2Memory).getOutGoingHE().setOppositeHE(matchingTriangle.getHalfEdge().getSuccessorHE());
-                            }
-                        }
-                        if(matchingTriangle.getHalfEdge().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex2Memory))){
-
-                            if(matchingTriangle.getHalfEdge().getSuccessorHE().getSuccessorHE().getStartVertex().equals(vertexList.get(vertex1Memory))){
-                                matchingTriangle.getHalfEdge().getSuccessorHE().setOppositeHE(vertexList.get(newVertex1Memory).getOutGoingHE());
-                                vertexList.get(newVertex1Memory).getOutGoingHE().setOppositeHE(matchingTriangle.getHalfEdge().getSuccessorHE());
-                            }
-                        }
-
-                    }
-                }
-            }
-
-        }
-*/
     }
 
     /**
@@ -230,7 +115,7 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public void addTriangle(int vertexIndex1, int vertexIndex2, int vertexIndex3, int texCoordIndex1, int texCoordIndex2, int texCoordIndex3) {
-        //textur, egal
+
     }
 
     @Override
@@ -274,7 +159,7 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
 
             //Normalenvektor normieren
             n.normalize();
-
+            Log.d(Constants.LOGTAG,"Triangle Normal: " + n.toString());
             triangle.setNormal(n);
         }
     }
@@ -307,14 +192,13 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
 
             //Normalenvektor normieren
             n.normalize();
-
+            Log.d(Constants.LOGTAG,"Vertex Normal: " + n.toString());
             vertex.setNormal(n);
         }
     }
 
     @Override
     public Vector getTextureCoordinate(int index) {
-        //textur, egal
         return null;
     }
 
@@ -325,13 +209,11 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public void addTextureCoordinate(Vector t) {
-        //textur, egal
 
     }
 
     @Override
     public Texture getTexture() {
-        //textur, egal
 
         return null;
     }
@@ -348,7 +230,6 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public void createShadowPolygons(Vector lightPosition, float extend, ITriangleMesh shadowPolygonMesh) {
-        //textur, egal
 
     }
 
@@ -357,7 +238,6 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public int getNumberOfTextureCoordinates() {
-        //textur, egal
 
         return 0;
     }
@@ -367,7 +247,6 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public boolean hasTexture() {
-        //textur, egal
 
         return false;
     }
@@ -377,14 +256,12 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public AxisAlignedBoundingBox getBoundingBox() {
-        //textur, egal
 
         return null;
     }
 
     @Override
     public void setTextureName(String textureFilename) {
-        //textur, egal
 
     }
 
@@ -407,7 +284,6 @@ public class HalfEdgeTriangleMesh implements ITriangleMesh{
      */
     @Override
     public void setTransparency(double alpha) {
-        //todo, wenn rest fertig
 
     }
 }

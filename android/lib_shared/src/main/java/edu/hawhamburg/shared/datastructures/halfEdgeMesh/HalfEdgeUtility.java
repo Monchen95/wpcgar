@@ -17,7 +17,6 @@ import edu.hawhamburg.shared.math.Vector;
 
 public class HalfEdgeUtility {
     public static HalfEdgeTriangleMesh convert(ITriangleMesh tm){
-       // Map<HalfEdge,HalfEdgeVertex> oppositeMap = new HashMap<>();
         Map<HalfEdge,HalfEdgeMapEntry> oppositeMap = new HashMap<>();
 
         HalfEdgeTriangleMesh hEMesh = new HalfEdgeTriangleMesh();
@@ -80,20 +79,6 @@ public class HalfEdgeUtility {
         Vector color = new Vector(1, 0.25, 0.25, 1);
 
         hEMesh.setColor(color);
-
-        System.out.println("test");
-
-      /*  for(int i=0;i<tm.getNumberOfTriangles();i++){
-            tempHETriangleMesh.addTriangle(tempHETriangleMesh.vertexList.indexOf(tm.getVertex(tm.getTriangle(i),0)),tempHETriangleMesh.vertexList.indexOf(tm.getVertex(tm.getTriangle(i),1)),tempHETriangleMesh.vertexList.indexOf(tm.getVertex(tm.getTriangle(i),2)));
-        }
-*/
-
-
-
-        //tempHETriangleMesh.setAllOpposites();
-    //    Vector colorVector = new Vector(1,128,0,0);
-
-     //   hEMesh.setColor(colorVector);
 
         return hEMesh;
     }
