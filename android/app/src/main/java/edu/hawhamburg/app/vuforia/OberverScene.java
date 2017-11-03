@@ -2,7 +2,10 @@ package edu.hawhamburg.app.vuforia;
 
 import android.support.graphics.drawable.VectorDrawableCompat;
 
+import java.util.List;
+
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
+import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshFactory;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshTools;
@@ -12,6 +15,7 @@ import edu.hawhamburg.shared.scenegraph.CubeNode;
 import edu.hawhamburg.shared.scenegraph.INode;
 import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.InnerNode;
+import edu.hawhamburg.shared.scenegraph.ScaleNode;
 import edu.hawhamburg.shared.scenegraph.SphereNode;
 import edu.hawhamburg.shared.scenegraph.TransformationNode;
 import edu.hawhamburg.shared.scenegraph.TranslationNode;
@@ -36,8 +40,9 @@ public class OberverScene extends Scene {
 
     TransformationNode observerTransformation;
 
-    INode oberserverSphere;
-    INode targetSphere;
+    protected INode observerNode = null;
+    protected INode targetNode = null;
+
 
     public OberverScene() {
         super(100, INode.RenderMode.REGULAR);
@@ -53,8 +58,6 @@ public class OberverScene extends Scene {
 
         observerTransformation = new TransformationNode();
 
-        oberserverSphere = new SphereNode(0.5f,20);
-        targetSphere = new SphereNode(0.5f,20);
     }
 
     @Override
@@ -62,16 +65,37 @@ public class OberverScene extends Scene {
 
 
 
+        ObjReader reader = new ObjReader();
+        List<ITriangleMesh> meshesO = reader.read("meshes/max_planck.obj");
+        InnerNode deerNodeO = new InnerNode();
+        for (ITriangleMesh mesh : meshesO) {
+            TriangleMeshNode meshNode = new TriangleMeshNode(mesh);
+            deerNodeO.addChild(meshNode);
+        }
+
+        ScaleNode scaleO = new ScaleNode(0.3);
+        scaleO.addChild(deerNodeO);
+        observerNode = scaleO;
+
+        List<ITriangleMesh> meshesT = reader.read("meshes/deer.obj");
+        InnerNode headNodeT = new InnerNode();
+        for (ITriangleMesh mesh : meshesT) {
+            TriangleMeshNode meshNode = new TriangleMeshNode(mesh);
+            headNodeT.addChild(meshNode);
+        }
+
+        ScaleNode scaleT = new ScaleNode(0.03);
+        scaleT.addChild(headNodeT);
+        targetNode = scaleT;
 
         markerTarget.addChild(targetTranslation);
-        targetTranslation.addChild(targetSphere);
+        targetTranslation.addChild(targetNode);
 
         rootNode.addChild(markerTarget);
 
-
         markerObserver.addChild(observerTranslation);
         observerTranslation.addChild(observerTransformation);
-        observerTransformation.addChild(oberserverSphere);
+        observerTransformation.addChild(observerNode);
 
         rootNode.addChild(markerObserver);
 
@@ -111,18 +135,7 @@ public class OberverScene extends Scene {
     @Override
     public void onSceneRedraw() {
 
-    /*    TranslationNode testTransNode = new TranslationNode(findSightLine().add(pObserverOView));
-        INode testCube = new CubeNode(2);
+        observerTransformation.setTransformation(getTransformationSightLine(findSightLine()));
 
-        markerObserver.addChild(testTransNode);
-        testTransNode.addChild(observerTransformation);
-        observerTransformation.addChild(testCube);
-
-        this.getRoot().addChild(markerObserver);*/
-
-
-
-        observerTransformation = new TransformationNode(getTransformationSightLine(findSightLine()));
-        this.getRoot().addChild(markerObserver);
     }
 }
