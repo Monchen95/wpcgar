@@ -39,7 +39,6 @@ import edu.hawhamburg.shared.scenegraph.TriangleMeshNode;
  */
 public class DefaultOpenGLScene extends Scene {
 
-
     public DefaultOpenGLScene() {
         super(100, INode.RenderMode.REGULAR);
     }

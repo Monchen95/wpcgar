@@ -12,7 +12,6 @@ import edu.hawhamburg.shared.math.Vector;
 public class HermiteSpline {
     
     private List<Vector> controlPoints;
-
     private List<Vector> tangents;
 
     private Vector p0;
@@ -20,9 +19,9 @@ public class HermiteSpline {
     private Vector m0;
     private Vector m1;
     
-    public HermiteSpline(){
-        controlPoints = new ArrayList<>();
-        tangents = new ArrayList<>();
+    public HermiteSpline(List<Vector> controlPoints, List<Vector> tangents){
+        this.controlPoints = controlPoints;
+        this.tangents = tangents;
     }
     
     public Vector evaluateCurve(double splineT){
