@@ -2,6 +2,7 @@ package edu.hawhamburg.app.opengl;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.hawhamburg.shared.datastructures.halfEdgeMesh.HalfEdgeTriangleMesh;
@@ -18,6 +19,7 @@ import edu.hawhamburg.shared.misc.Constants;
 import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.INode;
 import edu.hawhamburg.shared.scenegraph.InnerNode;
+import edu.hawhamburg.shared.scenegraph.LineStripNode;
 import edu.hawhamburg.shared.scenegraph.ScaleNode;
 import edu.hawhamburg.shared.scenegraph.TransformationNode;
 import edu.hawhamburg.shared.scenegraph.TranslationNode;
@@ -34,6 +36,7 @@ public class HermiteSplineScene extends Scene {
     private TransformationNode transformNode;
     private TranslationNode translateNode;
 
+    private int slowness = 2;
     private int segments;
     private double counter;
 
@@ -54,6 +57,34 @@ public class HermiteSplineScene extends Scene {
     @Override
     public void onSetup(InnerNode rootNode) {
 
+        List<Vector> points = new ArrayList<>();
+        List<Vector> tangents = new ArrayList<>();
+
+        points.add(new Vector(0.0, 0.1, -0.80));
+        points.add(new Vector(0.80, 0.1, 0.0));
+        points.add(new Vector(0.0, 0.1, 0.80));
+        points.add(new Vector(-0.80, 0.1, 0.0));
+
+        tangents.add(new Vector(0.80, 0.0, 0.0));
+        tangents.add(new Vector(0.0, 0.0, 0.80));
+        tangents.add(new Vector(-0.80, 0.0, 0.0));
+        tangents.add(new Vector(0.0, 0.0, -0.80));
+
+        spline.setControlPoints(points);
+        spline.setTangents(tangents);
+
+        for(double t = 0.0; t<1.0; t+=1.0/segments){
+            ITriangleMesh mesh = new TriangleMesh();
+            TriangleMeshFactory.createSphere(mesh, 0.01, 7);
+            HalfEdgeTriangleMesh newMesh = HalfEdgeUtility.convert(mesh);
+            TriangleMeshNode node = new TriangleMeshNode(newMesh);
+            TranslationNode spherePos = new TranslationNode(spline.evaluateCurve(t));
+            spherePos.addChild(node);
+            rootNode.addChild(spherePos);
+        }
+
+        //LineStripNode line = new LineStripNode(points);
+
         ObjReader reader = new ObjReader();
         List<ITriangleMesh> meshesO = reader.read("meshes/plane.obj");
         InnerNode planeNodeO = new InnerNode();
@@ -69,6 +100,7 @@ public class HermiteSplineScene extends Scene {
         translateNode.addChild(transformNode);
         transformNode.addChild(planeNode);
         rootNode.addChild(translateNode);
+      //  rootNode.addChild(line);
     }
 
     @Override
@@ -78,7 +110,7 @@ public class HermiteSplineScene extends Scene {
 
     @Override
     public void onSceneRedraw() {
-        counter = (counter+1/segments)%1;
+        counter = (counter+(1.0/(segments*slowness)))%1.0;
 
         Vector position =  spline.evaluateCurve(counter);
         Vector orientation = spline.evaluateTangent(counter);
@@ -92,9 +124,15 @@ public class HermiteSplineScene extends Scene {
 
         Matrix transMatrix = new Matrix(x,y,z);
 
-        Matrix.makeHomogenious(transMatrix);
+        transMatrix = Matrix.makeHomogenious(transMatrix);
+
 
         translateNode.setTranslation(position);
         transformNode.setTransformation(transMatrix);
+
+        Log.d(Constants.LOGTAG,"Counter: " + counter);
+        Log.d(Constants.LOGTAG,"Position: " + position);
+        Log.d(Constants.LOGTAG,"Orientation: " + orientation);
+        Log.d(Constants.LOGTAG,"Transmatrix: " + transMatrix);
     }
 }

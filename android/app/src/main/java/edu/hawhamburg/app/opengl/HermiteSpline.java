@@ -43,7 +43,7 @@ public class HermiteSpline {
         double dh2 = 3*t*t-2*t;
         double dh3 = 6*t-6*t*t;
 
-        return p0.multiply(dh0).add(m0.multiply(dh1)).add(m1.multiply(dh2)).add(p1.multiply(dh3));
+        return p0.multiply(dh0).add(m0.multiply(dh1)).add(m1.multiply(dh2)).add(p1.multiply(dh3)).multiply(-1.0);
     } 
     
     private double CurrentParams(double t){
@@ -63,4 +63,11 @@ public class HermiteSpline {
         return (idx+1)%controlPoints.size();
     }
 
+    public void setControlPoints(List<Vector> controlPoints) {
+        this.controlPoints = controlPoints;
+    }
+
+    public void setTangents(List<Vector> tangents) {
+        this.tangents = tangents;
+    }
 }

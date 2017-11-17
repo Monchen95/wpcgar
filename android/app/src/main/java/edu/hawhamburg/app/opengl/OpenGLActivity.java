@@ -47,7 +47,8 @@ public class OpenGLActivity extends Activity {
         AssetPath.getInstance().init(getAssets());
 
         // Application specific scene - must be set exactly here
-        scene = new DefaultOpenGLScene();
+        scene = new HermiteSplineScene();
+        //scene = new DefaultOpenGLScene();
         //scene = new LandscapeScene();
         //scene = new BallThrowScene();
 
