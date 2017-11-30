@@ -1,6 +1,8 @@
 package edu.hawhamburg.shared.misc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
@@ -32,7 +34,9 @@ public class SkeletonScene extends Scene {
     private ShowBones showBones = ShowBones.BONES_ONLY;
     private SkeletonNode skeletonNode;
 
-    ITriangleMesh planeMesh;
+    private Map<Integer,Integer> vertexToBoneAssignment= new HashMap<>();
+
+
 
     public enum ShowBones {
         BONES_ONLY, MESH_AND_BONES, MESH_ONLY;
@@ -75,7 +79,7 @@ public class SkeletonScene extends Scene {
         getRoot().addChild(skeletonNode);
 
         // Plane
-        planeMesh = new TriangleMesh();
+        ITriangleMesh planeMesh = new TriangleMesh();
         TriangleMeshFactory.createPlane(planeMesh, new Vector(0, 0, 0), new Vector(0, 1, 0), 1);
         rootNode.addChild(new TriangleMeshNode(planeMesh));
 
@@ -84,6 +88,8 @@ public class SkeletonScene extends Scene {
         ObjReader reader = new ObjReader();
         List<ITriangleMesh> meshes = reader.read("meshes/pinetree.obj");
         TriangleMesh mesh = (TriangleMesh) TriangleMeshTools.unite(meshes);
+
+        assignVertexIndexToBones(mesh);
 
         // Cylinder
         //TriangleMesh mesh = new TriangleMesh();
@@ -115,23 +121,23 @@ public class SkeletonScene extends Scene {
         }
     }
 
-    private void assignVerteciesToBones(){
+    private void assignVertexIndexToBones(TriangleMesh mesh){
 
         double distance1;
         double distance2;
         double distance3;
 
-        for(int i=0;i<planeMesh.getNumberOfVertices();i++){
-            distance1 = calculateDistance(cylinderBottom,planeMesh.getVertex(i).getPosition());
-            distance2 = calculateDistance(cylinderMiddle,planeMesh.getVertex(i).getPosition());
-            distance3 = calculateDistance(cylinderTop,planeMesh.getVertex(i).getPosition());
+        for(int i=0;i<mesh.getNumberOfVertices();i++){
+            distance1 = calculateDistance(cylinderBottom,mesh.getVertex(i).getPosition());
+            distance2 = calculateDistance(cylinderMiddle,mesh.getVertex(i).getPosition());
+            distance3 = calculateDistance(cylinderTop,mesh.getVertex(i).getPosition());
 
             if(distance1<distance2 && distance1<distance3){
-                //zuweisen a
+                vertexToBoneAssignment.put(i,1);
             }else if(distance2<distance3 && distance2<distance1){
-                //zuweisen b
+                vertexToBoneAssignment.put(i,2);
             }else{
-                //zuweisen c
+                vertexToBoneAssignment.put(i,3);
             }
 
         }
@@ -194,6 +200,10 @@ public class SkeletonScene extends Scene {
 
         // Update mesh based on skeleton
         // TODO
+        //gucken wie sich die knochen bewegt haben, bottom->middle->top relationen beachten
+        //mesh neu erstellen mit verschobenen vertecies, reinkopieren
+
+
 
         meshNode.updateVbo();
     }
