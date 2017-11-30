@@ -33,8 +33,9 @@ public class SkeletonScene extends Scene {
     private TriangleMeshNode meshNode;
     private ShowBones showBones = ShowBones.BONES_ONLY;
     private SkeletonNode skeletonNode;
+    private TriangleMesh mesh;
 
-    private Map<Integer,Integer> vertexToBoneAssignment= new HashMap<>();
+    private int[] vertexToBoneAssignment;
 
 
 
@@ -87,7 +88,7 @@ public class SkeletonScene extends Scene {
         // Pine-Tree
         ObjReader reader = new ObjReader();
         List<ITriangleMesh> meshes = reader.read("meshes/pinetree.obj");
-        TriangleMesh mesh = (TriangleMesh) TriangleMeshTools.unite(meshes);
+        mesh = (TriangleMesh) TriangleMeshTools.unite(meshes);
 
         assignVertexIndexToBones(mesh);
 
@@ -97,6 +98,8 @@ public class SkeletonScene extends Scene {
 
         meshNode = new TriangleMeshNode(mesh);
         rootNode.addChild(meshNode);
+
+        vertexToBoneAssignment = new int[mesh.getNumberOfVertices()];
 
         updateRenderSettings();
         getRoot().setLightPosition(new Vector(1, 2, 1));
@@ -126,18 +129,22 @@ public class SkeletonScene extends Scene {
         double distance1;
         double distance2;
         double distance3;
+        double distance4;
 
         for(int i=0;i<mesh.getNumberOfVertices();i++){
-            distance1 = calculateDistance(cylinderBottom,mesh.getVertex(i).getPosition());
-            distance2 = calculateDistance(cylinderMiddle,mesh.getVertex(i).getPosition());
-            distance3 = calculateDistance(cylinderTop,mesh.getVertex(i).getPosition());
+            distance1 = calculateDistance(trunkBone,mesh.getVertex(i).getPosition());
+            distance2 = calculateDistance(cylinderBottom,mesh.getVertex(i).getPosition());
+            distance3 = calculateDistance(cylinderMiddle,mesh.getVertex(i).getPosition());
+            distance4 = calculateDistance(cylinderTop,mesh.getVertex(i).getPosition());
 
-            if(distance1<distance2 && distance1<distance3){
-                vertexToBoneAssignment.put(i,1);
-            }else if(distance2<distance3 && distance2<distance1){
-                vertexToBoneAssignment.put(i,2);
-            }else{
-                vertexToBoneAssignment.put(i,3);
+            if(distance1<distance2 && distance1<distance3 && distance1<distance4){
+                vertexToBoneAssignment[i]=1;
+            }else if(distance2<distance3 && distance2<distance4 && distance2<distance1){
+                vertexToBoneAssignment[i]=2;
+            }else if(distance3<distance1 && distance3 < distance2 && distance4<distance4){
+                vertexToBoneAssignment[i]=3;
+            } else {
+                vertexToBoneAssignment[i]=4;
             }
 
         }
@@ -200,10 +207,47 @@ public class SkeletonScene extends Scene {
 
         // Update mesh based on skeleton
         // TODO
+
         //gucken wie sich die knochen bewegt haben, bottom->middle->top relationen beachten
         //mesh neu erstellen mit verschobenen vertecies, reinkopieren
 
+        //unperformant? aber einfach über alles itereieren
 
+
+
+        for(int i=0;i<mesh.getNumberOfVertices();i++) {
+            Vector newPosition = null;
+            int correspondingBone = vertexToBoneAssignment[i];
+
+            if(correspondingBone==1){
+                //trunkbone deformation auf vertex an stelle 1 übertragen
+                trunkBone.getRestStateTransformationAtStart();
+                trunkBone.getTransformationAtStart();
+                mesh.getVertex(i).getPosition().copy(newPosition);
+
+            } else if(correspondingBone == 2){
+                //cylinderbottom deformation auf vertex an stelle 1 übertragen
+                cylinderBottom.getRestStateTransformationAtStart();
+                cylinderBottom.getTransformationAtStart();
+                mesh.getVertex(i).getPosition().copy(newPosition);
+
+            } else if(correspondingBone == 3){
+                //cylindermiddle deformation auf vertex an stelle 1 übertragen
+                cylinderMiddle.getRestStateTransformationAtStart();
+                cylinderMiddle.getTransformationAtStart();
+                mesh.getVertex(i).getPosition().copy(newPosition);
+
+            } else if(correspondingBone == 4){
+                //cylindertop deformation auf vertex an stelle 1 übertragen
+                cylinderTop.getRestStateTransformationAtStart();
+                cylinderTop.getTransformationAtStart();
+                mesh.getVertex(i).getPosition().copy(newPosition);
+
+            }
+            mesh.getVertex(i).getPosition().copy(newPosition);
+        }
+
+        mesh.computeTriangleNormals();
 
         meshNode.updateVbo();
     }
