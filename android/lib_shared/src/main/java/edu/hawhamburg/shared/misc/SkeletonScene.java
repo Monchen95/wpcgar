@@ -32,6 +32,8 @@ public class SkeletonScene extends Scene {
     private ShowBones showBones = ShowBones.BONES_ONLY;
     private SkeletonNode skeletonNode;
 
+    ITriangleMesh planeMesh;
+
     public enum ShowBones {
         BONES_ONLY, MESH_AND_BONES, MESH_ONLY;
 
@@ -73,18 +75,19 @@ public class SkeletonScene extends Scene {
         getRoot().addChild(skeletonNode);
 
         // Plane
-        ITriangleMesh planeMesh = new TriangleMesh();
+        planeMesh = new TriangleMesh();
         TriangleMeshFactory.createPlane(planeMesh, new Vector(0, 0, 0), new Vector(0, 1, 0), 1);
         rootNode.addChild(new TriangleMeshNode(planeMesh));
 
+
         // Pine-Tree
-        //ObjReader reader = new ObjReader();
-        //List<ITriangleMesh> meshes = reader.read("meshes/pinetree.obj");
-        //TriangleMesh mesh = (TriangleMesh) TriangleMeshTools.unite(meshes);
+        ObjReader reader = new ObjReader();
+        List<ITriangleMesh> meshes = reader.read("meshes/pinetree.obj");
+        TriangleMesh mesh = (TriangleMesh) TriangleMeshTools.unite(meshes);
 
         // Cylinder
-        TriangleMesh mesh = new TriangleMesh();
-        TriangleMeshFactory.createCylinder(mesh, 0.025, 1, 8, 20);
+        //TriangleMesh mesh = new TriangleMesh();
+        //TriangleMeshFactory.createCylinder(mesh, 0.025, 1, 8, 20);
 
         meshNode = new TriangleMeshNode(mesh);
         rootNode.addChild(meshNode);
@@ -92,7 +95,6 @@ public class SkeletonScene extends Scene {
         updateRenderSettings();
         getRoot().setLightPosition(new Vector(1, 2, 1));
     }
-
     private void updateRenderSettings() {
         switch (showBones) {
             case MESH_ONLY:
@@ -112,6 +114,67 @@ public class SkeletonScene extends Scene {
                 break;
         }
     }
+
+    private void assignVerteciesToBones(){
+
+        double distance1;
+        double distance2;
+        double distance3;
+
+        for(int i=0;i<planeMesh.getNumberOfVertices();i++){
+            distance1 = calculateDistance(cylinderBottom,planeMesh.getVertex(i).getPosition());
+            distance2 = calculateDistance(cylinderMiddle,planeMesh.getVertex(i).getPosition());
+            distance3 = calculateDistance(cylinderTop,planeMesh.getVertex(i).getPosition());
+
+            if(distance1<distance2 && distance1<distance3){
+                //zuweisen a
+            }else if(distance2<distance3 && distance2<distance1){
+                //zuweisen b
+            }else{
+                //zuweisen c
+            }
+
+        }
+
+
+    }
+
+    /**
+     * Calculates the distance between a bone and a point.
+     */
+    private double calculateDistance(Bone bone, Vector point) {
+
+        double r = 0.0;
+        double distance = 0.0;
+
+        Vector tmp;
+        Vector xStroke;
+
+        // Point x
+        Vector x = point;
+
+        // Line g: p + r * v
+        Vector p1 = bone.getStart();
+        Vector p2 = bone.getEnd();
+        Vector p1p2 = p2.subtract(p1);
+        Vector v = p1p2.getNormalized();
+
+        // r' = (x - p) * v
+        tmp = x.subtract(p1);
+        r = tmp.multiply(v);
+
+        // x' = p + r' * v
+        tmp = v.multiply(r);
+        xStroke = p1.add(tmp);
+
+        // x' = ||x - x'||
+        tmp = x.subtract(xStroke);
+        distance = tmp.getNorm();
+
+        return distance;
+    }
+
+
 
     @Override
     public void onTimerTick(int counter) {
