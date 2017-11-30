@@ -208,13 +208,9 @@ public class SkeletonScene extends Scene {
         // Update mesh based on skeleton
         // TODO
 
-        //gucken wie sich die knochen bewegt haben, bottom->middle->top relationen beachten
-        //mesh neu erstellen mit verschobenen vertecies, reinkopieren
+        //gucken wie sich die knochen bewegt haben, bottom->middle->top relationen beachten ???
 
-        //unperformant? aber einfach über alles itereieren
-
-
-
+        //get corresponding bone to every vertex, update its position
         for(int i=0;i<mesh.getNumberOfVertices();i++) {
             Vector newPosition = null;
             int correspondingBone = vertexToBoneAssignment[i];
@@ -226,18 +222,21 @@ public class SkeletonScene extends Scene {
                 mesh.getVertex(i).getPosition().copy(newPosition);
 
             } else if(correspondingBone == 2){
+                //alternative 2 transformationen (trunk, bottom)
                 //cylinderbottom deformation auf vertex an stelle 1 übertragen
                 cylinderBottom.getRestStateTransformationAtStart();
                 cylinderBottom.getTransformationAtStart();
                 mesh.getVertex(i).getPosition().copy(newPosition);
 
             } else if(correspondingBone == 3){
+                //alternative 3 transformationen (trunk, bottom, middle)
                 //cylindermiddle deformation auf vertex an stelle 1 übertragen
                 cylinderMiddle.getRestStateTransformationAtStart();
                 cylinderMiddle.getTransformationAtStart();
                 mesh.getVertex(i).getPosition().copy(newPosition);
 
             } else if(correspondingBone == 4){
+                //alternative 4 transformationen (trunk, bottom, middle, top)
                 //cylindertop deformation auf vertex an stelle 1 übertragen
                 cylinderTop.getRestStateTransformationAtStart();
                 cylinderTop.getTransformationAtStart();
