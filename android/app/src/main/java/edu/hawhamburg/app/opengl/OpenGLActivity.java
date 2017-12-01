@@ -18,8 +18,10 @@ import android.app.Activity;
 import android.view.View;
 
 import edu.hawhamburg.app.R;
+import edu.hawhamburg.shared.datastructures.skeleton.Skeleton;
 import edu.hawhamburg.shared.misc.AssetPath;
 import edu.hawhamburg.shared.misc.Scene;
+import edu.hawhamburg.shared.misc.SkeletonScene;
 import edu.hawhamburg.shared.rendering.GLView;
 import edu.hawhamburg.shared.rendering.ObserverInteractionController;
 import edu.hawhamburg.shared.rendering.OpenGLRenderer;
@@ -47,7 +49,8 @@ public class OpenGLActivity extends Activity {
         AssetPath.getInstance().init(getAssets());
 
         // Application specific scene - must be set exactly here
-        scene = new HermiteSplineScene();
+        scene = new SkeletonScene();
+        //scene = new HermiteSplineScene();
         //scene = new DefaultOpenGLScene();
         //scene = new LandscapeScene();
         //scene = new BallThrowScene();
@@ -61,7 +64,7 @@ public class OpenGLActivity extends Activity {
         setContentView(mGlView);
         mGlView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
-        TextureManager.getInstance().setup("edu.hawhamburg.pjenke", getApplicationContext());
+        TextureManager.getInstance().setup("edu.hawhamburg.app", getApplicationContext());
         scene.onSetup(scene.getRoot());
     }
 

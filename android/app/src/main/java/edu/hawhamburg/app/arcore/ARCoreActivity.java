@@ -154,7 +154,7 @@ public class ARCoreActivity extends AppCompatActivity implements GLSurfaceView.R
         mSurfaceView.setRenderer(this);
         mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
-        TextureManager.getInstance().setup("edu.hawhamburg.pjenke", getApplicationContext());
+        TextureManager.getInstance().setup("edu.hawhamburg.app", getApplicationContext());
         scene.onSetup(scene.getRoot());
     }
 

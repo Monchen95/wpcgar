@@ -99,7 +99,7 @@ public class VuforiaActivity extends Activity implements SessionControllable {
         //scene = new DefaultVuforiaScene();
         scene = new OberverScene();
 
-        TextureManager.getInstance().setup("edu.hawhamburg.pjenke", getApplicationContext());
+        TextureManager.getInstance().setup("edu.hawhamburg.app", getApplicationContext());
         scene.onSetup(scene.getRoot());
     }
 
