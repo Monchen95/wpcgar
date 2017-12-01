@@ -38,32 +38,30 @@ public class SkeletonScene extends Scene {
     private SkeletonNode skeletonNode;
     private TriangleMesh mesh;
 
-    //meine veränderung
     private TriangleMesh copyMesh;
 
     boolean weighted = true;
 
+    //arrays gefuellt mit distanzen zu allen punkten
     private double[] boneArray1;
     private double[] boneArray2;
     private double[] boneArray3;
     private double[] boneArray4;
 
+    //standardabweichung
     private double abwBone1;
     private double abwBone2;
     private double abwBone3;
     private double abwBone4;
 
+    //gewichtungen
     private double wd1;
     private double wd2;
     private double wd3;
     private double wd4;
 
-
-
-
+    // zuweisungen punkt --> knochen
     private int[] vertexToBoneAssignment;
-
-
 
     public enum ShowBones {
         BONES_ONLY, MESH_AND_BONES, MESH_ONLY;
@@ -111,20 +109,17 @@ public class SkeletonScene extends Scene {
         TriangleMeshFactory.createPlane(planeMesh, new Vector(0, 0, 0), new Vector(0, 1, 0), 1);
         rootNode.addChild(new TriangleMeshNode(planeMesh));
 
-
         // Pine-Tree
         ObjReader reader = new ObjReader();
         List<ITriangleMesh> meshes = reader.read("meshes/pinetree.obj");
         mesh = (TriangleMesh) TriangleMeshTools.unite(meshes);
 
-
-
-
         // Cylinder
         //mesh = new TriangleMesh();
         //TriangleMeshFactory.createCylinder(mesh, 0.025, 1, 8, 20);
 
-
+        //---------------------------------------------------------------
+        //Ruhe-Mesh
         copyMesh = new TriangleMesh(mesh);
 
         meshNode = new TriangleMeshNode(mesh);
@@ -135,18 +130,15 @@ public class SkeletonScene extends Scene {
         boneArray3 = new double[mesh.getNumberOfVertices()];
         boneArray4 = new double[mesh.getNumberOfVertices()];
         vertexToBoneAssignment = new int[mesh.getNumberOfVertices()];
+
         assignVertexIndexToBones(mesh);
-
-
-
-
 
         updateRenderSettings();
         getRoot().setLightPosition(new Vector(1, 2, 1));
 
         Log.d(Constants.LOGTAG,"Assignment Array: " + Arrays.toString(vertexToBoneAssignment));
 
-        double smallest1=0;
+        /*double smallest1=0;
         double smallest2=0;
         double smallest3=0;
         double smallest4=0;
@@ -156,21 +148,17 @@ public class SkeletonScene extends Scene {
             smallest2 = Math.min(boneArray2[i-1],boneArray2[i]);
             smallest3 = Math.min(boneArray3[i-1],boneArray3[i]);
             smallest4 = Math.min(boneArray4[i-1],boneArray4[i]);
-
         }
 
         //abwBone1=smallest1;
         //abwBone2=smallest2;
         //abwBone3=smallest3;
-        //abwBone4=smallest4;
+        //abwBone4=smallest4;*/
 
         abwBone1=0.1;
         abwBone2=0.1;
         abwBone3=0.1;
         abwBone4=0.1;
-
-
-
     }
 
     private double weightFunction(double distance, double abw){
@@ -233,7 +221,6 @@ public class SkeletonScene extends Scene {
             Log.d(Constants.LOGTAG,"Distanz 3: " + distance3);
             Log.d(Constants.LOGTAG,"Distanz 4: " + distance4);
 
-
             if(distance1<distance2 && distance1<distance3 && distance1<distance4){
                 vertexToBoneAssignment[i]=1;
             }else if(distance2<distance3 && distance2<distance4 && distance2<distance1){
@@ -243,22 +230,13 @@ public class SkeletonScene extends Scene {
             } else {
                 vertexToBoneAssignment[i]=4;
             }
-
         }
-
-
     }
 
     /**
      * Calculates the distance between a bone and a point.
      */
     private double calculateDistance(Bone bone, Vector point) {
-
-
-       // Log.d(Constants.LOGTAG,"Bone Length: " + bone.getLength());
-
-       // Log.d(Constants.LOGTAG,"Vector 1: " + point.toString());
-
 
         double r = 0.0;
         double distance = 0.0;
@@ -274,35 +252,18 @@ public class SkeletonScene extends Scene {
         Vector p2 = bone.getEnd();
         Vector p1p2 = p2.subtract(p1);
         Vector v = p1p2.getNormalized();
-      //  Log.d(Constants.LOGTAG,"Bone Start : " + p1);
-      //  Log.d(Constants.LOGTAG,"Bone End: " + p2);
-
-      //  Log.d(Constants.LOGTAG,"Bone Direction: " + p1p2);
-      //  Log.d(Constants.LOGTAG,"Bone Normalized: " + v);
 
         // r' = (x - p) * v
         tmp = x.subtract(p1);
         r = tmp.multiply(v);
 
-      //  Log.d(Constants.LOGTAG,"Bone R: " + r);
-
-
         // x' = p + r' * v
         tmp = v.multiply(r);
-
-       // Log.d(Constants.LOGTAG,"Bone v*r': " + tmp);
-
         xStroke = p1.add(tmp);
-
-       // Log.d(Constants.LOGTAG,"Bone xStroke: " + xStroke);
-
 
         // x' = ||x - x'||
         tmp = x.subtract(xStroke);
         distance = tmp.getNorm();
-
-
-
 
 
         Vector lengthToStartVec = xStroke.subtract(p1);
@@ -318,7 +279,6 @@ public class SkeletonScene extends Scene {
         Log.d(Constants.LOGTAG,"Länge Knochen Result: " + bone.getLength());
         Log.d(Constants.LOGTAG,"-------------------------");
 
-
         if(lengthToStart<bone.getLength() && lengthToEnd<bone.getLength()){
             return distance;
         }
@@ -329,7 +289,7 @@ public class SkeletonScene extends Scene {
         double distanceStartLength = distanceStart.getNorm();
         double distanceEndLength = distanceEnd.getNorm();
 
-        double tmpSmall = Math.max(distanceStartLength,distanceEndLength);
+        double tmpSmall = Math.min(distanceStartLength,distanceEndLength);
         return tmpSmall;
     }
 
@@ -351,11 +311,6 @@ public class SkeletonScene extends Scene {
         cylinderMiddle.setRotation(Matrix.createRotationMatrix4(new Vector(0, 1, 0), 2 * angle));
         cylinderBottom.setRotation(Matrix.createRotationMatrix4(new Vector(0, 1, 0), 3 * angle));
 
-        // Update mesh based on skeleton
-        // TODO
-
-        //gucken wie sich die knochen bewegt haben, bottom->middle->top relationen beachten ???
-
         //get corresponding bone to every vertex, update its position
         for(int i=0;i<mesh.getNumberOfVertices();i++) {
 
@@ -371,10 +326,6 @@ public class SkeletonScene extends Scene {
 
                 Vector currentPosition = copyMesh.getVertex(i).getPosition();
                 currentPosition = Vector.makeHomogenious(currentPosition);
-
-
-
-
 
                 Vector deltaTrunk = trunkBone.getRestStateTransformationAtStart().getInverse().multiply(currentPosition);
                 Vector newPosTrunk = trunkBone.getTransformationAtStart().multiply(deltaTrunk);
@@ -399,9 +350,6 @@ public class SkeletonScene extends Scene {
                 newPos = newPos.xyz();
 
                 mesh.getVertex(i).getPosition().copy(newPos);
-
-
-
 
             } else {
                 Vector currentPosition = copyMesh.getVertex(i).getPosition();
@@ -430,7 +378,6 @@ public class SkeletonScene extends Scene {
 
                 newPos = newPos.xyz();
                 mesh.getVertex(i).getPosition().copy(newPos);
-
             }
 
             mesh.computeTriangleNormals();
