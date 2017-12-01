@@ -1,5 +1,8 @@
 package edu.hawhamburg.shared.misc;
 
+import android.util.Log;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,29 @@ public class SkeletonScene extends Scene {
     private ShowBones showBones = ShowBones.BONES_ONLY;
     private SkeletonNode skeletonNode;
     private TriangleMesh mesh;
+
+    //meine veränderung
+    private TriangleMesh copyMesh;
+
+    boolean weighted = true;
+
+    private double[] boneArray1;
+    private double[] boneArray2;
+    private double[] boneArray3;
+    private double[] boneArray4;
+
+    private double abwBone1;
+    private double abwBone2;
+    private double abwBone3;
+    private double abwBone4;
+
+    private double wd1;
+    private double wd2;
+    private double wd3;
+    private double wd4;
+
+
+
 
     private int[] vertexToBoneAssignment;
 
@@ -74,6 +100,7 @@ public class SkeletonScene extends Scene {
         cylinderBottom = new Bone(trunkBone, 0.26);
         cylinderMiddle = new Bone(cylinderBottom, 0.26);
         cylinderTop = new Bone(cylinderMiddle, 0.26);
+
         // Preserve the current state of all bones as the rest state
         skeleton.setRestState();
         skeletonNode = new SkeletonNode(skeleton);
@@ -90,20 +117,78 @@ public class SkeletonScene extends Scene {
         List<ITriangleMesh> meshes = reader.read("meshes/pinetree.obj");
         mesh = (TriangleMesh) TriangleMeshTools.unite(meshes);
 
-        assignVertexIndexToBones(mesh);
+
+
 
         // Cylinder
-        //TriangleMesh mesh = new TriangleMesh();
+        //mesh = new TriangleMesh();
         //TriangleMeshFactory.createCylinder(mesh, 0.025, 1, 8, 20);
+
+
+        copyMesh = new TriangleMesh(mesh);
 
         meshNode = new TriangleMeshNode(mesh);
         rootNode.addChild(meshNode);
 
+        boneArray1 = new double[mesh.getNumberOfVertices()];
+        boneArray2 = new double[mesh.getNumberOfVertices()];
+        boneArray3 = new double[mesh.getNumberOfVertices()];
+        boneArray4 = new double[mesh.getNumberOfVertices()];
         vertexToBoneAssignment = new int[mesh.getNumberOfVertices()];
+        assignVertexIndexToBones(mesh);
+
+
+
+
 
         updateRenderSettings();
         getRoot().setLightPosition(new Vector(1, 2, 1));
+
+        Log.d(Constants.LOGTAG,"Assignment Array: " + Arrays.toString(vertexToBoneAssignment));
+
+        double smallest1=0;
+        double smallest2=0;
+        double smallest3=0;
+        double smallest4=0;
+
+        for(int i=1;i<boneArray1.length;i++){
+            smallest1 = Math.min(boneArray1[i-1],boneArray1[i]);
+            smallest2 = Math.min(boneArray2[i-1],boneArray2[i]);
+            smallest3 = Math.min(boneArray3[i-1],boneArray3[i]);
+            smallest4 = Math.min(boneArray4[i-1],boneArray4[i]);
+
+        }
+
+        //abwBone1=smallest1;
+        //abwBone2=smallest2;
+        //abwBone3=smallest3;
+        //abwBone4=smallest4;
+
+        abwBone1=0.1;
+        abwBone2=0.1;
+        abwBone3=0.1;
+        abwBone4=0.1;
+
+
+
     }
+
+    private double weightFunction(double distance, double abw){
+
+        double abwQrd = Math.pow(abw,2);
+        double zaehler = 1;
+        double nenner = Math.sqrt(2*Math.PI*abwQrd);
+
+        double exponentEzaehler = -1*Math.pow(distance,2);
+        double exponentEnenner = 2 * abwQrd;
+
+        double exponentE = exponentEzaehler/exponentEnenner;
+
+        double wd = (zaehler / nenner) * Math.pow(Math.E,exponentE);
+
+        return wd;
+    }
+
     private void updateRenderSettings() {
         switch (showBones) {
             case MESH_ONLY:
@@ -137,11 +222,23 @@ public class SkeletonScene extends Scene {
             distance3 = calculateDistance(cylinderMiddle,mesh.getVertex(i).getPosition());
             distance4 = calculateDistance(cylinderTop,mesh.getVertex(i).getPosition());
 
+            boneArray1[i] = distance1;
+            boneArray2[i] = distance2;
+            boneArray3[i] = distance3;
+            boneArray4[i] = distance4;
+
+            Log.d(Constants.LOGTAG,"Für Vertex: " + i);
+            Log.d(Constants.LOGTAG,"Distanz 1: " + distance1);
+            Log.d(Constants.LOGTAG,"Distanz 2: " + distance2);
+            Log.d(Constants.LOGTAG,"Distanz 3: " + distance3);
+            Log.d(Constants.LOGTAG,"Distanz 4: " + distance4);
+
+
             if(distance1<distance2 && distance1<distance3 && distance1<distance4){
                 vertexToBoneAssignment[i]=1;
             }else if(distance2<distance3 && distance2<distance4 && distance2<distance1){
                 vertexToBoneAssignment[i]=2;
-            }else if(distance3<distance1 && distance3 < distance2 && distance4<distance4){
+            }else if(distance3<distance1 && distance3 < distance2 && distance3<distance4){
                 vertexToBoneAssignment[i]=3;
             } else {
                 vertexToBoneAssignment[i]=4;
@@ -157,6 +254,12 @@ public class SkeletonScene extends Scene {
      */
     private double calculateDistance(Bone bone, Vector point) {
 
+
+       // Log.d(Constants.LOGTAG,"Bone Length: " + bone.getLength());
+
+       // Log.d(Constants.LOGTAG,"Vector 1: " + point.toString());
+
+
         double r = 0.0;
         double distance = 0.0;
 
@@ -171,20 +274,63 @@ public class SkeletonScene extends Scene {
         Vector p2 = bone.getEnd();
         Vector p1p2 = p2.subtract(p1);
         Vector v = p1p2.getNormalized();
+      //  Log.d(Constants.LOGTAG,"Bone Start : " + p1);
+      //  Log.d(Constants.LOGTAG,"Bone End: " + p2);
+
+      //  Log.d(Constants.LOGTAG,"Bone Direction: " + p1p2);
+      //  Log.d(Constants.LOGTAG,"Bone Normalized: " + v);
 
         // r' = (x - p) * v
         tmp = x.subtract(p1);
         r = tmp.multiply(v);
 
+      //  Log.d(Constants.LOGTAG,"Bone R: " + r);
+
+
         // x' = p + r' * v
         tmp = v.multiply(r);
+
+       // Log.d(Constants.LOGTAG,"Bone v*r': " + tmp);
+
         xStroke = p1.add(tmp);
+
+       // Log.d(Constants.LOGTAG,"Bone xStroke: " + xStroke);
+
 
         // x' = ||x - x'||
         tmp = x.subtract(xStroke);
         distance = tmp.getNorm();
 
-        return distance;
+
+
+
+
+        Vector lengthToStartVec = xStroke.subtract(p1);
+        double lengthToStart = lengthToStartVec.getNorm();
+
+        Vector lengthToEndVec = xStroke.subtract(p2);
+        double lengthToEnd = lengthToEndVec.getNorm();
+
+        Log.d(Constants.LOGTAG,"-------------------------");
+        Log.d(Constants.LOGTAG,"Distanz 1 Result: " + distance);
+        Log.d(Constants.LOGTAG,"Länge zu Start Result: " + lengthToStart);
+        Log.d(Constants.LOGTAG,"Länge zu End Result: " + lengthToEnd);
+        Log.d(Constants.LOGTAG,"Länge Knochen Result: " + bone.getLength());
+        Log.d(Constants.LOGTAG,"-------------------------");
+
+
+        if(lengthToStart<bone.getLength() && lengthToEnd<bone.getLength()){
+            return distance;
+        }
+
+        Vector distanceStart = point.subtract(p1);
+        Vector distanceEnd = point.subtract(p2);
+
+        double distanceStartLength = distanceStart.getNorm();
+        double distanceEndLength = distanceEnd.getNorm();
+
+        double tmpSmall = Math.max(distanceStartLength,distanceEndLength);
+        return tmpSmall;
     }
 
 
@@ -212,42 +358,84 @@ public class SkeletonScene extends Scene {
 
         //get corresponding bone to every vertex, update its position
         for(int i=0;i<mesh.getNumberOfVertices();i++) {
-            Vector newPosition = null;
-            int correspondingBone = vertexToBoneAssignment[i];
 
-            if(correspondingBone==1){
-                //trunkbone deformation auf vertex an stelle 1 übertragen
-                trunkBone.getRestStateTransformationAtStart();
-                trunkBone.getTransformationAtStart();
-                mesh.getVertex(i).getPosition().copy(newPosition);
+            if (weighted) {
 
-            } else if(correspondingBone == 2){
-                //alternative 2 transformationen (trunk, bottom)
-                //cylinderbottom deformation auf vertex an stelle 1 übertragen
-                cylinderBottom.getRestStateTransformationAtStart();
-                cylinderBottom.getTransformationAtStart();
-                mesh.getVertex(i).getPosition().copy(newPosition);
+                Log.d(Constants.LOGTAG,"verrücktes experiment");
 
-            } else if(correspondingBone == 3){
-                //alternative 3 transformationen (trunk, bottom, middle)
-                //cylindermiddle deformation auf vertex an stelle 1 übertragen
-                cylinderMiddle.getRestStateTransformationAtStart();
-                cylinderMiddle.getTransformationAtStart();
-                mesh.getVertex(i).getPosition().copy(newPosition);
+                wd1 = weightFunction(boneArray1[i],abwBone1);
+                wd2 = weightFunction(boneArray2[i],abwBone2);
+                wd3 = weightFunction(boneArray3[i],abwBone3);
+                wd4 = weightFunction(boneArray4[i],abwBone4);
+                double wdgesamt = wd1+wd2+wd3+wd4;
 
-            } else if(correspondingBone == 4){
-                //alternative 4 transformationen (trunk, bottom, middle, top)
-                //cylindertop deformation auf vertex an stelle 1 übertragen
-                cylinderTop.getRestStateTransformationAtStart();
-                cylinderTop.getTransformationAtStart();
-                mesh.getVertex(i).getPosition().copy(newPosition);
+                Vector currentPosition = copyMesh.getVertex(i).getPosition();
+                currentPosition = Vector.makeHomogenious(currentPosition);
+
+
+
+
+
+                Vector deltaTrunk = trunkBone.getRestStateTransformationAtStart().getInverse().multiply(currentPosition);
+                Vector newPosTrunk = trunkBone.getTransformationAtStart().multiply(deltaTrunk);
+                newPosTrunk = newPosTrunk.multiply(wd1);
+
+                Vector deltaBottom = cylinderBottom.getRestStateTransformationAtStart().getInverse().multiply(currentPosition);
+                Vector newPosBottom = cylinderBottom.getTransformationAtStart().multiply(deltaBottom);
+                newPosBottom = newPosBottom.multiply(wd2);
+
+                Vector deltaMiddle = cylinderMiddle.getRestStateTransformationAtStart().getInverse().multiply(currentPosition);
+                Vector newPosMiddle = cylinderMiddle.getTransformationAtStart().multiply(deltaMiddle);
+                newPosMiddle = newPosMiddle.multiply(wd3);
+
+                Vector deltaTop = cylinderTop.getRestStateTransformationAtStart().getInverse().multiply(currentPosition);
+                Vector newPosTop = cylinderTop.getTransformationAtStart().multiply(deltaTop);
+                newPosTop = newPosTop.multiply(wd4);
+
+                Vector newPos = newPosTrunk.add(newPosBottom).add(newPosMiddle).add(newPosTop);
+
+                newPos = newPos.multiply(Math.pow(wdgesamt,-1));
+
+                newPos = newPos.xyz();
+
+                mesh.getVertex(i).getPosition().copy(newPos);
+
+
+
+
+            } else {
+                Vector currentPosition = copyMesh.getVertex(i).getPosition();
+                int correspondingBone = vertexToBoneAssignment[i];
+
+                Bone tmpBone = null;
+
+                if (correspondingBone == 1) {
+                    tmpBone = trunkBone;
+
+                } else if (correspondingBone == 2) {
+                    tmpBone = cylinderBottom;
+
+                } else if (correspondingBone == 3) {
+                    tmpBone = cylinderMiddle;
+
+                } else if (correspondingBone == 4) {
+                    tmpBone = cylinderTop;
+
+                }
+
+                currentPosition = Vector.makeHomogenious(currentPosition);
+
+                Vector delta = tmpBone.getRestStateTransformationAtStart().getInverse().multiply(currentPosition);
+                Vector newPos = tmpBone.getTransformationAtStart().multiply(delta);
+
+                newPos = newPos.xyz();
+                mesh.getVertex(i).getPosition().copy(newPos);
 
             }
-            mesh.getVertex(i).getPosition().copy(newPosition);
+
+            mesh.computeTriangleNormals();
+
+            meshNode.updateVbo();
         }
-
-        mesh.computeTriangleNormals();
-
-        meshNode.updateVbo();
     }
 }
