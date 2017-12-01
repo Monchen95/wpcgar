@@ -39,6 +39,8 @@ public class HermiteSplineScene extends Scene {
     private int slowness = 2;
     private int segments;
     private double counter;
+    private Vector color = new Vector(0.25, 0.75, 0.25, 1);
+
 
     private HermiteSpline spline;
 
@@ -70,6 +72,8 @@ public class HermiteSplineScene extends Scene {
         tangents.add(new Vector(-0.80, 0.0, 0.0));
         tangents.add(new Vector(0.0, 0.0, -0.80));
 
+        List<Vector> devPoints = new ArrayList<>();
+
         spline.setControlPoints(points);
         spline.setTangents(tangents);
 
@@ -79,11 +83,31 @@ public class HermiteSplineScene extends Scene {
             HalfEdgeTriangleMesh newMesh = HalfEdgeUtility.convert(mesh);
             TriangleMeshNode node = new TriangleMeshNode(newMesh);
             TranslationNode spherePos = new TranslationNode(spline.evaluateCurve(t));
+
+            devPoints.add(spline.evaluateCurve(t));
+
+
             spherePos.addChild(node);
             rootNode.addChild(spherePos);
+
+            LineStripNode line = new LineStripNode(devPoints,color);
+            rootNode.addChild(line);
+
         }
 
-        //LineStripNode line = new LineStripNode(points);
+        LineStripNode line1 = new LineStripNode(new Vector(0.0, 0.1, -0.80),new Vector(0.80, 0.1, 0.0),color);
+        LineStripNode line2 = new LineStripNode(new Vector(0.80, 0.1, 0.0),new Vector(0.0, 0.1, 0.80),color);
+        LineStripNode line3 = new LineStripNode(new Vector(0.0, 0.1, 0.80),new Vector(-0.80, 0.1, 0.0),color);
+        LineStripNode line4 = new LineStripNode(new Vector(-0.80, 0.1, 0.0),new Vector(0.0, 0.1, -0.80),color);
+
+        rootNode.addChild(line1);
+        rootNode.addChild(line2);
+        rootNode.addChild(line3);
+        rootNode.addChild(line4);
+
+        Log.d(Constants.LOGTAG,devPoints.toString());
+
+
 
         ObjReader reader = new ObjReader();
         List<ITriangleMesh> meshesO = reader.read("meshes/plane.obj");
@@ -130,9 +154,9 @@ public class HermiteSplineScene extends Scene {
         translateNode.setTranslation(position);
         transformNode.setTransformation(transMatrix);
 
-        Log.d(Constants.LOGTAG,"Counter: " + counter);
-        Log.d(Constants.LOGTAG,"Position: " + position);
-        Log.d(Constants.LOGTAG,"Orientation: " + orientation);
-        Log.d(Constants.LOGTAG,"Transmatrix: " + transMatrix);
+       // Log.d(Constants.LOGTAG,"Counter: " + counter);
+        //Log.d(Constants.LOGTAG,"Position: " + position);
+        //Log.d(Constants.LOGTAG,"Orientation: " + orientation);
+        //Log.d(Constants.LOGTAG,"Transmatrix: " + transMatrix);
     }
 }
