@@ -249,7 +249,7 @@ public class BoundingBoxScene extends Scene{
         AbstractTriangle triangle;
 
         center=Vector.makeHomogenious(center);
-        center = sphereTransformation.getInverse().multiply(meshTransformation.multiply(center));
+        center = meshTransformation.getInverse().multiply(sphereTransformation.multiply(center));
         center=center.xyz();
 
         for(int i=0;i<mesh.getNumberOfTriangles();i++){
