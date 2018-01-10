@@ -163,6 +163,9 @@ public class ParticleScene extends Scene {
         rootNode.addChild(markerCannon);
 
         cannonBall = new fireParticle(positionCannon.xyz(),mass,velocity,force);
+        Matrix rotationMatrix = new Matrix(0,0,1,0,1,0,-1,0,0);
+        rotationMatrix = Matrix.makeHomogenious(rotationMatrix);
+        transformationCannon.setTransformation(rotationMatrix);
 
     }
 
