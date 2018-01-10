@@ -19,6 +19,7 @@ public class fireParticle {
         this.mass = mass;
         this.velocity = velocity;
         this.force = force;
+        acceleration = force.multiply((1/mass));
     }
 
 
