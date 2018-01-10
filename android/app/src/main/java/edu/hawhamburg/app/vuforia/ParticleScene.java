@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import edu.hawhamburg.shared.datastructures.halfEdgeMesh.HalfEdgeUtility;
 import edu.hawhamburg.shared.datastructures.mesh.AbstractTriangle;
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
@@ -44,6 +45,8 @@ public class ParticleScene extends Scene {
     private TranslationNode translationTarget;
     private TranslationNode translationParticle;
 
+    private TransformationNode transformationCannon;
+
     private BoundingBoxNode boundingBoxTarget;
     private BoundingBoxNode boundingBoxParticle;
 
@@ -58,6 +61,7 @@ public class ParticleScene extends Scene {
     private INode cannon;
     private INode target;
     private ITriangleMesh particle;
+    private ITriangleMesh cannonTriangleMesh;
 
     private fireParticle cannonBall;
 
@@ -65,15 +69,21 @@ public class ParticleScene extends Scene {
     private Vector velocity;
     private double mass;
     private double delta;
+    private double radius;
+    private int counter;
+    private int threshHold;
 
 
     public ParticleScene() {
         super(100, INode.RenderMode.REGULAR);
 
+        counter = 0;
         force = new Vector(0,-9.81,0);
         velocity = new Vector(0,0,0);
         mass = 5;
-
+        radius = 3;
+        delta = 0.1;
+        threshHold = 2;
         positionCannon = new Vector(0,0,0,1);
         positionTarget = new Vector(0,0,0,1);
 
@@ -82,6 +92,7 @@ public class ParticleScene extends Scene {
 
         translationCannon = new TranslationNode(positionCannon);
         translationTarget = new TranslationNode(positionTarget);
+        transformationCannon = new TransformationNode();
     }
 
     @Override
@@ -91,21 +102,24 @@ public class ParticleScene extends Scene {
                 -0.7, -0.7, 0.2, new ButtonHandler() {
             @Override
             public void handle() {
-                //abfeuern der kugel
+                initialize();
+                //moveNext();
+                Log.d(Constants.LOGTAG,"button pressed!!");
             }
         });
         addButton(button);
 
         particle = new TriangleMesh();
-        TriangleMeshFactory.createSphere(particle,3,7);
+        TriangleMeshFactory.createSphere(particle,radius,7);
         particleMeshNode = new TriangleMeshNode(particle);
-
-        translationParticle = new TranslationNode(positionCannon);
-        scaleParticle = new ScaleNode(0.5);
+        translationParticle = new TranslationNode(new Vector(2,2,0,0));
+//        translationParticle = new TranslationNode(positionCannon);
+        scaleParticle = new ScaleNode(0.01);
 
         scaleParticle.addChild(particleMeshNode);
-        translationParticle.addChild(scaleParticle);
-        rootNode.addChild(translationParticle);
+        transformationCannon.addChild(scaleParticle);
+        translationParticle.addChild(transformationCannon);
+        markerCannon.addChild(translationParticle);
 
         ObjReader reader = new ObjReader();
 
@@ -119,10 +133,11 @@ public class ParticleScene extends Scene {
             cannonNodeO.addChild(meshNodeCannon);
         }
 
-        //ScaleNode scaleO = new ScaleNode(0.3);
-        //scaleO.addChild(deerNodeO);
+
+        scaleCannon = new ScaleNode(0.2);
+        scaleCannon.addChild(cannonNodeO);
         cannonMesh = meshNodeCannon;
-        cannon = cannonNodeO;
+        cannon = scaleCannon;
 
         List<ITriangleMesh> meshesT = reader.read("meshes/chest.obj");
         InnerNode targetNodeO = new InnerNode();
@@ -132,10 +147,10 @@ public class ParticleScene extends Scene {
             targetNodeO.addChild(meshNodeTarget);
         }
 
-        //ScaleNode scaleT = new ScaleNode(0.03);
-        //scaleT.addChild(headNodeT);
+        scaleTarget= new ScaleNode(0.2);
+        scaleTarget.addChild(targetNodeO);
         targetMesh = meshNodeTarget;
-        target = targetNodeO;
+        target = scaleTarget;
 
         markerTarget.addChild(translationTarget);
         translationTarget.addChild(target);
@@ -147,14 +162,16 @@ public class ParticleScene extends Scene {
 
         rootNode.addChild(markerCannon);
 
-        cannonBall = new fireParticle(positionCannon,mass,velocity,force);
+        cannonBall = new fireParticle(positionCannon.xyz(),mass,velocity,force);
 
     }
 
     private void initialize(){
         cannonBall.reset();
         //set new velocity usw usf
-        cannonBall.setPosition(null); //wohin auch immer
+        cannonBall.setPosition(positionCannon.xyz()); //wohin auch immer
+        cannonBall.setVelocity(new Vector(0.5,2,0));
+        Log.d(Constants.LOGTAG,"Reinitialized Cannonball!");
     }
 
     boolean collide(AxisAlignedBoundingBox bbox1, Matrix transformation1,
@@ -165,10 +182,10 @@ public class ParticleScene extends Scene {
         Vector bbox1LLHom = Vector.makeHomogenious(bbox1.getLL());
         Vector bbox2LLHom = Vector.makeHomogenious(bbox2.getLL());
 
-        Log.d(Constants.LOGTAG, "UR1: before" + bbox1URHom);
-        Log.d(Constants.LOGTAG, "UR2: before" + bbox2URHom);
-        Log.d(Constants.LOGTAG, "LL1: before" + bbox1LLHom);
-        Log.d(Constants.LOGTAG, "LL2: before" + bbox2LLHom);
+      //  Log.d(Constants.LOGTAG, "UR1: before" + bbox1URHom);
+      //  Log.d(Constants.LOGTAG, "UR2: before" + bbox2URHom);
+      //  Log.d(Constants.LOGTAG, "LL1: before" + bbox1LLHom);
+      //  Log.d(Constants.LOGTAG, "LL2: before" + bbox2LLHom);
 
         Matrix transformationToWorld1 = transformation1.getInverse().multiply(transformation2);
 
@@ -177,21 +194,21 @@ public class ParticleScene extends Scene {
         Vector ll1 = transformationToWorld1.multiply(bbox1LLHom).xyz();
         Vector ll2 = bbox2LLHom.xyz();
 
-        Log.d(Constants.LOGTAG, "UR1 after: " + ur1);
-        Log.d(Constants.LOGTAG, "UR2 after: " + ur2);
-        Log.d(Constants.LOGTAG, "LL1 after: " + ll1);
-        Log.d(Constants.LOGTAG, "LL2 after: " + ll2);
+     //   Log.d(Constants.LOGTAG, "UR1 after: " + ur1);
+     //   Log.d(Constants.LOGTAG, "UR2 after: " + ur2);
+     //   Log.d(Constants.LOGTAG, "LL1 after: " + ll1);
+     //   Log.d(Constants.LOGTAG, "LL2 after: " + ll2);
 
         //bbox1.transform(transformation1) alternativ
 
         if( ur1.x()>ll2.x() && ur2.x()>ll1.x()){
-            Log.d(Constants.LOGTAG, "Calcuate x");
+      //      Log.d(Constants.LOGTAG, "Calcuate x");
 
             if( ur1.y()>ll2.y() && ur2.y()>ll1.y()){
-                Log.d(Constants.LOGTAG, "Calcuate y");
+      //          Log.d(Constants.LOGTAG, "Calcuate y");
 
                 if( ur1.z()>ll2.z() && ur2.z()>ll1.z()){
-                    Log.d(Constants.LOGTAG, "Calcuate z");
+       //             Log.d(Constants.LOGTAG, "Calcuate z");
 
                     return true;
                 }
@@ -299,6 +316,19 @@ public class ParticleScene extends Scene {
         return Math.min(Math.min(dist_ab,dist_bc),dist_ca);
     }
 
+    private void moveNext(){
+        cannonBall.calcNewPosition(delta);
+        //calc velocity
+        cannonBall.calcNewVelocity(delta);
+
+        Log.d(Constants.LOGTAG, "Position: " + cannonBall.getPosition());
+        Log.d(Constants.LOGTAG, "Velocity: " + cannonBall.getVelocity());
+
+        Vector newPosition = Vector.makeHomogenious(cannonBall.getPosition());
+
+        translationParticle.setTranslation(newPosition);
+    }
+
     boolean collideExact(ITriangleMesh mesh, Matrix meshTransformation,
                          Vector center, double radius, Matrix sphereTransformation){
         double distance = 0.0;
@@ -324,37 +354,39 @@ public class ParticleScene extends Scene {
 
     }
 
+
+
     @Override
     public void onSceneRedraw() {
-        //calc position
-        cannonBall.calcNewPosition(delta);
-        //calc velocity
-        cannonBall.calcNewVelocity(delta);
+
+        //if (counter == threshHold) {
+          if(true){
+            counter = 0;
+            //calc position
+            cannonBall.calcNewPosition(delta);
+            //calc velocity
+            cannonBall.calcNewVelocity(delta);
+
+            Log.d(Constants.LOGTAG, "Position: " + cannonBall.getPosition());
+            Log.d(Constants.LOGTAG, "Velocity: " + cannonBall.getVelocity());
+
+            Vector newPosition = Vector.makeHomogenious(cannonBall.getPosition());
+
+            translationParticle.setTranslation(newPosition);
 
 
-        ///////////////////
-        if(collide(cube.getBoundingBox(),
-                cube.getTransformation(),
-                sphere.getBoundingBox(),
-                sphere.getTransformation())){
+            if (collide(particleMeshNode.getBoundingBox(),
+                    particleMeshNode.getTransformation(),
+                    target.getBoundingBox(),
+                    target.getTransformation())) {
 
-            boundingBoxCube.setColor(new Vector(1,1,0,1));
-            boundingBoxSphere.setColor(new Vector(1,1,0,1));
+                Log.d(Constants.LOGTAG, "Nice Shot!");
 
-            Vector sphereLL = boundingBoxSphere.getBoundingBox().getLL();
-            Vector sphereUR = boundingBoxSphere.getBoundingBox().getUR();
 
-            Vector sphereCenter = sphereLL.add(sphereUR.subtract(sphereLL).multiply(0.5));
-
-            if(collideExact(cubeMesh,cube.getTransformation(),sphereCenter,sphereRadius,sphere.getTransformation())){
-                boundingBoxCube.setColor(new Vector(1,0,0,1));
-                boundingBoxSphere.setColor(new Vector(1,0,0,1));
             }
-
-        } else {
-            boundingBoxCube.setColor(new Vector(0,1,0,1));
-            boundingBoxSphere.setColor(new Vector(0,1,0,1));
-
+        }
+        else {
+            counter ++;
         }
     }
 }
