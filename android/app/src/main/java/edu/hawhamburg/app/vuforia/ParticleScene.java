@@ -4,7 +4,6 @@ import android.util.Log;
 
 import java.util.List;
 
-import edu.hawhamburg.shared.datastructures.halfEdgeMesh.HalfEdgeUtility;
 import edu.hawhamburg.shared.datastructures.mesh.AbstractTriangle;
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
@@ -45,6 +44,7 @@ public class ParticleScene extends Scene {
     private TranslationNode translationTarget;
     private TranslationNode translationParticle;
 
+    private TransformationNode transformationParticle;
     private TransformationNode transformationCannon;
 
     private BoundingBoxNode boundingBoxTarget;
@@ -75,15 +75,13 @@ public class ParticleScene extends Scene {
 
     private boolean shoot = false;
 
-
     public ParticleScene() {
         super(100, INode.RenderMode.REGULAR);
 
         counter = 0;
         force = new Vector(0,-9.81,0);
-      velocity = new Vector(0,0,0);
-
-         //velocity = new Vector(-0.5,2,0);
+        velocity = new Vector(0,0,0);
+        //velocity = new Vector(-0.5,2,0);
         mass = 5;
         radius = 1;
         delta = 0.1;
@@ -96,6 +94,7 @@ public class ParticleScene extends Scene {
 
         translationCannon = new TranslationNode(positionCannon);
         translationTarget = new TranslationNode(positionTarget);
+        transformationParticle = new TransformationNode();
         transformationCannon = new TransformationNode();
     }
 
@@ -121,8 +120,8 @@ public class ParticleScene extends Scene {
         scaleParticle = new ScaleNode(0.09);
 
         scaleParticle.addChild(particleMeshNode);
-        transformationCannon.addChild(scaleParticle);
-        translationParticle.addChild(transformationCannon);
+        transformationParticle.addChild(scaleParticle);
+        translationParticle.addChild(transformationParticle);
         markerCannon.addChild(translationParticle);
 
         ObjReader reader = new ObjReader();
@@ -161,17 +160,22 @@ public class ParticleScene extends Scene {
 
         rootNode.addChild(markerTarget);
 
+        transformationCannon.addChild(cannon);
+        translationCannon.addChild(transformationCannon);
         markerCannon.addChild(translationCannon);
-        translationCannon.addChild(cannon);
 
         rootNode.addChild(markerCannon);
 
         cannonBall = new fireParticle(positionCannon.xyz(),mass,velocity,force);
         Matrix rotationMatrix = new Matrix(0,0,1,0,1,0,-1,0,0);
         rotationMatrix = Matrix.makeHomogenious(rotationMatrix);
+        transformationParticle.setTransformation(rotationMatrix);
+
         transformationCannon.setTransformation(rotationMatrix);
 
     }
+
+
 
     private void initialize(){
         cannonBall.reset();
@@ -181,6 +185,22 @@ public class ParticleScene extends Scene {
         shoot = true;
         //Log.d(Constants.LOGTAG,"Reinitialized Cannonball!");
     }
+
+    public  boolean collide2(AxisAlignedBoundingBox bbox1, Matrix transformation1,
+                                  AxisAlignedBoundingBox bbox2, Matrix transformation2) {
+        Vector ur1 = bbox1.getUR();
+        Vector ur2 = transformation1.getInverse().multiply(transformation2).multiply(Vector.makeHomogenious(bbox2.getUR())).xyz();
+
+        Vector ll1 = bbox1.getLL();
+        Vector ll2 = transformation1.getInverse().multiply(transformation2).multiply(Vector.makeHomogenious(bbox2.getLL())).xyz();
+
+        boolean xCollision = ur2.x() > ll1.x() && ur1.x() > ll2.x();
+        boolean yCollision = ur2.y() > ll1.y() && ur1.y() > ll2.y();
+        boolean zCollision = ur2.z() > ll1.z() && ur1.z() > ll2.z();
+
+        return xCollision && yCollision && zCollision;
+    }
+
 
     boolean collide(AxisAlignedBoundingBox bbox1, Matrix transformation1,
                     AxisAlignedBoundingBox bbox2, Matrix transformation2){
