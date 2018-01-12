@@ -38,7 +38,6 @@ public class ParticleScene extends Scene {
 
     private Vector positionCannon;
     private Vector positionTarget;
-    private Vector positionParticle;
 
     private TranslationNode translationCannon;
     private TranslationNode translationTarget;
@@ -47,11 +46,6 @@ public class ParticleScene extends Scene {
     private TransformationNode transformationParticle;
     private TransformationNode transformationCannon;
 
-    private BoundingBoxNode boundingBoxTarget;
-    private BoundingBoxNode boundingBoxParticle;
-
-    private TriangleMeshNode cannonMesh;
-    private TriangleMeshNode targetMesh;
     private TriangleMeshNode particleMeshNode;
 
     private ScaleNode scaleCannon;
@@ -61,7 +55,6 @@ public class ParticleScene extends Scene {
     private INode cannon;
     private INode target;
     private ITriangleMesh particle;
-    private ITriangleMesh cannonTriangleMesh;
 
     private fireParticle cannonBall;
 
@@ -70,22 +63,18 @@ public class ParticleScene extends Scene {
     private double mass;
     private double delta;
     private double radius;
-    private int counter;
-    private int threshHold;
 
     private boolean shoot = false;
 
     public ParticleScene() {
         super(100, INode.RenderMode.REGULAR);
 
-        counter = 0;
         force = new Vector(0,-9.81,0);
         velocity = new Vector(0,0,0);
         //velocity = new Vector(-0.5,2,0);
         mass = 5;
         radius = 1;
         delta = 0.1;
-        threshHold = 2;
         positionCannon = new Vector(0,0,0,1);
         positionTarget = new Vector(0,0,0,1);
 
@@ -139,7 +128,6 @@ public class ParticleScene extends Scene {
 
         scaleCannon = new ScaleNode(0.2);
         scaleCannon.addChild(cannonNodeO);
-        cannonMesh = meshNodeCannon;
         cannon = scaleCannon;
 
         List<ITriangleMesh> meshesT = reader.read("meshes/chest.obj");
@@ -152,7 +140,6 @@ public class ParticleScene extends Scene {
 
         scaleTarget= new ScaleNode(0.2);
         scaleTarget.addChild(targetNodeO);
-        targetMesh = meshNodeTarget;
         target = scaleTarget;
 
         markerTarget.addChild(translationTarget);
@@ -179,27 +166,12 @@ public class ParticleScene extends Scene {
 
     private void initialize(){
         cannonBall.reset();
-        //set new velocity usw usf
-        cannonBall.setPosition(positionCannon.xyz()); //wohin auch immer
+        cannonBall.setPosition(positionCannon.xyz());
         cannonBall.setVelocity(new Vector(-0.5,2,0));
         shoot = true;
         //Log.d(Constants.LOGTAG,"Reinitialized Cannonball!");
     }
 
-    public  boolean collide2(AxisAlignedBoundingBox bbox1, Matrix transformation1,
-                                  AxisAlignedBoundingBox bbox2, Matrix transformation2) {
-        Vector ur1 = bbox1.getUR();
-        Vector ur2 = transformation1.getInverse().multiply(transformation2).multiply(Vector.makeHomogenious(bbox2.getUR())).xyz();
-
-        Vector ll1 = bbox1.getLL();
-        Vector ll2 = transformation1.getInverse().multiply(transformation2).multiply(Vector.makeHomogenious(bbox2.getLL())).xyz();
-
-        boolean xCollision = ur2.x() > ll1.x() && ur1.x() > ll2.x();
-        boolean yCollision = ur2.y() > ll1.y() && ur1.y() > ll2.y();
-        boolean zCollision = ur2.z() > ll1.z() && ur1.z() > ll2.z();
-
-        return xCollision && yCollision && zCollision;
-    }
 
 
     boolean collide(AxisAlignedBoundingBox bbox1, Matrix transformation1,
@@ -245,108 +217,10 @@ public class ParticleScene extends Scene {
         return false;
     }
 
-    /**
-     * Calculates the distance between a bone and a point.
-     */
-    private double calculateDistance(Vector a, Vector b, Vector point) {
 
-        double r = 0.0;
-        double distance = 0.0;
-
-        Vector tmp;
-        Vector xStroke;
-
-        // Point x
-        Vector x = point;
-
-        // Line g: p + r * v
-        Vector p1 = a;
-        Vector p2 = b;
-        Vector p1p2 = p2.subtract(p1);
-        Vector v = p1p2.getNormalized();
-
-        // r' = (x - p) * v
-        tmp = x.subtract(p1);
-        r = tmp.multiply(v);
-
-        // x' = p + r' * v
-        tmp = v.multiply(r);
-        xStroke = p1.add(tmp);
-
-        // x' = ||x - x'||
-        tmp = x.subtract(xStroke);
-        distance = tmp.getNorm();
-
-
-        Vector lengthToStartVec = xStroke.subtract(p1);
-        double lengthToStart = lengthToStartVec.getNorm();
-
-        Vector lengthToEndVec = xStroke.subtract(p2);
-        double lengthToEnd = lengthToEndVec.getNorm();
-
-        if(lengthToStart<p1p2.getNorm() && lengthToEnd<p1p2.getNorm()){
-            return distance;
-        }
-
-        Vector distanceStart = point.subtract(p1);
-        Vector distanceEnd = point.subtract(p2);
-
-        double distanceStartLength = distanceStart.getNorm();
-        double distanceEndLength = distanceEnd.getNorm();
-
-        double tmpSmall = Math.min(distanceStartLength,distanceEndLength);
-        return tmpSmall;
-    }
-
-    private double getDistance(Vertex a, Vertex b, Vertex c, Vector center) {
-        //normal plane
-        Vector ab = b.getPosition().subtract(a.getPosition());
-        Vector ac = c.getPosition().subtract(a.getPosition());
-
-        Vector planeNormal = ab.cross(ac);
-        planeNormal.normalize();
-
-        double an_skalar = a.getPosition().multiply(planeNormal);
-        double mn_skalar = center.multiply(planeNormal);
-        double nn_skalar = planeNormal.multiply(planeNormal);
-
-        double lambda = (an_skalar-mn_skalar) / nn_skalar;
-
-        Vector x = center.add(planeNormal.multiply(lambda));
-
-        double centerx = center.subtract(x).getNorm();
-
-        double ax = x.subtract(a.getPosition()).getNorm();
-        double bx = x.subtract(b.getPosition()).getNorm();
-        double cx = x.subtract(c.getPosition()).getNorm();
-
-        double areaABX = (ax*bx)/2;
-        double areaBCX = (bx*cx)/2;
-        double areaCAX = (cx*ax)/2;
-
-        double areaTotal = (ab.getNorm() * ac.getNorm()) / 2;
-
-        double alpha = areaABX/areaTotal;
-        double beta = areaBCX/areaTotal;
-        double gamma = areaCAX/areaTotal;
-
-        if(0<=alpha && alpha<=1 && 0<=beta && beta<=1 && 0<=gamma && gamma<=1){
-            return centerx;
-        }
-
-        //double acenter = center.subtract(a.getPosition()).getNorm();
-        //double bcenter = center.subtract(b.getPosition()).getNorm();
-        //double ccenter = center.subtract(c.getPosition()).getNorm();
-        double dist_ab = calculateDistance(a.getPosition(),b.getPosition(),center);
-        double dist_bc = calculateDistance(b.getPosition(),c.getPosition(),center);
-        double dist_ca = calculateDistance(c.getPosition(),a.getPosition(),center);
-
-        return Math.min(Math.min(dist_ab,dist_bc),dist_ca);
-    }
 
     private void moveNext(){
         cannonBall.calcNewPosition(delta);
-        //calc velocity
         cannonBall.calcNewVelocity(delta);
 
         Log.d(Constants.LOGTAG, "Position: " + cannonBall.getPosition());
@@ -357,25 +231,7 @@ public class ParticleScene extends Scene {
         translationParticle.setTranslation(newPosition);
     }
 
-    boolean collideExact(ITriangleMesh mesh, Matrix meshTransformation,
-                         Vector center, double radius, Matrix sphereTransformation){
-        double distance = 0.0;
-        AbstractTriangle triangle;
 
-        center=Vector.makeHomogenious(center);
-        center = meshTransformation.getInverse().multiply(sphereTransformation.multiply(center));
-        center=center.xyz();
-
-        for(int i=0;i<mesh.getNumberOfTriangles();i++){
-            triangle = mesh.getTriangle(i);
-            distance = getDistance(mesh.getVertex(triangle,0),mesh.getVertex(triangle,1),mesh.getVertex(triangle,2),center);
-            if(distance<radius){
-                Log.d(Constants.LOGTAG,"Exact collision!");
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public void onTimerTick(int counter) {
