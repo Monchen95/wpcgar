@@ -73,15 +73,19 @@ public class ParticleScene extends Scene {
     private int counter;
     private int threshHold;
 
+    private boolean shoot = false;
+
 
     public ParticleScene() {
         super(100, INode.RenderMode.REGULAR);
 
         counter = 0;
         force = new Vector(0,-9.81,0);
-        velocity = new Vector(0,0,0);
+      velocity = new Vector(0,0,0);
+
+         //velocity = new Vector(-0.5,2,0);
         mass = 5;
-        radius = 3;
+        radius = 1;
         delta = 0.1;
         threshHold = 2;
         positionCannon = new Vector(0,0,0,1);
@@ -103,8 +107,8 @@ public class ParticleScene extends Scene {
             @Override
             public void handle() {
                 initialize();
-                //moveNext();
-                Log.d(Constants.LOGTAG,"button pressed!!");
+                  //moveNext();
+                //Log.d(Constants.LOGTAG,"button pressed!!");
             }
         });
         addButton(button);
@@ -114,7 +118,7 @@ public class ParticleScene extends Scene {
         particleMeshNode = new TriangleMeshNode(particle);
         translationParticle = new TranslationNode(new Vector(2,2,0,0));
 //        translationParticle = new TranslationNode(positionCannon);
-        scaleParticle = new ScaleNode(0.01);
+        scaleParticle = new ScaleNode(0.09);
 
         scaleParticle.addChild(particleMeshNode);
         transformationCannon.addChild(scaleParticle);
@@ -173,8 +177,9 @@ public class ParticleScene extends Scene {
         cannonBall.reset();
         //set new velocity usw usf
         cannonBall.setPosition(positionCannon.xyz()); //wohin auch immer
-        cannonBall.setVelocity(new Vector(0.5,2,0));
-        Log.d(Constants.LOGTAG,"Reinitialized Cannonball!");
+        cannonBall.setVelocity(new Vector(-0.5,2,0));
+        shoot = true;
+        //Log.d(Constants.LOGTAG,"Reinitialized Cannonball!");
     }
 
     boolean collide(AxisAlignedBoundingBox bbox1, Matrix transformation1,
@@ -185,33 +190,33 @@ public class ParticleScene extends Scene {
         Vector bbox1LLHom = Vector.makeHomogenious(bbox1.getLL());
         Vector bbox2LLHom = Vector.makeHomogenious(bbox2.getLL());
 
-      //  Log.d(Constants.LOGTAG, "UR1: before" + bbox1URHom);
-      //  Log.d(Constants.LOGTAG, "UR2: before" + bbox2URHom);
-      //  Log.d(Constants.LOGTAG, "LL1: before" + bbox1LLHom);
-      //  Log.d(Constants.LOGTAG, "LL2: before" + bbox2LLHom);
+        //Log.d(Constants.LOGTAG, "UR1: before" + bbox1URHom);
+        //Log.d(Constants.LOGTAG, "UR2: before" + bbox2URHom);
+        //Log.d(Constants.LOGTAG, "LL1: before" + bbox1LLHom);
+        //Log.d(Constants.LOGTAG, "LL2: before" + bbox2LLHom);
 
-        Matrix transformationToWorld1 = transformation1.getInverse().multiply(transformation2);
+        Matrix transformationToWorld2 = transformation1.multiply(transformation2.getInverse());
 
-        Vector ur1 = transformationToWorld1.multiply(bbox1URHom).xyz();
+        Vector ur1 = transformationToWorld2.multiply(bbox1URHom).xyz();
         Vector ur2 = bbox2URHom.xyz();
-        Vector ll1 = transformationToWorld1.multiply(bbox1LLHom).xyz();
+        Vector ll1 = transformationToWorld2.multiply(bbox1LLHom).xyz();
         Vector ll2 = bbox2LLHom.xyz();
 
-     //   Log.d(Constants.LOGTAG, "UR1 after: " + ur1);
-     //   Log.d(Constants.LOGTAG, "UR2 after: " + ur2);
-     //   Log.d(Constants.LOGTAG, "LL1 after: " + ll1);
-     //   Log.d(Constants.LOGTAG, "LL2 after: " + ll2);
+       // Log.d(Constants.LOGTAG, "UR1 after: " + ur1);
+       // Log.d(Constants.LOGTAG, "UR2 after: " + ur2);
+       // Log.d(Constants.LOGTAG, "LL1 after: " + ll1);
+       // Log.d(Constants.LOGTAG, "LL2 after: " + ll2);
 
         //bbox1.transform(transformation1) alternativ
 
         if( ur1.x()>ll2.x() && ur2.x()>ll1.x()){
-      //      Log.d(Constants.LOGTAG, "Calcuate x");
+          //  Log.d(Constants.LOGTAG, "Calcuate x");
 
             if( ur1.y()>ll2.y() && ur2.y()>ll1.y()){
-      //          Log.d(Constants.LOGTAG, "Calcuate y");
+           //     Log.d(Constants.LOGTAG, "Calcuate y");
 
                 if( ur1.z()>ll2.z() && ur2.z()>ll1.z()){
-       //             Log.d(Constants.LOGTAG, "Calcuate z");
+            //        Log.d(Constants.LOGTAG, "Calcuate z");
 
                     return true;
                 }
@@ -362,16 +367,14 @@ public class ParticleScene extends Scene {
     @Override
     public void onSceneRedraw() {
 
-        //if (counter == threshHold) {
-          if(true){
-            counter = 0;
-            //calc position
-            cannonBall.calcNewPosition(delta);
-            //calc velocity
-            cannonBall.calcNewVelocity(delta);
-
-            Log.d(Constants.LOGTAG, "Position: " + cannonBall.getPosition());
-            Log.d(Constants.LOGTAG, "Velocity: " + cannonBall.getVelocity());
+            if(shoot) {
+                //calc position
+                cannonBall.calcNewPosition(delta);
+                //calc velocity
+                cannonBall.calcNewVelocity(delta);
+            }
+            //Log.d(Constants.LOGTAG, "Position: " + cannonBall.getPosition());
+            //Log.d(Constants.LOGTAG, "Velocity: " + cannonBall.getVelocity());
 
             Vector newPosition = Vector.makeHomogenious(cannonBall.getPosition());
 
@@ -383,14 +386,13 @@ public class ParticleScene extends Scene {
                     target.getBoundingBox(),
                     target.getTransformation())) {
 
-                Log.d(Constants.LOGTAG, "Nice Shot!");
-
-
+                    Log.d(Constants.LOGTAG,"Nice Shot!!");
+                cannonBall.setPosition(positionCannon.xyz()); //wohin auch immer
+                cannonBall.setVelocity(new Vector(0.0,0,0));
+                shoot = false;
             }
-        }
-        else {
-            counter ++;
-        }
+
+
     }
 }
 
