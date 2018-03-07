@@ -97,7 +97,7 @@ public class VuforiaActivity extends Activity implements SessionControllable {
 
         // Application specific scene - must be set exactly here
         //scene = new DefaultVuforiaScene();
-        scene = new ParticleScene();
+        scene = new GameScene();
 
         TextureManager.getInstance().setup("edu.hawhamburg.app", getApplicationContext());
         scene.onSetup(scene.getRoot());

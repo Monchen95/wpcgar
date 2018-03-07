@@ -1,10 +1,13 @@
 package edu.hawhamburg.app.vuforia;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
+import edu.hawhamburg.shared.misc.Constants;
 import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.InnerNode;
 import edu.hawhamburg.shared.simulation.WorldSimulation;
@@ -15,6 +18,8 @@ import edu.hawhamburg.vuforia.VuforiaMarkerNode;
  */
 
 public class GameScene extends Scene{
+
+    private int i = 0;
 
     private final int MARKERPOOLSIZE = 11;
 
@@ -33,33 +38,58 @@ public class GameScene extends Scene{
     private VuforiaMarkerNode marker9;
     private List<VuforiaMarkerNode> markerList = new ArrayList<>();
 
-    private Matrix[] markerArray = new Matrix[MARKERPOOLSIZE];
+    private Vector[] markerPositionArray = new Vector[MARKERPOOLSIZE];
 
-    private void addMarkerToList(int arrayPosition, VuforiaMarkerNode marker){
-        if(marker.isActive()){
-            markerArray[arrayPosition] = marker.getTransformation();
-        } else {
-            markerArray[arrayPosition] = null;
+    private void addMarkerPositionToArray(int arrayPosition, VuforiaMarkerNode marker){
+            if(marker.isActive()){
+                Matrix tmpMtrx = marker.getTransformation().getInverse();
+                Vector tmpVec = new Vector(tmpMtrx.get(0,3),tmpMtrx.get(1,3),tmpMtrx.get(2,3));
+                markerPositionArray[arrayPosition] = tmpVec;
+                Log.d(Constants.LOGTAG,"TMPVec: " + arrayPosition+  '\n' + tmpVec);
+            } else {
+                Vector tmpVec = new Vector(0,0,0);
+                markerPositionArray[arrayPosition] = tmpVec;
+                Log.d(Constants.LOGTAG,"TMPVec: " + arrayPosition+  '\n' + tmpVec);
+            }
+
+
+
+    }
+
+    private void clearMarkerPositionArray(){
+        for(int i=0;i<markerPositionArray.length;i++){
+            markerPositionArray[i]=new Vector(0,0,0);
         }
     }
 
     private void initWorld(){
-
-        for(int i=0;i<markerList.size();i++){
-            addMarkerToList(i,markerList.get(i));
-        }
-
-        sim = new WorldSimulation(markerArray);
-        sim.updateWorldSimulation(markerArray);
+        sim = new WorldSimulation(MARKERPOOLSIZE);
     }
 
     private void updateWorld(){
+        for(int i=0;i<markerList.size();i++){
+            addMarkerPositionToArray(i,markerList.get(i));
+        }
 
+        sim.updateWorldSimulation(markerPositionArray);
+        clearMarkerPositionArray();
     }
 
     @Override
     public void onSetup(InnerNode rootNode) {
-        markerStart = new VuforiaMarkerNode("markerStart");
+       markerStart = new VuforiaMarkerNode("elphi");
+       markerEnd = new VuforiaMarkerNode("campus");
+       marker1 = new VuforiaMarkerNode("marker1");
+       marker2 = new VuforiaMarkerNode("marker2");
+       marker3 = new VuforiaMarkerNode("marker3");
+       marker4 = new VuforiaMarkerNode("marker4");
+       marker5 = new VuforiaMarkerNode("marker5");
+       marker6 = new VuforiaMarkerNode("marker6");
+       marker7 = new VuforiaMarkerNode("marker7");
+       marker8 = new VuforiaMarkerNode("marker8");
+       marker9 = new VuforiaMarkerNode("marker9");
+
+        /*markerStart = new VuforiaMarkerNode("markerStart");
         markerEnd = new VuforiaMarkerNode("markerEnd");
         marker1 = new VuforiaMarkerNode("marker1");
         marker2 = new VuforiaMarkerNode("marker2");
@@ -70,6 +100,7 @@ public class GameScene extends Scene{
         marker7 = new VuforiaMarkerNode("marker7");
         marker8 = new VuforiaMarkerNode("marker8");
         marker9 = new VuforiaMarkerNode("marker9");
+        */
 
         markerList.add(markerStart);
         markerList.add(markerEnd);
@@ -83,7 +114,10 @@ public class GameScene extends Scene{
         markerList.add(marker8);
         markerList.add(marker9);
 
+        rootNode.addChild(markerStart);
+        rootNode.addChild(markerEnd);
 
+        initWorld();
 
     }
 
@@ -94,6 +128,15 @@ public class GameScene extends Scene{
 
     @Override
     public void onSceneRedraw() {
+        if(i>150){
+            Log.d(Constants.LOGTAG,"Updateworld");
+            updateWorld();
+          //  Matrix tmpMtrx = markerEnd.getTransformation().getInverse();
+           // Vector tmpVec = new Vector(tmpMtrx.get(0,3),tmpMtrx.get(1,3),tmpMtrx.get(2,3));
+            //Log.d(Constants.LOGTAG,"Marker 2 Transformationsmatrix Invers: " +  '\n' + tmpVec.toString());
 
+            i=0;
+        }
+        i++;
     }
 }
