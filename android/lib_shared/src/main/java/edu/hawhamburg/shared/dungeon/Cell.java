@@ -14,6 +14,8 @@ public class Cell {
     private Cell rightCell;
     private Cell frontCell;
     private Cell backCell;
+    private boolean blocked;
+    private boolean hasNPC;
 
     public Cell(Cell leftCell, Cell rightCell, Cell frontCell,Cell backCell){
         this.leftCell=leftCell;
