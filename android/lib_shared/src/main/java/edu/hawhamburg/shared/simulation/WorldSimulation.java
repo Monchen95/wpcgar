@@ -1,8 +1,11 @@
 package edu.hawhamburg.shared.simulation;
 
+import android.util.Log;
+
 import edu.hawhamburg.shared.dungeon.Cell;
 import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
+import edu.hawhamburg.shared.misc.Constants;
 
 /**
  * Created by Devran on 06.03.2018.
@@ -20,29 +23,46 @@ public class WorldSimulation {
     private final Vector WORLDNORMAL = new Vector(0,1,0);
 
     private Cell[] cells;
-    private Matrix[] markerPositions;
-    private Matrix[] markerPositionOnNormal;
+    private Vector[] markerPositions;
+    private Vector[] markerPositionOnNormal;
 
-    public WorldSimulation(Matrix[] markerPositions){
-        cells = new Cell[markerPositions.length];
-        setMarkerPositions(markerPositions);
+    public WorldSimulation(int markerPositionsLength){
+        cells = new Cell[markerPositionsLength];
     }
 
-    public void setMarkerPositions(Matrix[] markerPositions) {
+
+
+    public void setMarkerPositions(Vector[] markerPositions) {
         this.markerPositions = markerPositions;
     }
 
-    public void updateWorldSimulation(Matrix[] markerPositions){
+    private boolean markerIsInWorld(Vector position){
+        if(position.get(0)!=0 && position.get(1)!=0 && position.get(2)!=0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void updateWorldSimulation(Vector[] markerPositions){
         setMarkerPositions(markerPositions);
 
         //Rechne die Positionen auf die Ebene mit der Normale 0,1,0
-        for(int i=0;i<markerPositions.length;i++){
-            if(markerPositions[i]!=null){
+      //  for(int i=0;i<markerPositions.length;i++){
+     //       if(markerPositions[i]!=null){
                 ///
                 ///
-                markerPositionOnNormal = null; //hier richtig zuweisen
-            }
+      //          markerPositionOnNormal = null; //hier richtig zuweisen
+      //      }
+     //   }
+        if(markerIsInWorld(markerPositions[0])){
+          //  Log.d(Constants.LOGTAG,"Marker 1 Transformationsmatrix Invers: " +  '\n' + markerPositions[0].toString());
         }
+        if(markerIsInWorld(markerPositions[1])){
+         //   Log.d(Constants.LOGTAG,"Marker 2 Transformationsmatrix Invers: " +  '\n' + markerPositions[1].toString());
+        }
+
+
 
         //Berechne den Aufbau des Spielfeldes
 
