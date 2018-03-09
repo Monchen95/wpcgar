@@ -21,31 +21,46 @@ Position.
 public class WorldSimulation {
 
     private final Vector WORLDNORMAL = new Vector(0,1,0);
+    private Matrix refMarkerTransformation;
 
     private Cell[] cells;
-    private Vector[] markerPositions;
-    private Vector[] markerPositionOnNormal;
+    private Matrix[] markerTransformation;
+    private Vector[] markerPositionInRefCoord;
+    private Vector[] markerPositionOnPlane;
 
-    public WorldSimulation(int markerPositionsLength){
-        cells = new Cell[markerPositionsLength];
+    public WorldSimulation(int markerAmount){
+        cells = new Cell[markerAmount];
+        markerTransformation = new Matrix[markerAmount];
+        markerPositionInRefCoord = new Vector[markerAmount];
+        markerPositionOnPlane = new Vector[markerAmount];
     }
 
 
 
-    public void setMarkerPositions(Vector[] markerPositions) {
-        this.markerPositions = markerPositions;
+    private void setMarkerTransformations(Matrix[] markerTransformation) {
+        this.markerTransformation = markerTransformation;
+        refMarkerTransformation = markerTransformation[0].getInverse();
+    }
+
+    private void calcMarkerCoordsInRef(){
+        for(int i=0;i<markerPositionInRefCoord.length;i++){
+            Matrix transformationInRef = markerTransformation[i].multiply(refMarkerTransformation);
+            markerPositionInRefCoord[i] = transformationInRef.multiply(new Vector(0,0,0,1)).xyz();
+            Log.d(Constants.LOGTAG,"Vektor " +i+ " im Ref Coordsys " + '\n' + markerPositionInRefCoord[i].toString());
+        }
+    }
+    
+    private void calcMarkerPositionsOnPlane(){
+        
     }
 
     private boolean markerIsInWorld(Vector position){
-        if(position.get(0)!=0 && position.get(1)!=0 && position.get(2)!=0){
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     }
 
-    public void updateWorldSimulation(Vector[] markerPositions){
-        setMarkerPositions(markerPositions);
+    public void updateWorldSimulation(Matrix[] markerPositions){
+        setMarkerTransformations(markerPositions);
+        calcMarkerCoordsInRef();
 
         //Rechne die Positionen auf die Ebene mit der Normale 0,1,0
       //  for(int i=0;i<markerPositions.length;i++){
@@ -55,13 +70,6 @@ public class WorldSimulation {
       //          markerPositionOnNormal = null; //hier richtig zuweisen
       //      }
      //   }
-        if(markerIsInWorld(markerPositions[0])){
-          //  Log.d(Constants.LOGTAG,"Marker 1 Transformationsmatrix Invers: " +  '\n' + markerPositions[0].toString());
-        }
-        if(markerIsInWorld(markerPositions[1])){
-         //   Log.d(Constants.LOGTAG,"Marker 2 Transformationsmatrix Invers: " +  '\n' + markerPositions[1].toString());
-        }
-
 
 
         //Berechne den Aufbau des Spielfeldes
