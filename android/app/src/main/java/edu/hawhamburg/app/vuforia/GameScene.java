@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.hawhamburg.shared.math.Matrix;
-import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.Constants;
 import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.InnerNode;
@@ -38,27 +37,15 @@ public class GameScene extends Scene{
     private VuforiaMarkerNode marker9;
     private List<VuforiaMarkerNode> markerList = new ArrayList<>();
 
-    private Vector[] markerPositionArray = new Vector[MARKERPOOLSIZE];
+    private Matrix[] markerTransformationArray = new Matrix[MARKERPOOLSIZE];
 
     private void addMarkerPositionToArray(int arrayPosition, VuforiaMarkerNode marker){
-            if(marker.isActive()){
-                Matrix tmpMtrx = marker.getTransformation().getInverse();
-                Vector tmpVec = new Vector(tmpMtrx.get(0,3),tmpMtrx.get(1,3),tmpMtrx.get(2,3));
-                markerPositionArray[arrayPosition] = tmpVec;
-                Log.d(Constants.LOGTAG,"TMPVec: " + arrayPosition+  '\n' + tmpVec);
-            } else {
-                Vector tmpVec = new Vector(0,0,0);
-                markerPositionArray[arrayPosition] = tmpVec;
-                Log.d(Constants.LOGTAG,"TMPVec: " + arrayPosition+  '\n' + tmpVec);
-            }
-
-
-
+            markerTransformationArray[arrayPosition] = marker.getTransformation();
     }
 
     private void clearMarkerPositionArray(){
-        for(int i=0;i<markerPositionArray.length;i++){
-            markerPositionArray[i]=new Vector(0,0,0);
+        for(int i = 0; i< markerTransformationArray.length; i++){
+            markerTransformationArray[i]=Matrix.createIdentityMatrix4();
         }
     }
 
@@ -71,14 +58,13 @@ public class GameScene extends Scene{
             addMarkerPositionToArray(i,markerList.get(i));
         }
 
-        sim.updateWorldSimulation(markerPositionArray);
+        sim.updateWorldSimulation(markerTransformationArray);
         clearMarkerPositionArray();
     }
 
     @Override
     public void onSetup(InnerNode rootNode) {
        markerStart = new VuforiaMarkerNode("elphi");
-       markerEnd = new VuforiaMarkerNode("campus");
        marker1 = new VuforiaMarkerNode("marker1");
        marker2 = new VuforiaMarkerNode("marker2");
        marker3 = new VuforiaMarkerNode("marker3");
@@ -88,6 +74,7 @@ public class GameScene extends Scene{
        marker7 = new VuforiaMarkerNode("marker7");
        marker8 = new VuforiaMarkerNode("marker8");
        marker9 = new VuforiaMarkerNode("marker9");
+        markerEnd = new VuforiaMarkerNode("campus");
 
         /*markerStart = new VuforiaMarkerNode("markerStart");
         markerEnd = new VuforiaMarkerNode("markerEnd");
@@ -103,7 +90,6 @@ public class GameScene extends Scene{
         */
 
         markerList.add(markerStart);
-        markerList.add(markerEnd);
         markerList.add(marker1);
         markerList.add(marker2);
         markerList.add(marker3);
@@ -113,6 +99,7 @@ public class GameScene extends Scene{
         markerList.add(marker7);
         markerList.add(marker8);
         markerList.add(marker9);
+        markerList.add(markerEnd);
 
         rootNode.addChild(markerStart);
         rootNode.addChild(markerEnd);
@@ -131,9 +118,6 @@ public class GameScene extends Scene{
         if(i>150){
             Log.d(Constants.LOGTAG,"Updateworld");
             updateWorld();
-          //  Matrix tmpMtrx = markerEnd.getTransformation().getInverse();
-           // Vector tmpVec = new Vector(tmpMtrx.get(0,3),tmpMtrx.get(1,3),tmpMtrx.get(2,3));
-            //Log.d(Constants.LOGTAG,"Marker 2 Transformationsmatrix Invers: " +  '\n' + tmpVec.toString());
 
             i=0;
         }
