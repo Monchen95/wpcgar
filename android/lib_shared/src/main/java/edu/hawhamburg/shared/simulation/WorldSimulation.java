@@ -1,6 +1,7 @@
 package edu.hawhamburg.shared.simulation;
 
 import android.util.Log;
+import android.view.VelocityTracker;
 
 import edu.hawhamburg.shared.dungeon.Cell;
 import edu.hawhamburg.shared.math.Matrix;
@@ -35,7 +36,9 @@ public class WorldSimulation {
         markerPositionOnPlane = new Vector[markerAmount];
     }
 
-
+    public Vector giveCharacterPosition(){
+        return Vector.makeHomogenious(markerPositionInRefCoord[10]);
+    }
 
     private void setMarkerTransformations(Matrix[] markerTransformation) {
         this.markerTransformation = markerTransformation;
@@ -46,8 +49,8 @@ public class WorldSimulation {
         for(int i=0;i<markerPositionInRefCoord.length;i++){
             Matrix transformationInRef = markerTransformation[i].multiply(refMarkerTransformation);
             markerPositionInRefCoord[i] = transformationInRef.multiply(new Vector(0,0,0,1)).xyz();
-            Log.d(Constants.LOGTAG,"Vektor " +i+ " im Ref Coordsys " + '\n' + markerPositionInRefCoord[i].toString());
         }
+        Log.d(Constants.LOGTAG,"Vektor " +10+ " im Ref Coordsys " + '\n' + markerPositionInRefCoord[10].toString());
     }
     
     private void calcMarkerPositionsOnPlane(){
