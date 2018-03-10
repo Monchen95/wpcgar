@@ -22,21 +22,27 @@ public class WorldSimulation2 {
 
     private final Vector WORLDNORMAL = new Vector(0,1,0);
 
-    private final int AMOUNT;
+    private final int MARKERAMOUNT;
+    private final int OBSTACLEAMOUNT;
     private Cell[] cells;
     private Matrix[] markerTransformation;
+    private Matrix[] obstacleTransformation;
     private Vector[] markerPositionOnPlane;
+    private Vector[] obstaclePositionOnPlane;
     private int activeCell;
-    private double minimalDistance = 0.15;
+    private double minimalDistance = 0.3;
     private int directions = 4;
 
-    public WorldSimulation2(int markerAmount){
-        AMOUNT = markerAmount;
-        cells = new Cell[AMOUNT];
-        markerTransformation = new Matrix[AMOUNT];
-        markerPositionOnPlane = new Vector[AMOUNT];
+    public WorldSimulation2(int markerAmount, int obstacleAmount){
+        MARKERAMOUNT = markerAmount;
+        OBSTACLEAMOUNT = obstacleAmount;
+        cells = new Cell[MARKERAMOUNT];
+        markerTransformation = new Matrix[MARKERAMOUNT];
+        markerPositionOnPlane = new Vector[MARKERAMOUNT];
+        obstacleTransformation = new Matrix[OBSTACLEAMOUNT];
+        obstaclePositionOnPlane = new Vector[OBSTACLEAMOUNT];
 
-        for(int i=0;i<AMOUNT;i++){
+        for(int i = 0; i< MARKERAMOUNT; i++){
             cells[i] = new Cell(null,null,null,null,i);
         }
 
@@ -48,7 +54,7 @@ public class WorldSimulation2 {
     }
 
     private void calcWorld(){
-        for(int i=0;i<AMOUNT;i++){
+        for(int i = 0; i< MARKERAMOUNT; i++){
 
         }
     }
@@ -88,7 +94,7 @@ public class WorldSimulation2 {
         int nearestMarker = -1;
         double nearestDistance=-1000;                    //willkürlicher niedriger wert, der in den Koordinaten nicht vorkommen kann
 
-        for(int i=0;i<AMOUNT;i++){
+        for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].x()<(markerPositionOnPlane[activeCell]).x()-minimalDistance){
                     if(markerPositionOnPlane[i].x()!=0) {
@@ -108,7 +114,7 @@ public class WorldSimulation2 {
         int nearestMarker = -1;
         double nearestDistance=1000;                    //willkürlicher hoher wert, der in den Koordinaten nicht vorkommen kann
 
-        for(int i=0;i<AMOUNT;i++){
+        for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].x()>(markerPositionOnPlane[activeCell]).x()+minimalDistance){
                     if(markerPositionOnPlane[i].x()!=0){
@@ -128,7 +134,7 @@ public class WorldSimulation2 {
         int nearestMarker = -1;
         double nearestDistance= 1000;                    //willkürlicher hoher wert, der in den Koordinaten nicht vorkommen kann
 
-        for(int i=0;i<AMOUNT;i++){
+        for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].y()>(markerPositionOnPlane[activeCell]).y()+minimalDistance){
                     if(markerPositionOnPlane[i].y()!=0) {
@@ -148,7 +154,7 @@ public class WorldSimulation2 {
         int nearestMarker = -1;
         double nearestDistance= -1000;                    //willkürlicher niedriger wert, der in den Koordinaten nicht vorkommen kann
 
-        for(int i=0;i<AMOUNT;i++){
+        for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].y()<(markerPositionOnPlane[activeCell]).y()-minimalDistance){
                     if(markerPositionOnPlane[i].y()!=0) {
@@ -164,7 +170,7 @@ public class WorldSimulation2 {
     }
 
     private void calcMarkerPositionsOnPlane(){
-        for(int i=0;i<AMOUNT;i++){
+        for(int i = 0; i< MARKERAMOUNT; i++){
             Vector tmpVec = markerTransformation[i].multiply(new Vector(0,0,0,1)).xyz();
             markerPositionOnPlane[i] = new Vector(tmpVec.x(),tmpVec.y(),0);
 
@@ -177,10 +183,23 @@ public class WorldSimulation2 {
         return true;
     }
 
-    public void updateWorldSimulation(Matrix[] markerPositions){
+    private void setObestacleTransformations(Matrix[] obstacleTransformation){
+        this.obstacleTransformation = obstacleTransformation;
+    }
+
+    private void calcObstaclePositionsOnPlane(){
+        for(int i = 0; i< OBSTACLEAMOUNT; i++){
+            Vector tmpVec = obstacleTransformation[i].multiply(new Vector(0,0,0,1)).xyz();
+            obstaclePositionOnPlane[i] = new Vector(tmpVec.x(),tmpVec.y(),0);
+        }
+    }
+
+    public void updateWorldSimulation(Matrix[] markerPositions, Matrix[] obstaclePositions){
         setMarkerTransformations(markerPositions);
         calcMarkerPositionsOnPlane();
         calcActiveNeighbours();
+        setObestacleTransformations(obstaclePositions);
+        calcObstaclePositionsOnPlane();
 
         Log.d(Constants.LOGTAG,"Aktiver Marker ist Marker: " + activeCell);
 
