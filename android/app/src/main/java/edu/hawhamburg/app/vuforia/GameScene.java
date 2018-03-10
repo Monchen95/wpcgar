@@ -31,6 +31,7 @@ public class GameScene extends Scene{
     private int i = 0;
 
     private final int MARKERPOOLSIZE = 11;
+    private final int OBSTACLEPOOLSIZE = 3;
 
     private WorldSimulation2 sim;
 
@@ -46,8 +47,13 @@ public class GameScene extends Scene{
     private VuforiaMarkerNode marker8;
     private VuforiaMarkerNode marker9;
     private List<VuforiaMarkerNode> markerList = new ArrayList<>();
-
     private Matrix[] markerTransformationArray = new Matrix[MARKERPOOLSIZE];
+
+    private VuforiaMarkerNode obstacle1;
+    private VuforiaMarkerNode obstacle2;
+    private VuforiaMarkerNode obstacle3;
+    private List<VuforiaMarkerNode> obstacleList = new ArrayList<>();
+    private Matrix[] obstacleTransformationArray = new Matrix[OBSTACLEPOOLSIZE];
 
     private ScaleNode scaleParticle;
     private TranslationNode translationParticle;
@@ -59,6 +65,10 @@ public class GameScene extends Scene{
             markerTransformationArray[arrayPosition] = marker.getTransformation();
     }
 
+    private void addObstacleTransformationToArray(int arrayPosition, VuforiaMarkerNode obstacle){
+        obstacleTransformationArray[arrayPosition] = obstacle.getTransformation();
+    }
+
     private void clearMarkerPositionArray(){
         for(int i = 0; i< markerTransformationArray.length; i++){
             markerTransformationArray[i]=Matrix.createIdentityMatrix4();
@@ -66,15 +76,18 @@ public class GameScene extends Scene{
     }
 
     private void initWorld(){
-        sim = new WorldSimulation2(MARKERPOOLSIZE);
+        sim = new WorldSimulation2(MARKERPOOLSIZE,OBSTACLEPOOLSIZE);
     }
 
     private void updateWorld(){
         for(int i=0;i<markerList.size();i++){
             addMarkerPositionToArray(i,markerList.get(i));
         }
+        for(int i=0;i<obstacleList.size();i++){
+            addObstacleTransformationToArray(i,obstacleList.get(i));
+        }
 
-        sim.updateWorldSimulation(markerTransformationArray);
+        sim.updateWorldSimulation(markerTransformationArray,obstacleTransformationArray);
         clearMarkerPositionArray();
     }
 
@@ -104,6 +117,14 @@ public class GameScene extends Scene{
         markerList.add(marker8);
         markerList.add(marker9);
         markerList.add(markerEnd);
+
+        obstacle1 = new VuforiaMarkerNode("obstacle1");
+        obstacle2 = new VuforiaMarkerNode("obstacle2");
+        obstacle3 = new VuforiaMarkerNode("obstacle3");
+
+        obstacleList.add(obstacle1);
+        obstacleList.add(obstacle2);
+        obstacleList.add(obstacle3);
 
         scaleParticle = new ScaleNode(0.09);
         translationParticle = new TranslationNode(new Vector(0,0,0,1));
