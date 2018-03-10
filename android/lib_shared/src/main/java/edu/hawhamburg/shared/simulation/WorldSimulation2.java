@@ -40,7 +40,7 @@ public class WorldSimulation2 {
             cells[i] = new Cell(null,null,null,null,i);
         }
 
-        activeCell = 0;
+        activeCell = 10;
     }
 
     private void setMarkerTransformations(Matrix[] markerTransformation) {
@@ -86,13 +86,13 @@ public class WorldSimulation2 {
     private int calcLeftNeighbour(double x){
         double ref_x = x;
         int nearestMarker = -1;
-        double nearestDistance=1000;                    //willkürlicher hoher wert, der in den Koordinaten nicht vorkommen kann
+        double nearestDistance=-1000;                    //willkürlicher niedriger wert, der in den Koordinaten nicht vorkommen kann
 
         for(int i=0;i<AMOUNT;i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].x()<(markerPositionOnPlane[activeCell]).x()-minimalDistance){
                     if(markerPositionOnPlane[i].x()!=0) {
-                        if (markerPositionOnPlane[i].x() < nearestDistance) {
+                        if (markerPositionOnPlane[i].x() > nearestDistance) {
                             nearestMarker = i;
                             nearestDistance = markerPositionOnPlane[i].x();
                         }
@@ -106,13 +106,13 @@ public class WorldSimulation2 {
     private int calcRightNeighbour(double x){
         double ref_x = x;
         int nearestMarker = -1;
-        double nearestDistance=-1000;                    //willkürlicher niedriger wert, der in den Koordinaten nicht vorkommen kann
+        double nearestDistance=1000;                    //willkürlicher hoher wert, der in den Koordinaten nicht vorkommen kann
 
         for(int i=0;i<AMOUNT;i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].x()>(markerPositionOnPlane[activeCell]).x()+minimalDistance){
                     if(markerPositionOnPlane[i].x()!=0){
-                        if(markerPositionOnPlane[i].x()>nearestDistance){
+                        if(markerPositionOnPlane[i].x()<nearestDistance){
                             nearestMarker=i;
                             nearestDistance=markerPositionOnPlane[i].x();
                         }
@@ -126,13 +126,13 @@ public class WorldSimulation2 {
     private int calcBackNeighbour(double y){
         double ref_y = y;
         int nearestMarker = -1;
-        double nearestDistance= -1000;                    //willkürlicher niedriger wert, der in den Koordinaten nicht vorkommen kann
+        double nearestDistance= 1000;                    //willkürlicher hoher wert, der in den Koordinaten nicht vorkommen kann
 
         for(int i=0;i<AMOUNT;i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].y()>(markerPositionOnPlane[activeCell]).y()+minimalDistance){
                     if(markerPositionOnPlane[i].y()!=0) {
-                        if (markerPositionOnPlane[i].y() > nearestDistance) {
+                        if (markerPositionOnPlane[i].y() < nearestDistance) {
                             nearestMarker = i;
                             nearestDistance = markerPositionOnPlane[i].y();
                         }
@@ -146,13 +146,13 @@ public class WorldSimulation2 {
     private int calcFrontNeighbour(double y){
         double ref_y = y;
         int nearestMarker = -1;
-        double nearestDistance= 1000;                    //willkürlicher hoher wert, der in den Koordinaten nicht vorkommen kann
+        double nearestDistance= -1000;                    //willkürlicher niedriger wert, der in den Koordinaten nicht vorkommen kann
 
         for(int i=0;i<AMOUNT;i++){
             if(i!=activeCell){
                 if(markerPositionOnPlane[i].y()<(markerPositionOnPlane[activeCell]).y()-minimalDistance){
                     if(markerPositionOnPlane[i].y()!=0) {
-                        if (markerPositionOnPlane[i].y() < nearestDistance) {
+                        if (markerPositionOnPlane[i].y() > nearestDistance) {
                             nearestMarker = i;
                             nearestDistance = markerPositionOnPlane[i].y();
                         }
