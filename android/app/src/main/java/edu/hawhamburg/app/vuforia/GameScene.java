@@ -10,6 +10,8 @@ import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshFactory;
 import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
+import edu.hawhamburg.shared.misc.Button;
+import edu.hawhamburg.shared.misc.ButtonHandler;
 import edu.hawhamburg.shared.misc.Constants;
 import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.INode;
@@ -21,6 +23,11 @@ import edu.hawhamburg.shared.scenegraph.TriangleMeshNode;
 import edu.hawhamburg.shared.simulation.WorldSimulation;
 import edu.hawhamburg.shared.simulation.WorldSimulation2;
 import edu.hawhamburg.vuforia.VuforiaMarkerNode;
+
+import static edu.hawhamburg.shared.action.Direction.BACK;
+import static edu.hawhamburg.shared.action.Direction.FRONT;
+import static edu.hawhamburg.shared.action.Direction.LEFT;
+import static edu.hawhamburg.shared.action.Direction.RIGHT;
 
 /**
  * Created by Devran on 06.03.2018.
@@ -61,38 +68,49 @@ public class GameScene extends Scene{
     private ITriangleMesh particle;
     private TriangleMeshNode particleMeshNode;
 
-    private void addMarkerPositionToArray(int arrayPosition, VuforiaMarkerNode marker){
-            markerTransformationArray[arrayPosition] = marker.getTransformation();
-    }
+    Button left;
+    Button right;
+    Button front;
+    Button back;
 
-    private void addObstacleTransformationToArray(int arrayPosition, VuforiaMarkerNode obstacle){
-        obstacleTransformationArray[arrayPosition] = obstacle.getTransformation();
-    }
+    int charakterPosition;
 
-    private void clearMarkerPositionArray(){
-        for(int i = 0; i< markerTransformationArray.length; i++){
-            markerTransformationArray[i]=Matrix.createIdentityMatrix4();
-        }
-    }
 
-    private void initWorld(){
-        sim = new WorldSimulation2(MARKERPOOLSIZE,OBSTACLEPOOLSIZE);
-    }
 
-    private void updateWorld(){
-        for(int i=0;i<markerList.size();i++){
-            addMarkerPositionToArray(i,markerList.get(i));
-        }
-        for(int i=0;i<obstacleList.size();i++){
-            addObstacleTransformationToArray(i,obstacleList.get(i));
-        }
-
-        sim.updateWorldSimulation(markerTransformationArray,obstacleTransformationArray);
-        clearMarkerPositionArray();
-    }
 
     public GameScene(){
         super(100, INode.RenderMode.REGULAR);
+        charakterPosition=0;
+
+        left = new Button("skeleton.png",-0.7,-0.5,0.2, new ButtonHandler(){
+            @Override
+            public void handle(){
+                charakterPosition=sim.move(LEFT);
+                Log.d(Constants.LOGTAG,"Links!");
+            }
+        });
+        right = new Button("skeleton.png",-0.7,-0.9,0.2, new ButtonHandler(){
+            @Override
+            public void handle(){
+                charakterPosition=sim.move(RIGHT);
+                Log.d(Constants.LOGTAG,"Rechts!");
+            }
+        });
+        front = new Button("skeleton.png",-0.4,-0.7,0.2, new ButtonHandler(){
+            @Override
+            public void handle(){
+                charakterPosition=sim.move(FRONT);
+                Log.d(Constants.LOGTAG,"Vor!");
+            }
+        });
+        back = new Button("skeleton.png",-0.7,-0.7,0.2, new ButtonHandler(){
+            @Override
+            public void handle(){
+                charakterPosition=sim.move(BACK);
+                Log.d(Constants.LOGTAG,"Zurück!");
+            }
+        });
+
 
         markerStart = new VuforiaMarkerNode("elphi");
         marker1 = new VuforiaMarkerNode("marker1");
@@ -126,12 +144,49 @@ public class GameScene extends Scene{
         obstacleList.add(obstacle2);
         obstacleList.add(obstacle3);
 
+        addButton(left);
+        addButton(right);
+        addButton(front);
+        addButton(back);
+
         scaleParticle = new ScaleNode(0.09);
         translationParticle = new TranslationNode(new Vector(0,0,0,1));
         transformationParticle = new TransformationNode();
 
         initWorld();
     }
+
+    private void addMarkerPositionToArray(int arrayPosition, VuforiaMarkerNode marker){
+            markerTransformationArray[arrayPosition] = marker.getTransformation();
+    }
+
+    private void addObstacleTransformationToArray(int arrayPosition, VuforiaMarkerNode obstacle){
+        obstacleTransformationArray[arrayPosition] = obstacle.getTransformation();
+    }
+
+    private void clearMarkerPositionArray(){
+        for(int i = 0; i< markerTransformationArray.length; i++){
+            markerTransformationArray[i]=Matrix.createIdentityMatrix4();
+        }
+    }
+
+    private void initWorld(){
+        sim = new WorldSimulation2(MARKERPOOLSIZE,OBSTACLEPOOLSIZE);
+    }
+
+    private void updateWorld(){
+        for(int i=0;i<markerList.size();i++){
+            addMarkerPositionToArray(i,markerList.get(i));
+        }
+        for(int i=0;i<obstacleList.size();i++){
+            addObstacleTransformationToArray(i,obstacleList.get(i));
+        }
+
+        sim.updateWorldSimulation(markerTransformationArray,obstacleTransformationArray);
+        clearMarkerPositionArray();
+    }
+
+
 
 
     @Override
@@ -144,6 +199,7 @@ public class GameScene extends Scene{
         scaleParticle.addChild(particleMeshNode);
         transformationParticle.addChild(scaleParticle);
         translationParticle.addChild(transformationParticle);
+        //markerStart.addChild(translationParticle);
 
         rootNode.addChild(translationParticle);
         rootNode.addChild(markerStart);
@@ -160,12 +216,11 @@ public class GameScene extends Scene{
 
     @Override
     public void onSceneRedraw() {
-        if(i>50){
+        if(i>0){
             Log.d(Constants.LOGTAG,"Updateworld");
             updateWorld();
-            //transformationParticle.setTransformation(markerEnd.getTransformation());
-            //transformationParticle.setTransformation(markerStart.getTransformation());
-           // translationParticle.setTranslation(sim.giveCharacterPosition());
+
+            transformationParticle.setTransformation(markerList.get(charakterPosition).getTransformation());
 
             i=0;
         }
