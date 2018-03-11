@@ -4,6 +4,7 @@ import android.util.Log;
 
 import edu.hawhamburg.shared.action.Direction;
 import edu.hawhamburg.shared.characters.NPC;
+import edu.hawhamburg.shared.datastructures.statusEffect.CharacterEffect;
 import edu.hawhamburg.shared.dungeon.Cell;
 import edu.hawhamburg.shared.math.Comparison;
 import edu.hawhamburg.shared.math.Matrix;
@@ -36,8 +37,8 @@ public class WorldSimulation2 {
     private double minimalDistance = 0.3;
     private int directions = 4;
     NPC playerCharacter;
-    NPC enemyCharacter;
-    NPC hostageCharacter;
+    NPC enemyCharacter; //auf zelle 6
+    NPC hostageCharacter; //auf zelle 10
 
     public WorldSimulation2(int markerAmount, int obstacleAmount){
         MARKERAMOUNT = markerAmount;
@@ -48,15 +49,30 @@ public class WorldSimulation2 {
         obstacleTransformation = new Matrix[OBSTACLEAMOUNT];
         obstaclePositionOnPlane = new Vector[OBSTACLEAMOUNT];
 
-        for(int i = 0; i< MARKERAMOUNT; i++){
-            cells[i] = new Cell(null,null,null,null,i);
-        }
-        activeCell = 0;
-
         playerCharacter=new NPC(100,20,"Hank");
         enemyCharacter=new NPC(50,10,"Bad Orc");
         hostageCharacter=new NPC(1000,2000,"Frank");
 
+
+        for(int i = 0; i< MARKERAMOUNT; i++){
+            cells[i] = new Cell(null,null,null,null,i);
+        }
+
+        cells[3].setCellEffect(CharacterEffect.HEAL);
+        cells[5].setCellEffect(CharacterEffect.DEAL_DAMAGE);
+        cells[8].setCellEffect(CharacterEffect.BUFF_WEAPON);
+        cells[6].setEnemy(enemyCharacter);
+
+        activeCell = 0;
+
+
+
+    }
+
+    public void fightEnemy(){
+        if(cells[activeCell].containsEnemy()){
+            cells[activeCell].damageEnemy(playerCharacter.getDamage());
+        }
     }
 
     private void setMarkerTransformations(Matrix[] markerTransformation) {
@@ -79,9 +95,28 @@ public class WorldSimulation2 {
             return activeCell;
         }
         activeCell=cells[activeCell].getCellInDirection(there).getAssignedMarker();
+        if(cells[activeCell].hasEffects()){
+            CharacterEffect tmpEffect = cells[activeCell].getCellEffect();
+            if(tmpEffect==CharacterEffect.BUFF_WEAPON){
+                playerCharacter.amplifyDamage(2);
+            }
+            if(tmpEffect==CharacterEffect.DEAL_DAMAGE){
+                playerCharacter.afflictDamage(20);
+            }
+            if(tmpEffect==CharacterEffect.HEAL){
+                playerCharacter.healUp(20);
+            }
+        }
+        if(activeCell==10){
+            //gewonnen
+        }
         Log.d(Constants.LOGTAG,"Habe mich bewegt!");
+
         return activeCell;
     }
+
+
+
 
     private boolean checkFree(Direction there){
         if(cells[activeCell].getCellInDirection(there)==null){
@@ -317,6 +352,14 @@ public class WorldSimulation2 {
         calcActiveNeighbours();
         setObestacleTransformations(obstaclePositions);
         calcObstaclePositionsOnPlane();
+
+        //kampfloop zum drosseln -> in thread mit timer auslagern
+        int fighter=0;
+        if(fighter>49 && cells[activeCell].containsEnemy() && cells[activeCell].enemyAlive()){
+            playerCharacter.afflictDamage(cells[activeCell].getEnemy().getDamage());
+            fighter=0;
+        }
+        fighter++;
 
         Log.d(Constants.LOGTAG,"Aktiver Marker ist Marker: " + activeCell);
 

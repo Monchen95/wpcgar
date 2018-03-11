@@ -1,6 +1,8 @@
 package edu.hawhamburg.shared.dungeon;
 
-import edu.hawhamburg.shared.datastructures.statusEffect.StatusEffect;
+import edu.hawhamburg.shared.action.Direction;
+import edu.hawhamburg.shared.characters.NPC;
+import edu.hawhamburg.shared.datastructures.statusEffect.CharacterEffect;
 
 /**
  * Created by Devran on 06.03.2018.
@@ -9,7 +11,45 @@ import edu.hawhamburg.shared.datastructures.statusEffect.StatusEffect;
 public class Cell {
 
     private int assignedMarker;
-    private StatusEffect cellEffect;
+    private CharacterEffect cellEffect;
+    private boolean hasEnemy;
+    private NPC enemy;
+
+    public void damageEnemy(int amount){
+        enemy.afflictDamage(amount);
+    }
+
+    public boolean enemyAlive(){
+        if(enemy.isAlive()) {
+            return true;
+        } else {
+            enemy=null;
+            return false;
+        }
+    }
+
+    public NPC getEnemy() {
+        return enemy;
+    }
+
+    public void setEnemy(NPC enemy) {
+        this.enemy = enemy;
+    }
+
+
+
+    public boolean hasEffects(){
+        if(cellEffect!=null){
+          return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean containsEnemy(){
+        return hasEnemy;
+    }
 
     public int getAssignedMarker() {
         return assignedMarker;
@@ -19,11 +59,11 @@ public class Cell {
         this.assignedMarker = assignedMarker;
     }
 
-    public StatusEffect getCellEffect() {
+    public CharacterEffect getCellEffect() {
         return cellEffect;
     }
 
-    public void setCellEffect(StatusEffect cellEffect) {
+    public void setCellEffect(CharacterEffect cellEffect) {
         this.cellEffect = cellEffect;
     }
 
@@ -75,6 +115,24 @@ public class Cell {
         this.hasNPC = hasNPC;
     }
 
+    public Cell getCellInDirection(Direction there){
+        if(there==Direction.LEFT){
+            return leftCell;
+        }
+        if(there==Direction.RIGHT){
+            return rightCell;
+        }
+        if(there==Direction.FRONT){
+            return frontCell;
+        }
+        if(there==Direction.BACK){
+            return backCell;
+        }
+        return null;
+    }
+
+
+
     private Cell leftCell;
     private Cell rightCell;
     private Cell frontCell;
@@ -95,6 +153,7 @@ public class Cell {
         this.frontCell=frontCell;
         this.backCell=backCell;
         this.assignedMarker=assignedMarker;
+        hasEnemy=false;
     }
 
 }
