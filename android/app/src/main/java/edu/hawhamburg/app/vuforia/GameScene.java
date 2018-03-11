@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
+import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshFactory;
 import edu.hawhamburg.shared.math.Matrix;
@@ -42,6 +43,7 @@ public class GameScene extends Scene{
 
     private WorldSimulation2 sim;
 
+
     private VuforiaMarkerNode markerStart;
     private VuforiaMarkerNode markerEnd;
     private VuforiaMarkerNode marker1;
@@ -68,10 +70,17 @@ public class GameScene extends Scene{
     private ITriangleMesh particle;
     private TriangleMeshNode particleMeshNode;
 
+    //protected INode playerChar = null;
+   // protected INode floor1 = null;
+   // protected INode floor2 = null;
+
     Button left;
     Button right;
     Button front;
     Button back;
+    Button fight;
+    Button turnLeft;
+    Button turnRight;
 
     int charakterPosition;
 
@@ -89,6 +98,7 @@ public class GameScene extends Scene{
                 Log.d(Constants.LOGTAG,"Links!");
             }
         });
+
         right = new Button("skeleton.png",-0.7,-0.9,0.2, new ButtonHandler(){
             @Override
             public void handle(){
@@ -96,6 +106,7 @@ public class GameScene extends Scene{
                 Log.d(Constants.LOGTAG,"Rechts!");
             }
         });
+
         front = new Button("skeleton.png",-0.4,-0.7,0.2, new ButtonHandler(){
             @Override
             public void handle(){
@@ -103,11 +114,36 @@ public class GameScene extends Scene{
                 Log.d(Constants.LOGTAG,"Vor!");
             }
         });
+
         back = new Button("skeleton.png",-0.7,-0.7,0.2, new ButtonHandler(){
             @Override
             public void handle(){
                 charakterPosition=sim.move(BACK);
                 Log.d(Constants.LOGTAG,"Zurück!");
+            }
+        });
+
+        fight = new Button("skeleton.png",-0.7,-0.3,0.2, new ButtonHandler(){
+            @Override
+            public void handle(){
+                sim.fightEnemy();
+                Log.d(Constants.LOGTAG,"Kämpfe!!!");
+            }
+        });
+
+        turnLeft = new Button("skeleton.png",-0.7,-0.3,0.2, new ButtonHandler(){
+            @Override
+            public void handle(){
+                sim.fightEnemy();
+                Log.d(Constants.LOGTAG,"Nach links gedreht!!!");
+            }
+        });
+
+        turnRight = new Button("skeleton.png",-0.7,-0.3,0.2, new ButtonHandler(){
+            @Override
+            public void handle(){
+                sim.fightEnemy();
+                Log.d(Constants.LOGTAG,"Nach rechts gedreht!!!");
             }
         });
 
@@ -149,8 +185,8 @@ public class GameScene extends Scene{
         addButton(front);
         addButton(back);
 
-        scaleParticle = new ScaleNode(0.09);
-        translationParticle = new TranslationNode(new Vector(0,0,0,1));
+        scaleParticle = new ScaleNode(0.02);
+        translationParticle = new TranslationNode(new Vector(0,-0.08,-0.1,1));
         transformationParticle = new TransformationNode();
 
         initWorld();
@@ -192,11 +228,40 @@ public class GameScene extends Scene{
     @Override
     public void onSetup(InnerNode rootNode) {
 
+        ObjReader reader = new ObjReader();
+        List<ITriangleMesh> playerCharMesh = reader.read("meshes/Character1.obj");
+        InnerNode playerChar = new InnerNode();
+        for (ITriangleMesh mesh : playerCharMesh) {
+            TriangleMeshNode meshNode = new TriangleMeshNode(mesh);
+            playerChar.addChild(meshNode);
+        }
+
+         for(int i=0;i<markerList.size();i++) {
+            List<ITriangleMesh> floorMesh = reader.read("meshes/Floor.obj");
+            InnerNode floor = new InnerNode();
+            for (ITriangleMesh mesh : floorMesh) {
+                TriangleMeshNode meshNode = new TriangleMeshNode(mesh);
+                floor.addChild(meshNode);
+            }
+
+            TranslationNode floorTranslate = new TranslationNode(new Vector(0,0,0,1));
+            TransformationNode floorTransform = new TransformationNode();
+
+            ScaleNode scaleNode = new ScaleNode(0.1);
+
+            scaleNode.addChild(floor);
+            floorTransform.addChild(scaleNode);
+            floorTranslate.addChild(floorTransform);
+            markerList.get(i).addChild(floorTranslate);
+        }
+
+
+
         particle = new TriangleMesh();
         TriangleMeshFactory.createSphere(particle,1,7);
         particleMeshNode = new TriangleMeshNode(particle);
 
-        scaleParticle.addChild(particleMeshNode);
+        scaleParticle.addChild(playerChar);
         transformationParticle.addChild(scaleParticle);
         translationParticle.addChild(transformationParticle);
         //markerStart.addChild(translationParticle);
@@ -220,7 +285,8 @@ public class GameScene extends Scene{
             Log.d(Constants.LOGTAG,"Updateworld");
             updateWorld();
 
-            transformationParticle.setTransformation(markerList.get(charakterPosition).getTransformation());
+                transformationParticle.setTransformation(markerList.get(charakterPosition).getTransformation());
+
 
             i=0;
         }
