@@ -15,11 +15,21 @@ public class Cell {
     private boolean hasEnemy;
     private NPC enemy;
 
+    private Cell leftCell;
+    private Cell rightCell;
+    private Cell frontCell;
+    private Cell backCell;
+    private boolean blocked;
+    private boolean hasNPC;
+
     public void damageEnemy(int amount){
         enemy.afflictDamage(amount);
     }
 
     public boolean enemyAlive(){
+        if(enemy==null){
+            return false;
+        }
         if(enemy.isAlive()) {
             return true;
         } else {
@@ -33,6 +43,7 @@ public class Cell {
     }
 
     public void setEnemy(NPC enemy) {
+        hasEnemy = true;
         this.enemy = enemy;
     }
 
@@ -133,12 +144,7 @@ public class Cell {
 
 
 
-    private Cell leftCell;
-    private Cell rightCell;
-    private Cell frontCell;
-    private Cell backCell;
-    private boolean blocked;
-    private boolean hasNPC;
+
 
     public Cell(Cell leftCell, Cell rightCell, Cell frontCell,Cell backCell){
         this.leftCell=leftCell;

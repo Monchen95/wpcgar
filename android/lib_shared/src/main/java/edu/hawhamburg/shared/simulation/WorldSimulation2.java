@@ -1,15 +1,24 @@
 package edu.hawhamburg.shared.simulation;
 
+import android.inputmethodservice.Keyboard;
 import android.util.Log;
 
 import edu.hawhamburg.shared.action.Direction;
 import edu.hawhamburg.shared.characters.NPC;
+import edu.hawhamburg.shared.characters.Pose;
 import edu.hawhamburg.shared.datastructures.statusEffect.CharacterEffect;
 import edu.hawhamburg.shared.dungeon.Cell;
 import edu.hawhamburg.shared.math.Comparison;
 import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.Constants;
+import edu.hawhamburg.shared.misc.Scene;
+
+import android.animation.Keyframe;
+
+import static edu.hawhamburg.shared.characters.Pose.FIGHTING;
+import static edu.hawhamburg.shared.characters.Pose.NORMAL;
+
 
 /**
  * Created by Devran on 06.03.2018.
@@ -25,7 +34,6 @@ Position.
 public class WorldSimulation2 {
 
     private final Vector WORLDNORMAL = new Vector(0,1,0);
-
     private final int MARKERAMOUNT;
     private final int OBSTACLEAMOUNT;
     private Cell[] cells;
@@ -36,11 +44,14 @@ public class WorldSimulation2 {
     private int activeCell;
     private double minimalDistance = 0.3;
     private int directions = 4;
-    NPC playerCharacter;
-    NPC enemyCharacter; //auf zelle 6
-    NPC hostageCharacter; //auf zelle 10
+    private NPC playerCharacter;
+    private NPC enemyCharacter; //auf zelle 6
+    private NPC hostageCharacter; //auf zelle 10
+    private Pose characterPose;
+    int fighter=0;
 
     public WorldSimulation2(int markerAmount, int obstacleAmount){
+        characterPose = NORMAL;
         MARKERAMOUNT = markerAmount;
         OBSTACLEAMOUNT = obstacleAmount;
         cells = new Cell[MARKERAMOUNT];
@@ -62,15 +73,20 @@ public class WorldSimulation2 {
         cells[5].setCellEffect(CharacterEffect.DEAL_DAMAGE);
         cells[8].setCellEffect(CharacterEffect.BUFF_WEAPON);
         cells[6].setEnemy(enemyCharacter);
+        cells[0].setEnemy(enemyCharacter);
 
         activeCell = 0;
 
 
+    }
 
+    public Pose getPose(){
+        return characterPose;
     }
 
     public void fightEnemy(){
         if(cells[activeCell].containsEnemy()){
+            characterPose = FIGHTING;
             cells[activeCell].damageEnemy(playerCharacter.getDamage());
         }
     }
@@ -346,18 +362,28 @@ public class WorldSimulation2 {
         }
     }
 
+    private boolean enemyAlive(){
+        return cells[activeCell].containsEnemy() && cells[activeCell].enemyAlive();
+    }
+
     public void updateWorldSimulation(Matrix[] markerPositions, Matrix[] obstaclePositions){
         setMarkerTransformations(markerPositions);
         calcMarkerPositionsOnPlane();
         calcActiveNeighbours();
         setObestacleTransformations(obstaclePositions);
         calcObstaclePositionsOnPlane();
-
+        if(enemyAlive()){
+            characterPose = FIGHTING;
+        } else {
+            characterPose = NORMAL;
+        }
         //kampfloop zum drosseln -> in thread mit timer auslagern
-        int fighter=0;
-        if(fighter>49 && cells[activeCell].containsEnemy() && cells[activeCell].enemyAlive()){
+
+        if(fighter>100 && enemyAlive()){
             playerCharacter.afflictDamage(cells[activeCell].getEnemy().getDamage());
             fighter=0;
+            Log.d(Constants.LOGTAG,"SCHADEN!!!");
+            cells[activeCell].damageEnemy(10);
         }
         fighter++;
 
