@@ -13,6 +13,7 @@ import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.Constants;
 import edu.hawhamburg.shared.misc.Scene;
+import edu.hawhamburg.shared.scenegraph.TransformationNode;
 
 import android.animation.Keyframe;
 
@@ -49,6 +50,7 @@ public class WorldSimulation2 {
     private NPC hostageCharacter; //auf zelle 10
     private Pose characterPose;
     int fighter=0;
+    private TransformationNode charakterPosition;
 
     public WorldSimulation2(int markerAmount, int obstacleAmount){
         characterPose = NORMAL;
@@ -383,7 +385,6 @@ public class WorldSimulation2 {
             playerCharacter.afflictDamage(cells[activeCell].getEnemy().getDamage());
             fighter=0;
             Log.d(Constants.LOGTAG,"SCHADEN!!!");
-            cells[activeCell].damageEnemy(10);
         }
         fighter++;
 
