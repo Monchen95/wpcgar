@@ -69,8 +69,12 @@ public class GameScene extends Scene{
     private TransformationNode transformationParticle;
     private ITriangleMesh particle;
     private TriangleMeshNode particleMeshNode;
+    private TriangleMeshNode meshNodeNormal;
+    private TriangleMeshNode meshNodeHappy;
+    private TriangleMeshNode meshNodeFighting;
+    private TriangleMeshNode meshNodeActive;
 
-    //protected INode playerChar = null;
+    private InnerNode playerChar = null;
    // protected INode floor1 = null;
    // protected INode floor2 = null;
 
@@ -96,6 +100,7 @@ public class GameScene extends Scene{
             public void handle(){
                 charakterPosition=sim.move(LEFT);
                 Log.d(Constants.LOGTAG,"Links!");
+                changeToNormal();
             }
         });
 
@@ -104,6 +109,7 @@ public class GameScene extends Scene{
             public void handle(){
                 charakterPosition=sim.move(RIGHT);
                 Log.d(Constants.LOGTAG,"Rechts!");
+                changeToHappy();
             }
         });
 
@@ -112,6 +118,7 @@ public class GameScene extends Scene{
             public void handle(){
                 charakterPosition=sim.move(FRONT);
                 Log.d(Constants.LOGTAG,"Vor!");
+                changeToFighting();
             }
         });
 
@@ -229,12 +236,26 @@ public class GameScene extends Scene{
     public void onSetup(InnerNode rootNode) {
 
         ObjReader reader = new ObjReader();
-        List<ITriangleMesh> playerCharMesh = reader.read("meshes/Character1.obj");
-        InnerNode playerChar = new InnerNode();
-        for (ITriangleMesh mesh : playerCharMesh) {
-            TriangleMeshNode meshNode = new TriangleMeshNode(mesh);
-            playerChar.addChild(meshNode);
+        List<ITriangleMesh> playerCharMeshNormal = reader.read("meshes/Character1.obj");
+        playerChar = new InnerNode();
+        for (ITriangleMesh mesh : playerCharMeshNormal) {
+            meshNodeNormal = new TriangleMeshNode(mesh);
         }
+
+        List<ITriangleMesh> playerCharMeshHappy = reader.read("meshes/Character1Happy.obj");
+        playerChar = new InnerNode();
+        for (ITriangleMesh mesh : playerCharMeshHappy) {
+            meshNodeHappy = new TriangleMeshNode(mesh);
+        }
+
+        List<ITriangleMesh> playerCharMeshFighting = reader.read("meshes/Character1Fighting.obj");
+        playerChar = new InnerNode();
+        for (ITriangleMesh mesh : playerCharMeshFighting) {
+            meshNodeFighting = new TriangleMeshNode(mesh);
+        }
+
+        meshNodeActive = meshNodeNormal;
+        playerChar.addChild(meshNodeActive);
 
          for(int i=0;i<markerList.size();i++) {
             List<ITriangleMesh> floorMesh = reader.read("meshes/Floor.obj");
@@ -257,6 +278,7 @@ public class GameScene extends Scene{
 
 
 
+
         particle = new TriangleMesh();
         TriangleMeshFactory.createSphere(particle,1,7);
         particleMeshNode = new TriangleMeshNode(particle);
@@ -274,6 +296,24 @@ public class GameScene extends Scene{
 
     }
 
+    public void changeToNormal(){
+        playerChar.removeChild(meshNodeActive);
+        meshNodeActive=meshNodeNormal;
+        playerChar.addChild(meshNodeActive);
+    }
+
+    public void changeToFighting(){
+        playerChar.removeChild(meshNodeActive);
+        meshNodeActive=meshNodeFighting;
+        playerChar.addChild(meshNodeActive);
+    }
+
+    public void changeToHappy(){
+        playerChar.removeChild(meshNodeActive);
+        meshNodeActive=meshNodeHappy;
+        playerChar.addChild(meshNodeActive);
+    }
+
     @Override
     public void onTimerTick(int counter) {
 
@@ -284,7 +324,7 @@ public class GameScene extends Scene{
         if(i>0){
             Log.d(Constants.LOGTAG,"Updateworld");
             updateWorld();
-
+            //changeToHappy();
                 transformationParticle.setTransformation(markerList.get(charakterPosition).getTransformation());
 
 
