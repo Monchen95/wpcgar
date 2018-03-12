@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.hawhamburg.shared.characters.Pose;
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
@@ -21,7 +22,6 @@ import edu.hawhamburg.shared.scenegraph.ScaleNode;
 import edu.hawhamburg.shared.scenegraph.TransformationNode;
 import edu.hawhamburg.shared.scenegraph.TranslationNode;
 import edu.hawhamburg.shared.scenegraph.TriangleMeshNode;
-import edu.hawhamburg.shared.simulation.WorldSimulation;
 import edu.hawhamburg.shared.simulation.WorldSimulation2;
 import edu.hawhamburg.vuforia.VuforiaMarkerNode;
 
@@ -42,7 +42,7 @@ public class GameScene extends Scene{
     private final int OBSTACLEPOOLSIZE = 3;
 
     private WorldSimulation2 sim;
-
+    private Pose characterPose;
 
     private VuforiaMarkerNode markerStart;
     private VuforiaMarkerNode markerEnd;
@@ -72,6 +72,7 @@ public class GameScene extends Scene{
     private TriangleMeshNode meshNodeNormal;
     private TriangleMeshNode meshNodeHappy;
     private TriangleMeshNode meshNodeFighting;
+    private TriangleMeshNode meshNodeJumping;
     private TriangleMeshNode meshNodeActive;
 
     private InnerNode playerChar = null;
@@ -100,7 +101,6 @@ public class GameScene extends Scene{
             public void handle(){
                 charakterPosition=sim.move(LEFT);
                 Log.d(Constants.LOGTAG,"Links!");
-                changeToNormal();
             }
         });
 
@@ -109,7 +109,6 @@ public class GameScene extends Scene{
             public void handle(){
                 charakterPosition=sim.move(RIGHT);
                 Log.d(Constants.LOGTAG,"Rechts!");
-                changeToHappy();
             }
         });
 
@@ -118,7 +117,6 @@ public class GameScene extends Scene{
             public void handle(){
                 charakterPosition=sim.move(FRONT);
                 Log.d(Constants.LOGTAG,"Vor!");
-                changeToFighting();
             }
         });
 
@@ -254,6 +252,12 @@ public class GameScene extends Scene{
             meshNodeFighting = new TriangleMeshNode(mesh);
         }
 
+        List<ITriangleMesh> playerCharMeshJumping = reader.read("meshes/Character1Jumping.obj");
+        playerChar = new InnerNode();
+        for (ITriangleMesh mesh : playerCharMeshJumping) {
+            meshNodeJumping = new TriangleMeshNode(mesh);
+        }
+
         meshNodeActive = meshNodeNormal;
         playerChar.addChild(meshNodeActive);
 
@@ -296,21 +300,42 @@ public class GameScene extends Scene{
 
     }
 
-    public void changeToNormal(){
+    private void changePose(Pose pose){
+        if(pose== Pose.NORMAL){
+            changePoseToNormal();
+        }
+        if(pose== Pose.FIGHTING){
+            changePoseToFighting();
+        }
+        if(pose== Pose.HAPPY){
+            changePoseToHappy();
+        }
+        if(pose== Pose.JUMPING){
+            changePoseToJumping();
+        }
+    }
+
+    public void changePoseToNormal(){
         playerChar.removeChild(meshNodeActive);
         meshNodeActive=meshNodeNormal;
         playerChar.addChild(meshNodeActive);
     }
 
-    public void changeToFighting(){
+    public void changePoseToFighting(){
         playerChar.removeChild(meshNodeActive);
         meshNodeActive=meshNodeFighting;
         playerChar.addChild(meshNodeActive);
     }
 
-    public void changeToHappy(){
+    public void changePoseToHappy(){
         playerChar.removeChild(meshNodeActive);
         meshNodeActive=meshNodeHappy;
+        playerChar.addChild(meshNodeActive);
+    }
+
+    public void changePoseToJumping(){
+        playerChar.removeChild(meshNodeActive);
+        meshNodeActive=meshNodeJumping;
         playerChar.addChild(meshNodeActive);
     }
 
@@ -324,7 +349,10 @@ public class GameScene extends Scene{
         if(i>0){
             Log.d(Constants.LOGTAG,"Updateworld");
             updateWorld();
-            //changeToHappy();
+
+            if(sim.getPose()!=characterPose){
+                changePose(sim.getPose());
+            }
                 transformationParticle.setTransformation(markerList.get(charakterPosition).getTransformation());
 
 
