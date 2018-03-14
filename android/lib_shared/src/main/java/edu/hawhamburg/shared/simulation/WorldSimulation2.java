@@ -1,6 +1,5 @@
 package edu.hawhamburg.shared.simulation;
 
-import android.inputmethodservice.Keyboard;
 import android.util.Log;
 
 import edu.hawhamburg.shared.action.Direction;
@@ -12,10 +11,7 @@ import edu.hawhamburg.shared.math.Comparison;
 import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.Constants;
-import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.TransformationNode;
-
-import android.animation.Keyframe;
 
 import static edu.hawhamburg.shared.characters.Pose.FIGHTING;
 import static edu.hawhamburg.shared.characters.Pose.NORMAL;
@@ -44,6 +40,8 @@ public class WorldSimulation2 {
     private Vector[] obstaclePositionOnPlane;
     private int activeCell;
     private double minimalDistance = 0.3;
+    private double maximalDeviation = 0.15;
+    private double obstacleDeviation = 0.5;
     private int directions = 4;
     private NPC playerCharacter;
     private NPC enemyCharacter; //auf zelle 6
@@ -74,8 +72,8 @@ public class WorldSimulation2 {
         cells[3].setCellEffect(CharacterEffect.HEAL);
         cells[5].setCellEffect(CharacterEffect.DEAL_DAMAGE);
         cells[8].setCellEffect(CharacterEffect.BUFF_WEAPON);
-        cells[6].setEnemy(enemyCharacter);
-        cells[0].setEnemy(enemyCharacter);
+        cells[6].setNpc(enemyCharacter);
+        cells[10].setHostage(hostageCharacter);
 
         activeCell = 0;
 
@@ -103,6 +101,10 @@ public class WorldSimulation2 {
         }
     }
 
+    public boolean winningCell(){
+        return cells[activeCell].getHasHostage();
+    }
+
     public int move(Direction there){
         if(cells[activeCell].getCellInDirection(there)==null){
             Log.d(Constants.LOGTAG,"Keine Nachbarzelle!");
@@ -112,6 +114,7 @@ public class WorldSimulation2 {
             Log.d(Constants.LOGTAG,"Da ist etwas im Weg!");
             return activeCell;
         }
+
         activeCell=cells[activeCell].getCellInDirection(there).getAssignedMarker();
         if(cells[activeCell].hasEffects()){
             CharacterEffect tmpEffect = cells[activeCell].getCellEffect();
@@ -125,108 +128,109 @@ public class WorldSimulation2 {
                 playerCharacter.healUp(20);
             }
         }
-        if(activeCell==10){
-            //gewonnen
-        }
+
         Log.d(Constants.LOGTAG,"Habe mich bewegt!");
 
         return activeCell;
     }
 
 
+    private boolean checkFreeXAxis(Direction there){
+        if(cells[activeCell].getCellInDirection(there)==null){
+            return false;
+        }
 
+        double this_x = markerPositionOnPlane[activeCell].x();
+        double this_y = markerPositionOnPlane[activeCell].y();
+        double other_x = markerPositionOnPlane[cells[activeCell].getCellInDirection(there).getAssignedMarker()].x();
+        double other_y = markerPositionOnPlane[cells[activeCell].getCellInDirection(there).getAssignedMarker()].y();
+
+        for(int i=0;i<obstaclePositionOnPlane.length;i++){
+
+            double obstacle_x=obstaclePositionOnPlane[i].x();
+            double obstacle_y=obstaclePositionOnPlane[i].y();
+
+            if(obstacle_x!=0.0) {
+                if (!(obstacle_y > (this_y + obstacleDeviation) ||
+                        obstacle_y < (this_y - obstacleDeviation))) {
+                    if (there == Direction.LEFT) {
+                        if (other_x<=obstacle_x && obstacle_x < this_x) {
+                            return false;
+                        }
+
+                    } else if (there == Direction.RIGHT) {
+                        if (other_x>=obstacle_x && obstacle_x > this_x) {
+                            return false;
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+        return true;
+    }
+
+    private boolean checkFreeYAxis(Direction there){
+        if(cells[activeCell].getCellInDirection(there)==null){
+            return false;
+        }
+        double this_x = markerPositionOnPlane[activeCell].x();
+        double this_y = markerPositionOnPlane[activeCell].y();
+        double other_x = markerPositionOnPlane[cells[activeCell].getCellInDirection(there).getAssignedMarker()].x();
+        double other_y = markerPositionOnPlane[cells[activeCell].getCellInDirection(there).getAssignedMarker()].y();
+
+        for(int i=0;i<obstaclePositionOnPlane.length;i++){
+
+            double obstacle_x=obstaclePositionOnPlane[i].x();
+            double obstacle_y=obstaclePositionOnPlane[i].y();
+            if(obstacle_y!=0.0){
+                if(!(obstacle_x>(this_x+obstacleDeviation) ||
+                        obstacle_x<(this_x-obstacleDeviation))) {
+                    if(there==Direction.BACK){
+                        if(other_y<=obstacle_y && obstacle_y < this_y){
+                            return false;
+                        }
+
+                    } else if(there==Direction.FRONT){
+                        if(other_y>=obstacle_y && obstacle_y > this_y){
+                            return false;
+                        }
+                    }
+               }
+
+            }
+        }
+
+
+        return true;
+    }
 
     private boolean checkFree(Direction there){
         if(cells[activeCell].getCellInDirection(there)==null){
             return false;
         }
-        double other_x=0;
-        double other_y=0;
-        int otherCell;
+
+        boolean isFree = false;
+
         if(there==Direction.LEFT){
-            otherCell=cells[activeCell].getLeftCell().getAssignedMarker();
-            other_x=markerPositionOnPlane[otherCell].x();
-            other_y=markerPositionOnPlane[otherCell].y();
+            isFree = checkFreeXAxis(there);
         }
         if(there==Direction.RIGHT){
-            otherCell=cells[activeCell].getRightCell().getAssignedMarker();
-            other_x=markerPositionOnPlane[otherCell].x();
-            other_y=markerPositionOnPlane[otherCell].y();
+            isFree = checkFreeXAxis(there);
         }
         if(there==Direction.FRONT){
-            otherCell=cells[activeCell].getFrontCell().getAssignedMarker();
-            other_x=markerPositionOnPlane[otherCell].x();
-            other_y=markerPositionOnPlane[otherCell].y();
+            isFree = checkFreeYAxis(there);
+
         }
         if(there==Direction.BACK){
-            otherCell=cells[activeCell].getBackCell().getAssignedMarker();
-            other_x=markerPositionOnPlane[otherCell].x();
-            other_y=markerPositionOnPlane[otherCell].y();
+            isFree = checkFreeYAxis(there);
+
         }
 
-        boolean isFree = calcFreeBetween(other_x,other_y);
 
         return isFree;
-    }
-
-    private boolean hasLeftNeighbour(){
-        if(cells[activeCell].getLeftCell()==null){
-            return false;
-        } else {
-            return true;
-        }
-    }
-    private boolean hasRightNeighbour(){
-        if(cells[activeCell].getRightCell()==null){
-            return false;
-        } else {
-            return true;
-        }
-    }
-    private boolean hasFrontNeighbour(){
-        if(cells[activeCell].getFrontCell()==null){
-            return false;
-        } else {
-            return true;
-        }
-    }
-    private boolean hasBackNeighbour(){
-        if(cells[activeCell].getBackCell()==null){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private boolean calcFreeBetween(double other_x, double other_y){
-        Log.d(Constants.LOGTAG,"Nachbar x und y:" + other_x +"  " + other_y);
-        if(other_x == 0.0 || other_y == 0.0){
-            return false;
-        }
-
-        double this_x=markerPositionOnPlane[cells[activeCell].getAssignedMarker()].x();
-        double this_y=markerPositionOnPlane[cells[activeCell].getAssignedMarker()].y();
-
-        double obstacle_x;
-        double obstacle_y;
-
-        for(int i=0;i<OBSTACLEAMOUNT;i++){
-            obstacle_x=obstaclePositionOnPlane[i].x();
-            obstacle_y=obstaclePositionOnPlane[i].y();
-            if(obstacle_x!=0 && obstacle_y!=0) {
-                if (Comparison.LTLT(this_x, obstacle_x, other_x) || Comparison.LTLT(other_x, obstacle_x, this_x)) {
-                    if (Comparison.GTGT(this_y + minimalDistance, obstacle_y, other_y - minimalDistance) || Comparison.GTGT(other_y + minimalDistance, obstacle_y, this_y - minimalDistance)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        Log.d(Constants.LOGTAG,"Sowas von Frei!");
-        return true;
-    }
-
-    public int aktiverMarker(){
-        return activeCell;
     }
 
     private void calcActiveNeighbours(){
@@ -266,11 +270,14 @@ public class WorldSimulation2 {
 
         for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
-                if(markerPositionOnPlane[i].x()<(markerPositionOnPlane[activeCell]).x()-minimalDistance){
-                    if(markerPositionOnPlane[i].x()!=0) {
-                        if (markerPositionOnPlane[i].x() > nearestDistance) {
-                            nearestMarker = i;
-                            nearestDistance = markerPositionOnPlane[i].x();
+                if(!(markerPositionOnPlane[i].y()>(markerPositionOnPlane[activeCell].y()+maximalDeviation) ||
+                        markerPositionOnPlane[i].y()<(markerPositionOnPlane[activeCell].y()-maximalDeviation))) {
+                    if (markerPositionOnPlane[i].x() < (markerPositionOnPlane[activeCell]).x() - minimalDistance) {
+                        if (markerPositionOnPlane[i].x() != 0) {
+                            if (markerPositionOnPlane[i].x() > nearestDistance) {
+                                nearestMarker = i;
+                                nearestDistance = markerPositionOnPlane[i].x();
+                            }
                         }
                     }
                 }
@@ -284,13 +291,17 @@ public class WorldSimulation2 {
         int nearestMarker = -1;
         double nearestDistance=1000;                    //willkürlicher hoher wert, der in den Koordinaten nicht vorkommen kann
 
+
         for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
-                if(markerPositionOnPlane[i].x()>(markerPositionOnPlane[activeCell]).x()+minimalDistance){
-                    if(markerPositionOnPlane[i].x()!=0){
-                        if(markerPositionOnPlane[i].x()<nearestDistance){
-                            nearestMarker=i;
-                            nearestDistance=markerPositionOnPlane[i].x();
+                if(!(markerPositionOnPlane[i].y()>(markerPositionOnPlane[activeCell].y()+maximalDeviation) ||
+                        markerPositionOnPlane[i].y()<(markerPositionOnPlane[activeCell].y()-maximalDeviation))) {
+                    if (markerPositionOnPlane[i].x() > (markerPositionOnPlane[activeCell]).x() + minimalDistance) {
+                        if (markerPositionOnPlane[i].x() != 0) {
+                            if (markerPositionOnPlane[i].x() < nearestDistance) {
+                                nearestMarker = i;
+                                nearestDistance = markerPositionOnPlane[i].x();
+                            }
                         }
                     }
                 }
@@ -306,11 +317,14 @@ public class WorldSimulation2 {
 
         for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
-                if(markerPositionOnPlane[i].y()>(markerPositionOnPlane[activeCell]).y()+minimalDistance){
-                    if(markerPositionOnPlane[i].y()!=0) {
-                        if (markerPositionOnPlane[i].y() < nearestDistance) {
-                            nearestMarker = i;
-                            nearestDistance = markerPositionOnPlane[i].y();
+                if(!(markerPositionOnPlane[i].x()>(markerPositionOnPlane[activeCell].x()+maximalDeviation) ||
+                        markerPositionOnPlane[i].x()<(markerPositionOnPlane[activeCell].x()-maximalDeviation))) {
+                    if (markerPositionOnPlane[i].y() > (markerPositionOnPlane[activeCell]).y() + minimalDistance) {
+                        if (markerPositionOnPlane[i].y() != 0) {
+                            if (markerPositionOnPlane[i].y() < nearestDistance) {
+                                nearestMarker = i;
+                                nearestDistance = markerPositionOnPlane[i].y();
+                            }
                         }
                     }
                 }
@@ -326,11 +340,14 @@ public class WorldSimulation2 {
 
         for(int i = 0; i< MARKERAMOUNT; i++){
             if(i!=activeCell){
-                if(markerPositionOnPlane[i].y()<(markerPositionOnPlane[activeCell]).y()-minimalDistance){
-                    if(markerPositionOnPlane[i].y()!=0) {
-                        if (markerPositionOnPlane[i].y() > nearestDistance) {
-                            nearestMarker = i;
-                            nearestDistance = markerPositionOnPlane[i].y();
+                if(!(markerPositionOnPlane[i].x()>(markerPositionOnPlane[activeCell].x()+maximalDeviation) ||
+                        markerPositionOnPlane[i].x()<(markerPositionOnPlane[activeCell].x()-maximalDeviation))) {
+                    if (markerPositionOnPlane[i].y() < (markerPositionOnPlane[activeCell]).y() - minimalDistance) {
+                        if (markerPositionOnPlane[i].y() != 0) {
+                            if (markerPositionOnPlane[i].y() > nearestDistance) {
+                                nearestMarker = i;
+                                nearestDistance = markerPositionOnPlane[i].y();
+                            }
                         }
                     }
                 }
@@ -344,9 +361,8 @@ public class WorldSimulation2 {
             Vector tmpVec = markerTransformation[i].multiply(new Vector(0,0,0,1)).xyz();
             markerPositionOnPlane[i] = new Vector(tmpVec.x(),tmpVec.y(),0);
 
+           // Log.d(Constants.LOGTAG,"Position in der Welt Marker: "+ i +'\n'+markerPositionOnPlane[i].toString());
         }
-        Log.d(Constants.LOGTAG,"Position in der Welt Marker Start: "+'\n'+markerPositionOnPlane[0].toString());
-        Log.d(Constants.LOGTAG,"Position in der Welt Marker End: "+'\n'+markerPositionOnPlane[10].toString());
     }
 
     private boolean markerIsInWorld(Vector position){
@@ -374,17 +390,22 @@ public class WorldSimulation2 {
         calcActiveNeighbours();
         setObestacleTransformations(obstaclePositions);
         calcObstaclePositionsOnPlane();
+
+
         if(enemyAlive()){
             characterPose = FIGHTING;
-        } else {
+        } else if(winningCell()){
+            characterPose=Pose.HAPPY;
+            Log.d(Constants.LOGTAG,"Du hast Frank gerettet!");
+        } else{
             characterPose = NORMAL;
         }
-        //kampfloop zum drosseln -> in thread mit timer auslagern
 
+        //kampfloop zum drosseln -> in thread mit timer auslagern
         if(fighter>100 && enemyAlive()){
-            playerCharacter.afflictDamage(cells[activeCell].getEnemy().getDamage());
+            playerCharacter.afflictDamage(cells[activeCell].getNpc().getDamage());
             fighter=0;
-            Log.d(Constants.LOGTAG,"SCHADEN!!!");
+            Log.d(Constants.LOGTAG,"Gegner fügt: " + cells[activeCell].getNpc().getDamage() + " Schaden zu!");
         }
         fighter++;
 

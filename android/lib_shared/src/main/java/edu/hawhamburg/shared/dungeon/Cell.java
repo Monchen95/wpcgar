@@ -13,7 +13,7 @@ public class Cell {
     private int assignedMarker;
     private CharacterEffect cellEffect;
     private boolean hasEnemy;
-    private NPC enemy;
+    private NPC npc;
 
     private Cell leftCell;
     private Cell rightCell;
@@ -21,30 +21,40 @@ public class Cell {
     private Cell backCell;
     private boolean blocked;
     private boolean hasNPC;
+    private boolean hasHostage;
+
+    public void setHostage(NPC hostage){
+        npc = hostage;
+        hasHostage = true;
+    }
+
+    public boolean getHasHostage(){
+        return hasHostage;
+    }
 
     public void damageEnemy(int amount){
-        enemy.afflictDamage(amount);
+        npc.afflictDamage(amount);
     }
 
     public boolean enemyAlive(){
-        if(enemy==null){
+        if(npc ==null){
             return false;
         }
-        if(enemy.isAlive()) {
+        if(npc.isAlive()) {
             return true;
         } else {
-            enemy=null;
+            npc =null;
             return false;
         }
     }
 
-    public NPC getEnemy() {
-        return enemy;
+    public NPC getNpc() {
+        return npc;
     }
 
-    public void setEnemy(NPC enemy) {
+    public void setNpc(NPC npc) {
         hasEnemy = true;
-        this.enemy = enemy;
+        this.npc = npc;
     }
 
 
