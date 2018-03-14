@@ -1,7 +1,6 @@
 package edu.hawhamburg.app.vuforia;
 
 import android.util.Log;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +8,6 @@ import java.util.List;
 import edu.hawhamburg.shared.characters.Pose;
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
-import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
-import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshFactory;
 import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.Button;
@@ -23,7 +20,7 @@ import edu.hawhamburg.shared.scenegraph.ScaleNode;
 import edu.hawhamburg.shared.scenegraph.TransformationNode;
 import edu.hawhamburg.shared.scenegraph.TranslationNode;
 import edu.hawhamburg.shared.scenegraph.TriangleMeshNode;
-import edu.hawhamburg.shared.simulation.WorldSimulation2;
+import edu.hawhamburg.shared.simulation.WorldSimulation;
 import edu.hawhamburg.vuforia.VuforiaMarkerNode;
 
 import static edu.hawhamburg.shared.action.Direction.BACK;
@@ -39,10 +36,14 @@ public class GameScene extends Scene{
 
     private int i = 0;
 
+    private int enemyCellNumber = 6;
+    private int hostageCellNumber = 10;
+
+
     private final int MARKERPOOLSIZE = 11;
     private final int OBSTACLEPOOLSIZE = 3;
 
-    private WorldSimulation2 sim;
+    private WorldSimulation sim;
     private Pose characterPose;
 
     private VuforiaMarkerNode markerStart;
@@ -87,24 +88,13 @@ public class GameScene extends Scene{
     private TriangleMeshNode meshNodeEnemy;
 
     private InnerNode playerChar = null;
-    private InnerNode frank = null;
+    private InnerNode frank = null;         //name des gefangenen freundes
     private InnerNode enemy = null;
-   // protected INode floor1 = null;
-   // protected INode floor2 = null;
-
     Button left;
     Button right;
     Button front;
     Button back;
     Button fight;
-    Button turnLeft;
-    Button turnRight;
-
-    TextView playerHealth;
-    TextView playerDamage;
-
-    TextView enemeyHealth;
-    TextView enemyDamage;
 
     int charakterPosition;
 
@@ -150,7 +140,9 @@ public class GameScene extends Scene{
         fight = new Button("fight.png",-0.7,0.7,0.2, new ButtonHandler(){
             @Override
             public void handle(){
-                sim.fightEnemy();
+                if(sim.fightEnemy()==1){
+                    enemy.removeChild(meshNodeEnemy);
+                }
                 Log.d(Constants.LOGTAG,"Kämpfe!!!");
             }
         });
@@ -206,9 +198,9 @@ public class GameScene extends Scene{
         translationFrank = new TranslationNode(new Vector(0,0.1,0.05,1));
         transformationFrank = new TransformationNode(Matrix.createRotationMatrix4(new Vector(0,1,0,1),30));
 
-        scaleEnemy = new ScaleNode(0.01);
-        translationEnemy = new TranslationNode(new Vector(0,0.1,0.05,1));
-        transformationEnemy = new TransformationNode(Matrix.createRotationMatrix4(new Vector(0,1,0,1),30));
+        scaleEnemy = new ScaleNode(0.1);
+        translationEnemy = new TranslationNode(new Vector(0,-0.3,0,1));
+        transformationEnemy = new TransformationNode();
 
         initWorld();
     }
@@ -228,7 +220,7 @@ public class GameScene extends Scene{
     }
 
     private void initWorld(){
-        sim = new WorldSimulation2(MARKERPOOLSIZE,OBSTACLEPOOLSIZE);
+        sim = new WorldSimulation(MARKERPOOLSIZE,OBSTACLEPOOLSIZE);
     }
 
     private void updateWorld(){
@@ -286,9 +278,9 @@ public class GameScene extends Scene{
         }
         frank.addChild(meshNodeFrank);
 
-        List<ITriangleMesh> enemyMesh = reader.read("meshes/cow.obj");
+        List<ITriangleMesh> enemyMesh = reader.read("meshes/max_planck.obj");
         enemy = new InnerNode();
-        for (ITriangleMesh mesh : frankMesh) {
+        for (ITriangleMesh mesh : enemyMesh) {
             meshNodeEnemy = new TriangleMeshNode(mesh);
         }
         enemy.addChild(meshNodeEnemy);
@@ -340,13 +332,11 @@ public class GameScene extends Scene{
         scaleEnemy.addChild(enemy);
         transformationEnemy.addChild(scaleEnemy);
         translationEnemy.addChild(transformationEnemy);
-        markerList.get(6).addChild(translationEnemy);
+        markerList.get(enemyCellNumber).addChild(translationEnemy);
 
         scalePlayerChar.addChild(playerChar);
         transformationPlayerChar.addChild(scalePlayerChar);
         translationParticle.addChild(transformationPlayerChar);
-        //markerStart.addChild(translationParticle);
-
         rootNode.addChild(translationParticle);
 
         for(int i=0;i<markerList.size();i++){
@@ -356,11 +346,6 @@ public class GameScene extends Scene{
         for(int i=0;i<obstacleList.size();i++){
             rootNode.addChild(obstacleList.get(i));
         }
-
-       // rootNode.addChild(markerStart);
-       // rootNode.addChild(markerEnd);
-
-
 
     }
 
@@ -418,6 +403,7 @@ public class GameScene extends Scene{
             if(sim.getPose()!=characterPose){
                 changePose(sim.getPose());
             }
+
                 transformationPlayerChar.setTransformation(markerList.get(charakterPosition).getTransformation());
 
 

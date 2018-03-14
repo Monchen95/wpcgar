@@ -33,7 +33,9 @@ public class Cell {
     }
 
     public void damageEnemy(int amount){
-        npc.afflictDamage(amount);
+        if(npc != null) {
+            npc.afflictDamage(amount);
+        }
     }
 
     public boolean enemyAlive(){

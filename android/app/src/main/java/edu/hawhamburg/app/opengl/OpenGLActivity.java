@@ -50,7 +50,7 @@ public class OpenGLActivity extends Activity {
 
         // Application specific scene - must be set exactly here
         //scene = new SkeletonScene();
-        scene = new HermiteSplineScene();
+        scene = new DefaultOpenGLScene();
         //scene = new DefaultOpenGLScene();
         //scene = new LandscapeScene();
         //scene = new BallThrowScene();
