@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\plane_vertex.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\plane_vertex.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\plane_fragment.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\plane_fragment.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\screenquad_fragment_oes.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\screenquad_fragment_oes.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\point_cloud_vertex.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\point_cloud_vertex.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\screenquad_vertex.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\screenquad_vertex.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\passthrough_fragment.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\passthrough_fragment.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\light_vertex.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\light_vertex.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\object_fragment.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\object_fragment.shader"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\raw\\object_vertex.shader",
+        "source": "E:\\CG_Projekt\\wpcgar\\android\\res\\raw\\object_vertex.shader"
+    }
+]

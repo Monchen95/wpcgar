@@ -1,46 +1,8 @@
 package edu.hawhamburg.app.vuforia;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentSender;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.UserHandle;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
-import android.support.annotation.StringDef;
-import android.support.annotation.StyleRes;
 import android.util.Log;
-import android.view.Display;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,18 +65,30 @@ public class GameScene extends Scene{
     private List<VuforiaMarkerNode> obstacleList = new ArrayList<>();
     private Matrix[] obstacleTransformationArray = new Matrix[OBSTACLEPOOLSIZE];
 
-    private ScaleNode scaleParticle;
+    private ScaleNode scalePlayerChar;
     private TranslationNode translationParticle;
-    private TransformationNode transformationParticle;
-    private ITriangleMesh particle;
-    private TriangleMeshNode particleMeshNode;
+    private TransformationNode transformationPlayerChar;
+    private ITriangleMesh meshPlayerChar;
+
+    private ScaleNode scaleFrank;
+    private TranslationNode translationFrank;
+    private TransformationNode transformationFrank;
+
+    private ScaleNode scaleEnemy;
+    private TranslationNode translationEnemy;
+    private TransformationNode transformationEnemy;
+
     private TriangleMeshNode meshNodeNormal;
     private TriangleMeshNode meshNodeHappy;
     private TriangleMeshNode meshNodeFighting;
     private TriangleMeshNode meshNodeJumping;
     private TriangleMeshNode meshNodeActive;
+    private TriangleMeshNode meshNodeFrank;
+    private TriangleMeshNode meshNodeEnemy;
 
     private InnerNode playerChar = null;
+    private InnerNode frank = null;
+    private InnerNode enemy = null;
    // protected INode floor1 = null;
    // protected INode floor2 = null;
 
@@ -133,8 +107,6 @@ public class GameScene extends Scene{
     TextView enemyDamage;
 
     int charakterPosition;
-
-
 
 
 
@@ -175,7 +147,7 @@ public class GameScene extends Scene{
             }
         });
 
-        fight = new Button("skeleton.png",-0.7,0.7,0.2, new ButtonHandler(){
+        fight = new Button("fight.png",-0.7,0.7,0.2, new ButtonHandler(){
             @Override
             public void handle(){
                 sim.fightEnemy();
@@ -183,7 +155,7 @@ public class GameScene extends Scene{
             }
         });
 
-        this.redraw();
+
 
 
 
@@ -225,9 +197,18 @@ public class GameScene extends Scene{
         addButton(back);
         addButton(fight);
 
-        scaleParticle = new ScaleNode(0.02);
+        scalePlayerChar = new ScaleNode(0.02);
         translationParticle = new TranslationNode(new Vector(0,-0.08,-0.1,1));
-        transformationParticle = new TransformationNode();
+        transformationPlayerChar = new TransformationNode();
+
+
+        scaleFrank = new ScaleNode(0.01);
+        translationFrank = new TranslationNode(new Vector(0,0.1,0.05,1));
+        transformationFrank = new TransformationNode(Matrix.createRotationMatrix4(new Vector(0,1,0,1),30));
+
+        scaleEnemy = new ScaleNode(0.01);
+        translationEnemy = new TranslationNode(new Vector(0,0.1,0.05,1));
+        transformationEnemy = new TransformationNode(Matrix.createRotationMatrix4(new Vector(0,1,0,1),30));
 
         initWorld();
     }
@@ -265,6 +246,7 @@ public class GameScene extends Scene{
 
 
 
+
     @Override
     public void onSetup(InnerNode rootNode) {
 
@@ -296,6 +278,20 @@ public class GameScene extends Scene{
 
         meshNodeActive = meshNodeNormal;
         playerChar.addChild(meshNodeActive);
+
+        List<ITriangleMesh> frankMesh = reader.read("meshes/deer.obj");
+        frank = new InnerNode();
+        for (ITriangleMesh mesh : frankMesh) {
+            meshNodeFrank = new TriangleMeshNode(mesh);
+        }
+        frank.addChild(meshNodeFrank);
+
+        List<ITriangleMesh> enemyMesh = reader.read("meshes/cow.obj");
+        enemy = new InnerNode();
+        for (ITriangleMesh mesh : frankMesh) {
+            meshNodeEnemy = new TriangleMeshNode(mesh);
+        }
+        enemy.addChild(meshNodeEnemy);
 
          for(int i=0;i<markerList.size();i++) {
             List<ITriangleMesh> floorMesh = reader.read("meshes/Floor.obj");
@@ -336,15 +332,19 @@ public class GameScene extends Scene{
         }
 
 
+        scaleFrank.addChild(frank);
+        transformationFrank.addChild(scaleFrank);
+        translationFrank.addChild(transformationFrank);
+        markerEnd.addChild(translationFrank);
 
+        scaleEnemy.addChild(enemy);
+        transformationEnemy.addChild(scaleEnemy);
+        translationEnemy.addChild(transformationEnemy);
+        markerList.get(6).addChild(translationEnemy);
 
-        particle = new TriangleMesh();
-        TriangleMeshFactory.createSphere(particle,1,7);
-        particleMeshNode = new TriangleMeshNode(particle);
-
-        scaleParticle.addChild(playerChar);
-        transformationParticle.addChild(scaleParticle);
-        translationParticle.addChild(transformationParticle);
+        scalePlayerChar.addChild(playerChar);
+        transformationPlayerChar.addChild(scalePlayerChar);
+        translationParticle.addChild(transformationPlayerChar);
         //markerStart.addChild(translationParticle);
 
         rootNode.addChild(translationParticle);
@@ -414,10 +414,11 @@ public class GameScene extends Scene{
             Log.d(Constants.LOGTAG,"Updateworld");
             updateWorld();
 
+
             if(sim.getPose()!=characterPose){
                 changePose(sim.getPose());
             }
-                transformationParticle.setTransformation(markerList.get(charakterPosition).getTransformation());
+                transformationPlayerChar.setTransformation(markerList.get(charakterPosition).getTransformation());
 
 
             i=0;

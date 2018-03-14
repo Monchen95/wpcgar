@@ -63,7 +63,11 @@ public class VuforiaMarkerNode extends InnerNode {
                             vuforiaViewMatrixData[8], vuforiaViewMatrixData[9], vuforiaViewMatrixData[10], vuforiaViewMatrixData[11],
                             vuforiaViewMatrixData[12], vuforiaViewMatrixData[13], vuforiaViewMatrixData[14], vuforiaViewMatrixData[15]))).getTransposed();
                     super.traverse(mode, markerCoordinateSystem);
-                }
+                    return;
+                } else {
+                      markerCoordinateSystem = Matrix.createIdentityMatrix4();
+                     super.traverse(mode, markerCoordinateSystem);
+                  }
             }
         }
     }

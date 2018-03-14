@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app_pjenke/app_pjenke.iml" filepath="$PROJECT_DIR$/app_pjenke/app_pjenke.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_arcore/lib_arcore.iml" filepath="$PROJECT_DIR$/lib_arcore/lib_arcore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_shared/lib_shared.iml" filepath="$PROJECT_DIR$/lib_shared/lib_shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_vuforia/lib_vuforia.iml" filepath="$PROJECT_DIR$/lib_vuforia/lib_vuforia.iml" />
+    </modules>
+  </component>
+</project>

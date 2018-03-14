@@ -1,0 +1,7 @@
+#Wed Mar 14 19:36:44 CET 2018
+base.0=E\:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_72adb448e3adf4fbb6eebe4414077ec296a5e52b
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=E\:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_d551792c19358d68ade9586c188fd5b4ca9a8f48\\classes.dex
+base.1=E\:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_d551792c19358d68ade9586c188fd5b4ca9a8f48
+file.0=E\:\\CG_Projekt\\wpcgar\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_72adb448e3adf4fbb6eebe4414077ec296a5e52b\\classes.dex

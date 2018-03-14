@@ -300,6 +300,8 @@ public class SkeletonScene extends Scene {
 
     }
 
+
+
     @Override
     public void onSceneRedraw() {
         // Animate skeleton

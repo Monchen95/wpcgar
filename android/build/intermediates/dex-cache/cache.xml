@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Devran\.android\build-cache\0b62432bb6ef2a940554f7debabd67f377260e9c\output\jars\libs\arcore_client.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="033d5155085fe9cb58612f4e899182c0b08ca0b7">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\pre-dexed\debug\arcore_client_bac587b9a0d4f63756a5f2d9d7b022bebb5cd816.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\CG_Projekt\wpcgar\android\lib_vuforia\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="954eaf9f239f4edb9537da3795e395f03c8b84cf">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\pre-dexed\debug\classes_3cbea7c9eabca662da1e08357f08972227fa4ccf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\CG_Projekt\wpcgar\android\libs\obj-0.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d2df8e6fa7ba5aae4d0f847459ddd345d550ffaa">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\pre-dexed\debug\obj-0.2.1_84970cf66e109ea95e9f8740f33d4247eda6535e.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\CG_Projekt\wpcgar\android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_72adb448e3adf4fbb6eebe4414077ec296a5e52b\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\CG_Projekt\wpcgar\android\lib_shared\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="e08c89edccc555107af02c6134af19b3ff12b91e">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\pre-dexed\debug\classes_53cc58e17dd2004c8b572cce1fe52b80454751d0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Devran\.android\build-cache\0b62432bb6ef2a940554f7debabd67f377260e9c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="889352e4b8098411a2d5734e26fd3db16ceb1d9e">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\pre-dexed\debug\classes_721897048a9a868475a3f36ef6c08e7977280f3e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\CG_Projekt\wpcgar\android\lib_arcore\build\intermediates\bundles\default\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="db237994df77ddc831808ee1a46d9dd171e21b9f">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\pre-dexed\debug\classes_f540d3f0eb7b7a5ac86295ddc38f8ec431487aad.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\CG_Projekt\wpcgar\android\libs\Vuforia.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="177fc09d70ae5f94117c9ea1a7b3bec42c9d48b4">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\pre-dexed\debug\Vuforia_fd3482ff03081cbfe581f600af12bb7d6a6fb072.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="E:\CG_Projekt\wpcgar\android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ce875f4cbb665e4f6a1be07c14c5e2c6cdede749">
+        <dex dex="E:\CG_Projekt\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_d551792c19358d68ade9586c188fd5b4ca9a8f48\classes.dex" />
+    </item>
+
+</items>

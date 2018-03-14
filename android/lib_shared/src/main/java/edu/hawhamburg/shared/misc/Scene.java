@@ -127,6 +127,8 @@ public abstract class Scene {
         buttons.add(button);
     }
 
+
+
     /**
      * This method is called once when the OpenGL context is created.
      */

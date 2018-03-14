@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\lib_shared\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\c2a2e2afa7d338e1cbd0fbc29333c3cc204b3826\\output\\res\\layout-v11\\notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\lib_shared\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_action.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\c2a2e2afa7d338e1cbd0fbc29333c3cc204b3826\\output\\res\\layout-v11\\notification_media_action.xml"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\lib_shared\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_cancel_action.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\c2a2e2afa7d338e1cbd0fbc29333c3cc204b3826\\output\\res\\layout-v11\\notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\lib_shared\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_custom.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\c2a2e2afa7d338e1cbd0fbc29333c3cc204b3826\\output\\res\\layout-v11\\notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\lib_shared\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow_custom.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\c2a2e2afa7d338e1cbd0fbc29333c3cc204b3826\\output\\res\\layout-v11\\notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "E:\\CG_Projekt\\wpcgar\\android\\lib_shared\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\c2a2e2afa7d338e1cbd0fbc29333c3cc204b3826\\output\\res\\layout-v11\\notification_template_big_media.xml"
+    }
+]

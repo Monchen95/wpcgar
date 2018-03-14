@@ -1,5 +1,6 @@
 package edu.hawhamburg.shared.simulation;
 
+import android.app.Activity;
 import android.util.Log;
 
 import edu.hawhamburg.shared.action.Direction;
@@ -49,6 +50,7 @@ public class WorldSimulation2 {
     private Pose characterPose;
     int fighter=0;
     private TransformationNode charakterPosition;
+    Activity vufAc;
 
     public WorldSimulation2(int markerAmount, int obstacleAmount){
         characterPose = NORMAL;
@@ -78,6 +80,13 @@ public class WorldSimulation2 {
         activeCell = 0;
 
 
+    }
+    public String getPlayerHealth(){
+        return String.valueOf(playerCharacter.getHealth());
+    }
+
+    public String getPlayerDamage(){
+        return String.valueOf(playerCharacter.getDamage());
     }
 
     public Pose getPose(){

@@ -102,6 +102,10 @@ public class VuforiaActivity extends Activity implements SessionControllable {
 
         TextureManager.getInstance().setup("edu.hawhamburg.app", getApplicationContext());
         scene.onSetup(scene.getRoot());
+
+        changeText();
+
+
     }
 
     private void requestCameraPermission() {
@@ -125,6 +129,20 @@ public class VuforiaActivity extends Activity implements SessionControllable {
         mTextures = new Vector<Texture>();
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
                 "droid");
+    }
+
+    public void changeText(){
+
+            TextView tvHealth =mUILayout.findViewById(R.id.playerHealth);
+        tvHealth.setText("Player HP: 100");
+        tvHealth.setRotation(90);
+
+
+            TextView tvDamage =mUILayout.findViewById(R.id.playerDamage);
+        tvDamage.setText("Player DMG: 20");
+        tvDamage.setRotation(90);
+
+
     }
 
     @Override
@@ -235,8 +253,6 @@ public class VuforiaActivity extends Activity implements SessionControllable {
 
         // Sets the layout background to transparent
         mUILayout.setBackgroundColor(Color.TRANSPARENT);
-        //TextView tv = mUILayout.findViewById(2);
-        //tv.setText("LOL!");
 
         try {
             vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
