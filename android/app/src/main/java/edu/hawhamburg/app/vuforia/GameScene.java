@@ -1,7 +1,46 @@
 package edu.hawhamburg.app.vuforia;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentSender;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.UserHandle;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
+import android.support.annotation.StringDef;
+import android.support.annotation.StyleRes;
 import android.util.Log;
+import android.view.Display;
+import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,16 +126,24 @@ public class GameScene extends Scene{
     Button turnLeft;
     Button turnRight;
 
+    TextView playerHealth;
+    TextView playerDamage;
+
+    TextView enemeyHealth;
+    TextView enemyDamage;
+
     int charakterPosition;
+
 
 
 
 
     public GameScene(){
         super(100, INode.RenderMode.REGULAR);
+
         charakterPosition=0;
 
-        left = new Button("skeleton.png",-0.7,-0.5,0.2, new ButtonHandler(){
+        left = new Button("left.png",-0.7,-0.5,0.2, new ButtonHandler(){
             @Override
             public void handle(){
                 charakterPosition=sim.move(LEFT);
@@ -104,7 +151,7 @@ public class GameScene extends Scene{
             }
         });
 
-        right = new Button("skeleton.png",-0.7,-0.9,0.2, new ButtonHandler(){
+        right = new Button("right.png",-0.7,-0.9,0.2, new ButtonHandler(){
             @Override
             public void handle(){
                 charakterPosition=sim.move(RIGHT);
@@ -112,7 +159,7 @@ public class GameScene extends Scene{
             }
         });
 
-        front = new Button("skeleton.png",-0.4,-0.7,0.2, new ButtonHandler(){
+        front = new Button("up.png",-0.4,-0.7,0.2, new ButtonHandler(){
             @Override
             public void handle(){
                 charakterPosition=sim.move(FRONT);
@@ -120,7 +167,7 @@ public class GameScene extends Scene{
             }
         });
 
-        back = new Button("skeleton.png",-0.7,-0.7,0.2, new ButtonHandler(){
+        back = new Button("down.png",-0.7,-0.7,0.2, new ButtonHandler(){
             @Override
             public void handle(){
                 charakterPosition=sim.move(BACK);
@@ -128,7 +175,7 @@ public class GameScene extends Scene{
             }
         });
 
-        fight = new Button("skeleton.png",-0.7,-0.3,0.2, new ButtonHandler(){
+        fight = new Button("skeleton.png",-0.7,0.7,0.2, new ButtonHandler(){
             @Override
             public void handle(){
                 sim.fightEnemy();
@@ -136,21 +183,8 @@ public class GameScene extends Scene{
             }
         });
 
-        turnLeft = new Button("skeleton.png",-0.7,-0.3,0.2, new ButtonHandler(){
-            @Override
-            public void handle(){
-                sim.fightEnemy();
-                Log.d(Constants.LOGTAG,"Nach links gedreht!!!");
-            }
-        });
+        this.redraw();
 
-        turnRight = new Button("skeleton.png",-0.7,-0.3,0.2, new ButtonHandler(){
-            @Override
-            public void handle(){
-                sim.fightEnemy();
-                Log.d(Constants.LOGTAG,"Nach rechts gedreht!!!");
-            }
-        });
 
 
         markerStart = new VuforiaMarkerNode("elphi");
@@ -189,6 +223,7 @@ public class GameScene extends Scene{
         addButton(right);
         addButton(front);
         addButton(back);
+        addButton(fight);
 
         scaleParticle = new ScaleNode(0.02);
         translationParticle = new TranslationNode(new Vector(0,-0.08,-0.1,1));
@@ -232,6 +267,7 @@ public class GameScene extends Scene{
 
     @Override
     public void onSetup(InnerNode rootNode) {
+
 
         ObjReader reader = new ObjReader();
         List<ITriangleMesh> playerCharMeshNormal = reader.read("meshes/Character1.obj");
@@ -278,6 +314,25 @@ public class GameScene extends Scene{
             floorTransform.addChild(scaleNode);
             floorTranslate.addChild(floorTransform);
             markerList.get(i).addChild(floorTranslate);
+          }
+
+        for(int i=0;i<obstacleList.size();i++) {
+            List<ITriangleMesh> wallMesh = reader.read("meshes/Walls.obj");
+            InnerNode wall = new InnerNode();
+            for (ITriangleMesh mesh : wallMesh) {
+                TriangleMeshNode meshNode = new TriangleMeshNode(mesh);
+                wall.addChild(meshNode);
+            }
+
+            TranslationNode wallTranslate = new TranslationNode(new Vector(0,0,0,1));
+            TransformationNode wallTransform = new TransformationNode();
+
+            ScaleNode scaleNode = new ScaleNode(0.1);
+
+            scaleNode.addChild(wall);
+            wallTransform.addChild(scaleNode);
+            wallTranslate.addChild(wallTransform);
+            obstacleList.get(i).addChild(wallTranslate);
         }
 
 
@@ -293,8 +348,17 @@ public class GameScene extends Scene{
         //markerStart.addChild(translationParticle);
 
         rootNode.addChild(translationParticle);
-        rootNode.addChild(markerStart);
-        rootNode.addChild(markerEnd);
+
+        for(int i=0;i<markerList.size();i++){
+            rootNode.addChild(markerList.get(i));
+        }
+
+        for(int i=0;i<obstacleList.size();i++){
+            rootNode.addChild(obstacleList.get(i));
+        }
+
+       // rootNode.addChild(markerStart);
+       // rootNode.addChild(markerEnd);
 
 
 

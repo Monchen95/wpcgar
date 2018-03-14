@@ -34,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
@@ -82,14 +83,14 @@ public class VuforiaActivity extends Activity implements SessionControllable {
     /**
      * Maximum number of simultaniously tracked marker targets.
      */
-    private static final int MAX_NUM_TARGETS = 2;
+    private static final int MAX_NUM_TARGETS = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Set markers
-        mDatasetStrings.add("CGforAR.xml");
+        mDatasetStrings.add("CG_Images.xml");
 
         vuforiaAppSession = new Session(this);
         requestCameraPermission();
@@ -234,6 +235,8 @@ public class VuforiaActivity extends Activity implements SessionControllable {
 
         // Sets the layout background to transparent
         mUILayout.setBackgroundColor(Color.TRANSPARENT);
+        //TextView tv = mUILayout.findViewById(2);
+        //tv.setText("LOL!");
 
         try {
             vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
