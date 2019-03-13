@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-26.0.0-alpha1_9deccf09021596efb97985b5390642e650e3455a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\a8afc8898d75acd524412ce4a58ca16eb02a9d39\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_bfca9def1486115a98dbdaea4d49fa1dc748f836\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\004bda750948b1feb930cd4f2d7f822d9d58a846\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a965ea289e64a99ab8252dcc35d306795366b847\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\jars\libs\arcore_client.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="033d5155085fe9cb58612f4e899182c0b08ca0b7">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\arcore_client_f1caf02338cb363c63fea8aceb05cd080ac75c24\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\c14f13df5fe6ad05b9ca97882caa51da3c3c4041\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_10c4957b72ad4d53ab7d06ffbe7341323b04801c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\libs\Vuforia.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="177fc09d70ae5f94117c9ea1a7b3bec42c9d48b4">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\Vuforia_f5db9dbdbd227a31fcbcdf6a1d218597a34afb7b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\805e6382220b0ff49775e82bf3649b06c375707b\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_affd7901d14e5b942ee7b11cc1001a1b079d7428\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\a467f0f041f7239e17928c3876c69aac01db3753\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f6b50cefb3bf983bc9714b323a5a413f40e989d4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e7f3a939b156d0543da11fd5024fa40636176ab8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\0d459efa43ca3dbc0d41ec1167fd56daf7453484\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_275c75d336783600318fec5b4db26a4b19ed17ef\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_970bffeb3c12988d7e7b17ddf6abee1b0058693b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\6fe66d69f7ef8f40a694ba37b7e13608039260ac\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_36239ead483a332666460ebbc07799281e9c1a66\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\acd851f83fbe1eee6ba1d04b20fcdc64c9ce45a1\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d6fe074b921ebfe7ddd34aeb4903bffaec7579cc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="4bacd6344b2643f9ce82fd224dcbcf41e61cac1f">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_80337ff8518139beb219417ee5dc2656865fcbb3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\9ebbfd73448c88ddab3e4fa50f37d6534ca2916a\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a63f1ee95a5e3054fc58d5470fd37646ce92d39b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="889352e4b8098411a2d5734e26fd3db16ceb1d9e">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_fac5101de5991b036b4435e03936a9a72211196b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.gradle\caches\modules-2\files-2.1\gov.nist.math\jama\1.0.3\8bcf5a314b76cadd68daa37eafe0a46d8909ab47\jama-1.0.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="8bcf5a314b76cadd68daa37eafe0a46d8909ab47">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\jama-1.0.3_628808831106fab91aa8ca395b9b5d4f44610a4f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\41d3587384c0504b4fcc858ab11b9169fd587825\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f637288e6828000b0c187a4f05f827003263acad\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\libs\obj-0.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d2df8e6fa7ba5aae4d0f847459ddd345d550ffaa">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\obj-0.2.1_7026151b83ccccf328995efa0e41e62365d7dcdc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Devran\.android\build-cache\203c0789372088b58375856912712be5aad06577\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8cbb4834bca9b9206b637fb328b627808f457ccc\classes.dex" />
+    </item>
+
+</items>

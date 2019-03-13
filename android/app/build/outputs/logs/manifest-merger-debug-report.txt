@@ -1,0 +1,163 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:2:1-36:12
+	package
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:3:5-33
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:5:5-30
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+	android:versionCode
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:4:5-30
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:2:11-69
+uses-sdk
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:6:5-8:41
+MERGED from [android:lib_arcore:unspecified] C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\lib_arcore\build\intermediates\bundles\default\AndroidManifest.xml:7:5-9:41
+MERGED from [android:lib_vuforia:unspecified] C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\lib_vuforia\build\intermediates\bundles\default\AndroidManifest.xml:7:5-9:41
+MERGED from [android:lib_shared:unspecified] C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\lib_shared\build\intermediates\bundles\default\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\output\AndroidManifest.xml:21:5-23:62
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\a8afc8898d75acd524412ce4a58ca16eb02a9d39\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\0d459efa43ca3dbc0d41ec1167fd56daf7453484\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\acd851f83fbe1eee6ba1d04b20fcdc64c9ce45a1\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\c14f13df5fe6ad05b9ca97882caa51da3c3c4041\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\41d3587384c0504b4fcc858ab11b9169fd587825\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\203c0789372088b58375856912712be5aad06577\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\004bda750948b1feb930cd4f2d7f822d9d58a846\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\a467f0f041f7239e17928c3876c69aac01db3753\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\805e6382220b0ff49775e82bf3649b06c375707b\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\9ebbfd73448c88ddab3e4fa50f37d6534ca2916a\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\6fe66d69f7ef8f40a694ba37b7e13608039260ac\output\AndroidManifest.xml:21:5-23:58
+MERGED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:22:5-24:41
+	tools:overrideLibrary
+		ADDED from [com.android.support:design:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\output\AndroidManifest.xml:23:9-59
+	android:targetSdkVersion
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:8:9-38
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:7:9-35
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml
+uses-feature#0x00020000
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:9:5-54
+	android:glEsVersion
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:9:19-51
+uses-feature#android.hardware.camera
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:10:5-60
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:10:19-57
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:11:5-65
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:11:22-62
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:12:5-67
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:12:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:13:5-79
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:13:22-76
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:14:5-80
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:14:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:15:5-81
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:15:22-78
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:16:5-75
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:16:22-72
+application
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:17:5-34:19
+MERGED from [android:lib_arcore:unspecified] C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\lib_arcore\build\intermediates\bundles\default\AndroidManifest.xml:11:5-14:19
+MERGED from [android:lib_vuforia:unspecified] C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\lib_vuforia\build\intermediates\bundles\default\AndroidManifest.xml:11:5-14:19
+MERGED from [android:lib_shared:unspecified] C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\lib_shared\build\intermediates\bundles\default\AndroidManifest.xml:11:5-14:19
+MERGED from [com.android.support:design:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\a8afc8898d75acd524412ce4a58ca16eb02a9d39\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\0d459efa43ca3dbc0d41ec1167fd56daf7453484\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\acd851f83fbe1eee6ba1d04b20fcdc64c9ce45a1\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:transition:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\41d3587384c0504b4fcc858ab11b9169fd587825\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\203c0789372088b58375856912712be5aad06577\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\004bda750948b1feb930cd4f2d7f822d9d58a846\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\a467f0f041f7239e17928c3876c69aac01db3753\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\805e6382220b0ff49775e82bf3649b06c375707b\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\9ebbfd73448c88ddab3e4fa50f37d6534ca2916a\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\6fe66d69f7ef8f40a694ba37b7e13608039260ac\output\AndroidManifest.xml:29:5-20
+MERGED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:26:5-36:19
+	android:label
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:21:9-45
+	android:supportsRtl
+		ADDED from [android:lib_arcore:unspecified] C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\lib_arcore\build\intermediates\bundles\default\AndroidManifest.xml:13:9-35
+	android:launchMode
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:22:9-40
+	android:allowBackup
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:18:9-35
+	android:icon
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:20:9-45
+	android:description
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:19:9-54
+	android:theme
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:23:9-47
+activity#edu.hawhamburg.app.opengl.OpenGLActivity
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:24:9-33:20
+	android:launchMode
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:27:13-44
+	android:configChanges
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:26:13-93
+	android:theme
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:28:13-51
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:25:13-50
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:29:13-32:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:30:17-69
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:30:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:31:17-77
+	android:name
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:31:27-74
+meta-data#android.support.VERSION
+ADDED from [com.android.support:design:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\output\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\a8afc8898d75acd524412ce4a58ca16eb02a9d39\output\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\0d459efa43ca3dbc0d41ec1167fd56daf7453484\output\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:support-vector-drawable:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\acd851f83fbe1eee6ba1d04b20fcdc64c9ce45a1\output\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:recyclerview-v7:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\c14f13df5fe6ad05b9ca97882caa51da3c3c4041\output\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:transition:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\41d3587384c0504b4fcc858ab11b9169fd587825\output\AndroidManifest.xml:22:5-24:41
+MERGED from [com.android.support:support-v4:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\203c0789372088b58375856912712be5aad06577\output\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\004bda750948b1feb930cd4f2d7f822d9d58a846\output\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-fragment:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\a467f0f041f7239e17928c3876c69aac01db3753\output\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-core-ui:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\805e6382220b0ff49775e82bf3649b06c375707b\output\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-core-utils:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\9ebbfd73448c88ddab3e4fa50f37d6534ca2916a\output\AndroidManifest.xml:25:5-27:41
+MERGED from [com.android.support:support-compat:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\6fe66d69f7ef8f40a694ba37b7e13608039260ac\output\AndroidManifest.xml:25:5-27:41
+	android:value
+		ADDED from [com.android.support:design:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\output\AndroidManifest.xml:27:9-38
+	android:name
+		ADDED from [com.android.support:design:26.0.0-alpha1] C:\Users\Devran\.android\build-cache\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\output\AndroidManifest.xml:26:9-47
+meta-data#com.google.ar.version.major
+ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:27:9-29:64
+	android:value
+		ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:29:13-61
+	android:name
+		ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:28:13-55
+meta-data#com.google.ar.version.minor
+ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:30:9-32:64
+	android:value
+		ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:32:13-61
+	android:name
+		ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:31:13-55
+meta-data#com.google.ar.version.patch
+ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:33:9-35:64
+	android:value
+		ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:35:13-61
+	android:name
+		ADDED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68efd7cd84ad7a702e471a94fb7bf\output\AndroidManifest.xml:34:13-55

@@ -1,0 +1,4 @@
+# Material file with a single texture
+newmtl lego_texture
+Kd 0.8 0.8 0.8
+map_Kd icon.png
