@@ -111,21 +111,21 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="81f48df1d31864ec0672399ff7ea66b51e09e633">
+        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_80337ff8518139beb219417ee5dc2656865fcbb3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Devran\.android\build-cache\acd851f83fbe1eee6ba1d04b20fcdc64c9ce45a1\output\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
         sha1="952944218ecedea1554a513dec0c14d570642843">
         <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_d6fe074b921ebfe7ddd34aeb4903bffaec7579cc\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="4bacd6344b2643f9ce82fd224dcbcf41e61cac1f">
-        <dex dex="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_80337ff8518139beb219417ee5dc2656865fcbb3\classes.dex" />
     </item>
     <item
         is-multidex="true"

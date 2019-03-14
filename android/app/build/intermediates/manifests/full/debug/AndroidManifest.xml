@@ -31,7 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/SampleAppsTheme" >
         <activity
-            android:name="edu.hawhamburg.app.opengl.OpenGLActivity"
+            android:name="edu.hawhamburg.app.vuforia.VuforiaActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:launchMode="singleTask"
             android:theme="@style/SampleAppsTheme" >

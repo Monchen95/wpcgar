@@ -2,6 +2,7 @@ package edu.hawhamburg.shared.importer.skeleton;
 
 import edu.hawhamburg.shared.importer.math.DualQuaternion;
 import edu.hawhamburg.shared.importer.math.Quaternion;
+import edu.hawhamburg.shared.importer.skeleton.deprecated.EulerAngle;
 import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 
@@ -647,5 +648,9 @@ public class AnimationHelper {
 
             return new Vector(x,y,z);
             //return new Vector(x,y,z,w);
-        }
+    }
+
+    public static EulerAngle convert4x4MatrixToEulerAngle(Matrix A){
+        return null;
+    }
 }

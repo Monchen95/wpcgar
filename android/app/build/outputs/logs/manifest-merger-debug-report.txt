@@ -106,7 +106,7 @@ MERGED from [:arcore_client:] C:\Users\Devran\.android\build-cache\6e17ae7784b68
 		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:19:9-54
 	android:theme
 		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:23:9-47
-activity#edu.hawhamburg.app.opengl.OpenGLActivity
+activity#edu.hawhamburg.app.vuforia.VuforiaActivity
 ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:24:9-33:20
 	android:launchMode
 		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:27:13-44
@@ -115,7 +115,7 @@ ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\m
 	android:theme
 		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:28:13-51
 	android:name
-		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:25:13-50
+		ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:25:13-52
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\app\src\main\AndroidManifest.xml:29:13-32:29
 action#android.intent.action.MAIN

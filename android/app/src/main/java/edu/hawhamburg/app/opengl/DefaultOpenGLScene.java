@@ -39,6 +39,7 @@ import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshTools;
 import edu.hawhamburg.shared.importer.skeleton.SimpleTestFactory;
 import edu.hawhamburg.shared.importer.skeleton.SkeletalAnimatedMesh;
 import edu.hawhamburg.shared.importer.util.ColladaImporter;
+import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.AssetPath;
 import edu.hawhamburg.shared.misc.Button;
@@ -86,6 +87,10 @@ public class DefaultOpenGLScene extends Scene {
         mesh.computeTriangleNormals();
         mNode = new TriangleMeshNode(mesh);
         meshTransformationNode = new TransformationNode();
+
+
+
+
         meshTransformationNode.addChild(mNode);
         scaleNode.addChild(meshTransformationNode);
         node.addChild(scaleNode);
@@ -129,6 +134,7 @@ public class DefaultOpenGLScene extends Scene {
 
         meshTransformationNode.removeChild(mNode);
         mNode = new TriangleMeshNode(animatedMesh);
+
         meshTransformationNode.addChild(mNode);
 
         t=0;
