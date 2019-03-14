@@ -164,9 +164,10 @@ public class ColladaImporter2 {
                 NamedNodeMap nnm = nodeList.item(i).getAttributes();
                 Node attrNode = nnm.getNamedItem(key);
                 if(attrNode!=null){
+                    //hier mit contains versuchen todo
                     if(attrNode.getTextContent().equalsIgnoreCase(value)){
-                        System.out.println("Found the Node");
-                        System.out.println(attrNode.getTextContent());
+                        //System.out.println("Found the Node");
+                        //System.out.println(attrNode.getTextContent());
                         node=nodeList.item(i);
                     }
                 }
@@ -582,7 +583,7 @@ public class ColladaImporter2 {
 
 
 
-       // skeleton=addAnimationInterpolationToSkeleton(document, skeleton);
+        skeleton=addAnimationInterpolationToSkeleton(document, skeleton);
 
         return skeleton;
     }
@@ -612,7 +613,9 @@ public class ColladaImporter2 {
 
        for(int i=0;i<skeleton.getJointIndexed().size();i++){
            Node jointAnimationInformationNode = getNodeByAttribute(animationInformationNodes,"id",skeleton.getJointIndexed().get(i).getName()+jointAnimationInformationSuffix);
-           Node samplerNode = getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id","sampler");
+           Node samplerNode = getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id",skeleton.getJointIndexed().get(i).getName()+jointAnimationInformationSuffix+"-sampler");
+
+           // Node samplerNode = getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id","sampler");
            Node inputFromSamplerNode = getNodeByAttribute(samplerNode.getChildNodes(),"semantic","INPUT");
            String inputSourceName = getSourceFromNode(inputFromSamplerNode);
            Node outputFromSamplerNode = getNodeByAttribute(samplerNode.getChildNodes(),"semantic","OUTPUT");

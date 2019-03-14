@@ -645,6 +645,7 @@ public class AnimationHelper {
             double z = v0*m.get(0,2)+v1*m.get(1,2)+v2*m.get(2,2)+v3*m.get(3,2);
             double w = v0*m.get(0,3)+v1*m.get(1,3)+v2*m.get(2,3)+v3*m.get(3,3);
 
-            return new Vector(x,y,z,w);
+            return new Vector(x,y,z);
+            //return new Vector(x,y,z,w);
         }
 }

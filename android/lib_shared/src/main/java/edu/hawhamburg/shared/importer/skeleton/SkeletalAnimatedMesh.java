@@ -126,8 +126,8 @@ public class SkeletalAnimatedMesh {
             }
             sumOfPositionVector = animationHelper.multiplyVectorWithMatrice(positionVector,blendMatrix);
             sumOfNormalVector = animationHelper.multiplyVectorWithMatrice(normalVector,blendMatrix);
-            sumOfPositionVector.set(3,1);
-            sumOfNormalVector.set(3,1);
+//            sumOfPositionVector.set(3,1);
+//            sumOfNormalVector.set(3,1);
             mesh.getVertex(i).getPosition().copy(sumOfPositionVector);
             mesh.getVertex(i).getNormal().copy(sumOfNormalVector);
             //mesh.getVertex(i).getColor().copy(new Vector(255 / 255.0, 238 / 255.0, 173 / 255.0, 1));
@@ -237,8 +237,8 @@ public class SkeletalAnimatedMesh {
         for(int i=0;i<skeleton.getJointIndexed().size();i++){
             skeleton.getJoint(i).calculateAnimationPoseToWorldMatrix(skeletonAnimationController.keyFrames.get(i).getKeyFrameAnimationForTimeT(delta,"nlerp"));
         }
-        //linearBlendSkinning();
-        dualQuaternionBlendSkinning();
+        linearBlendSkinning();
+        //dualQuaternionBlendSkinning();
 
     }
 

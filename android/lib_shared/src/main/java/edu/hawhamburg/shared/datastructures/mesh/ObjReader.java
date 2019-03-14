@@ -42,6 +42,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import edu.hawhamburg.shared.importer.skeleton.SkeletalAnimatedMesh;
 import edu.hawhamburg.shared.importer.skeleton.Skeleton;
+import edu.hawhamburg.shared.importer.skeleton.SkeletonAnimationController;
 import edu.hawhamburg.shared.importer.util.ColladaImporter;
 import edu.hawhamburg.shared.importer.util.ColladaImporter2;
 import edu.hawhamburg.shared.math.Matrix;
@@ -144,7 +145,7 @@ public class ObjReader {
         return meshes;
     }
 
-    public ITriangleMesh readDae(final String filename) {
+    public SkeletalAnimatedMesh readDae(final String filename) {
         // Setup
         meshes.clear();
         directory = new File(filename).getParent() + "/";
@@ -158,7 +159,7 @@ public class ObjReader {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
-        ITriangleMesh mesh=null;
+        SkeletalAnimatedMesh skeletalAnimatedMesh=null;
         try {
             builder = factory.newDocumentBuilder();
             //Document document = builder.parse(new InputSource(new StringReader(xmlString)));
@@ -166,63 +167,16 @@ public class ObjReader {
             System.out.println("*******************");
 
             ColladaImporter2 colladaImporter = new ColladaImporter2();
-            mesh = colladaImporter.readMeshFromColladaFile(document);
+            TriangleMesh mesh = colladaImporter.readMeshFromColladaFile(document);
             Skeleton skeleton = colladaImporter.readSkeletonFromColladaFile(document);
+            SkeletonAnimationController skeletonAnimationController = colladaImporter.readAnimationControlFromColladaFile(document,mesh,skeleton);
+
+            skeletalAnimatedMesh = new SkeletalAnimatedMesh(mesh,skeleton,skeletonAnimationController);
 
 
-            Node libraryAnimation = document.getElementsByTagName("library_animations").item(0);
-            NodeList animationInformationNodes = libraryAnimation.getChildNodes();
-            String jointAnimationInformationSuffix = "_pose_matrix";
 
-            System.out.println(jointAnimationInformationSuffix);
 
-            skeleton=colladaImporter.addAnimationInterpolationToSkeleton(document, skeleton);
 
-            for(int i=0;i<skeleton.getJointIndexed().size();i++){
-                Node jointAnimationInformationNode = colladaImporter.getNodeByAttribute(animationInformationNodes,"id",skeleton.getJointIndexed().get(i).getName()+jointAnimationInformationSuffix);
-                Node samplerNode = colladaImporter.getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id","sampler");
-                Node inputFromSamplerNode = colladaImporter.getNodeByAttribute(samplerNode.getChildNodes(),"semantic","INPUT");
-                String inputSourceName = colladaImporter.getSourceFromNode(inputFromSamplerNode);
-                Node outputFromSamplerNode = colladaImporter.getNodeByAttribute(samplerNode.getChildNodes(),"semantic","OUTPUT");
-                String outputSourceName = colladaImporter.getSourceFromNode(outputFromSamplerNode);
-
-                Node animationTimeKeysNode = colladaImporter.getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id",inputSourceName);
-                Node animationTransformationsNode = colladaImporter.getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id",outputSourceName);
-
-                String[] animationTimeKeysStringArr = animationTimeKeysNode.getTextContent().replace("\n","").split(" ");
-                List<Double> animationTimeKeysList = new ArrayList<>();
-                for(int j=0;j<animationTimeKeysStringArr.length;j++){
-                    if(!animationTimeKeysStringArr[j].isEmpty()){
-                        animationTimeKeysList.add(Double.valueOf(animationTimeKeysStringArr[j]));
-                    }
-                }
-                //get stride
-
-                String[] animationTransformationsStringArr = animationTransformationsNode.getTextContent().replace("\n","").split(" ");
-                List<Double> animationTransformationsList = new ArrayList<>();
-                List<Matrix> animationTransformationMatrices = new ArrayList<>();
-                for(int j=0;j<animationTransformationsStringArr.length;j++){
-                    if(!animationTransformationsStringArr[j].isEmpty()){
-                        animationTransformationsList.add(Double.valueOf(animationTransformationsStringArr[j]));
-                    }
-                }
-                for(int j=0;j<animationTransformationsList.size();j+=16){
-                    animationTransformationMatrices.add(new Matrix(animationTransformationsList.get(j),animationTransformationsList.get(j+1),
-                            animationTransformationsList.get(j+2),animationTransformationsList.get(j+3),
-                            animationTransformationsList.get(j+4),animationTransformationsList.get(j+5),
-                            animationTransformationsList.get(j+6),animationTransformationsList.get(j+7),
-                            animationTransformationsList.get(j+8),animationTransformationsList.get(j+9),
-                            animationTransformationsList.get(j+10),animationTransformationsList.get(j+11),
-                            animationTransformationsList.get(j+12),animationTransformationsList.get(j+13),
-                            animationTransformationsList.get(j+14),animationTransformationsList.get(j+15)));
-                    //todo nicht immer sicher ob transponiert
-                }
-
-                for(int j=0;j<animationTimeKeysList.size();j++){
-                    skeleton.getJointIndexed().get(i).addKeyFrame(animationTimeKeysList.get(j),animationTransformationMatrices.get(j));
-                }
-
-            }
 
 
 
@@ -235,7 +189,7 @@ public class ObjReader {
             e.printStackTrace();
         }
         //System.out.println(xmlString);
-        return mesh;
+        return skeletalAnimatedMesh;
 
     }
 

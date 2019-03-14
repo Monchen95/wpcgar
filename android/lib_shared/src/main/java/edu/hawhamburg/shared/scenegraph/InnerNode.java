@@ -58,6 +58,11 @@ public class InnerNode extends INode {
         children.add(child);
     }
 
+    public void removeChild(INode child) {
+        child.setParentNode(null);
+        children.remove(child);
+    }
+
     @Override
     public Matrix getTransformation() {
         return (getParentNode() == null) ? null : getParentNode().getTransformation();

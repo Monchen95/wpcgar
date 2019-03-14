@@ -79,7 +79,9 @@ public class DefaultOpenGLScene extends Scene {
     public void onSetup(InnerNode rootNode) {
 
         ObjReader reader = new ObjReader();
-        ITriangleMesh mesh = reader.readDae("meshes/cowboy.dae");
+
+        skeletalAnimatedMesh = reader.readDae("meshes/cowboy.dae");
+        ITriangleMesh mesh = skeletalAnimatedMesh.getMesh();
         mesh.setColor(new Vector(1, 1, 1, 1));
         mesh.computeTriangleNormals();
         mNode = new TriangleMeshNode(mesh);
@@ -109,31 +111,27 @@ public class DefaultOpenGLScene extends Scene {
 
     @Override
     public void onSceneRedraw() {
-        //File file = new File("cowboy.dae");
-        //Document doc = ColladaImporter.readColladaFile(file);
-        //System.out.println(doc.toString());
+        System.out.println("mulm");
 
-       /*
+
+
         t++;
 
-        if(t<5){
-            return;
-        }
+
 
         TriangleMesh animatedMesh = skeletalAnimatedMesh.animate(progression);
-        progression = progression + 0.10f;
+        progression = progression + 0.05f;
         if(progression>0.8333f){
             progression=0.01f;
         }
 
 
 
-        //meshTransformationNode.removeChild(mNode);
+        meshTransformationNode.removeChild(mNode);
         mNode = new TriangleMeshNode(animatedMesh);
-        mNode.updateVbo();
-        //meshTransformationNode.addChild(mNode);
+        meshTransformationNode.addChild(mNode);
 
         t=0;
-        */
+
     }
 }
