@@ -14,7 +14,20 @@ package edu.hawhamburg.app.opengl;
 
 import android.util.Log;
 
+import org.w3c.dom.Document;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import edu.hawhamburg.shared.datastructures.halfEdgeMesh.HalfEdgeTriangleMesh;
 import edu.hawhamburg.shared.datastructures.halfEdgeMesh.HalfEdgeUtility;
@@ -23,6 +36,11 @@ import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshFactory;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshTools;
+import edu.hawhamburg.shared.importer.skeleton.SimpleTestFactory;
+import edu.hawhamburg.shared.importer.skeleton.SkeletalAnimatedMesh;
+import edu.hawhamburg.shared.importer.util.ColladaImporter;
+import edu.hawhamburg.shared.math.Vector;
+import edu.hawhamburg.shared.misc.AssetPath;
 import edu.hawhamburg.shared.misc.Button;
 import edu.hawhamburg.shared.misc.ButtonHandler;
 import edu.hawhamburg.shared.misc.Constants;
@@ -30,6 +48,7 @@ import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.INode;
 import edu.hawhamburg.shared.scenegraph.InnerNode;
 import edu.hawhamburg.shared.scenegraph.ScaleNode;
+import edu.hawhamburg.shared.scenegraph.TransformationNode;
 import edu.hawhamburg.shared.scenegraph.TriangleMeshNode;
 
 /**
@@ -39,6 +58,19 @@ import edu.hawhamburg.shared.scenegraph.TriangleMeshNode;
  */
 public class DefaultOpenGLScene extends Scene {
 
+    TransformationNode meshTransformationNode;
+    TriangleMesh mesh = null;
+    TriangleMeshNode mNode = null;
+    boolean b = true;
+    InnerNode node = new InnerNode();
+    ScaleNode scaleNode = new ScaleNode(0.1);
+    SkeletalAnimatedMesh skeletalAnimatedMesh;
+    List<TransformationNode> jointNodesAnimated = new ArrayList<>();
+    List<TransformationNode> jointNodesBindPose = new ArrayList<>();
+    List<TransformationNode> boneNodes = new ArrayList<>();
+    int t = 0;
+    float progression =0;
+
     public DefaultOpenGLScene() {
         super(100, INode.RenderMode.REGULAR);
     }
@@ -46,21 +78,28 @@ public class DefaultOpenGLScene extends Scene {
     @Override
     public void onSetup(InnerNode rootNode) {
 
-        Button button = new Button("kanone_abfeuern.png",
-                -0.7, -0.7, 0.2, new ButtonHandler() {
-            @Override
-            public void handle() {
-                Log.i(Constants.LOGTAG, "Button 1 pressed!");
-            }
-        });
-        //addButton(button);
+        ObjReader reader = new ObjReader();
+        ITriangleMesh mesh = reader.readDae("meshes/cowboy.dae");
+        mesh.setColor(new Vector(1, 1, 1, 1));
+        mesh.computeTriangleNormals();
+        mNode = new TriangleMeshNode(mesh);
+        meshTransformationNode = new TransformationNode();
+        meshTransformationNode.addChild(mNode);
+        scaleNode.addChild(meshTransformationNode);
+        node.addChild(scaleNode);
+        getRoot().addChild(node);
+        //SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile(doc);
 
 
-        ITriangleMesh mesh = new TriangleMesh();
-        TriangleMeshFactory.createSphere(mesh, 0.3, 7);
-        HalfEdgeTriangleMesh newMesh = HalfEdgeUtility.convert(mesh);
-        TriangleMeshNode node = new TriangleMeshNode(newMesh);
-        rootNode.addChild(node);
+
+        /*
+        File file = new File(url.getPath());
+
+        Document doc = ColladaImporter.readColladaFile(file);
+
+        SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile(doc);
+        //SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile("meshes/cowboy.dae");
+        */
     }
 
     @Override
@@ -70,6 +109,31 @@ public class DefaultOpenGLScene extends Scene {
 
     @Override
     public void onSceneRedraw() {
+        //File file = new File("cowboy.dae");
+        //Document doc = ColladaImporter.readColladaFile(file);
+        //System.out.println(doc.toString());
 
+       /*
+        t++;
+
+        if(t<5){
+            return;
+        }
+
+        TriangleMesh animatedMesh = skeletalAnimatedMesh.animate(progression);
+        progression = progression + 0.10f;
+        if(progression>0.8333f){
+            progression=0.01f;
+        }
+
+
+
+        //meshTransformationNode.removeChild(mNode);
+        mNode = new TriangleMeshNode(animatedMesh);
+        mNode.updateVbo();
+        //meshTransformationNode.addChild(mNode);
+
+        t=0;
+        */
     }
 }

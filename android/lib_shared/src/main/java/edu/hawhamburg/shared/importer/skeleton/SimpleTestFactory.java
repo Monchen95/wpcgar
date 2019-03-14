@@ -13,8 +13,8 @@ import edu.hawhamburg.shared.math.Vector;
 public class SimpleTestFactory {
     public static SkeletalAnimatedMesh createSuperSimpleSkeletalAnimatedMesh(){
         TriangleMesh mesh = new TriangleMesh();
-        Vertex v0 = new Vertex(new Vector(2,3,4,1));
-        Vertex v1 = new Vertex(new Vector(2,3,4,1));
+        Vertex v0 = new Vertex(new Vector(2,3,4));
+        Vertex v1 = new Vertex(new Vector(2,3,4));
         mesh.addVertex(v0);
         mesh.addVertex(v1);
 

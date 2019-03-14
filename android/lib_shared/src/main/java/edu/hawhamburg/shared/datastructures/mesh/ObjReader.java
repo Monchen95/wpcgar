@@ -14,17 +14,37 @@ package edu.hawhamburg.shared.datastructures.mesh;
 
 import android.util.Log;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import edu.hawhamburg.shared.importer.skeleton.SkeletalAnimatedMesh;
+import edu.hawhamburg.shared.importer.skeleton.Skeleton;
+import edu.hawhamburg.shared.importer.util.ColladaImporter;
+import edu.hawhamburg.shared.importer.util.ColladaImporter2;
+import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.AssetPath;
 import edu.hawhamburg.shared.misc.Constants;
@@ -81,6 +101,7 @@ public class ObjReader {
         // Read input
         //System.out.println("Trying to read OBJ file " + filename);
         InputStream inputStream = getInputStream(filename);
+
         try {
             String strLine = "";
             DataInputStream in = new DataInputStream(inputStream);
@@ -123,10 +144,105 @@ public class ObjReader {
         return meshes;
     }
 
+    public ITriangleMesh readDae(final String filename) {
+        // Setup
+        meshes.clear();
+        directory = new File(filename).getParent() + "/";
+        currentMesh = new TriangleMesh();
+        meshes.add(currentMesh);
+        materials = new HashMap<String, Material>();
+        vertexIndexOffset = 0;
+        texCoordOffset = 0;
+
+        InputStream inputStream = getInputStream(filename);
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        ITriangleMesh mesh=null;
+        try {
+            builder = factory.newDocumentBuilder();
+            //Document document = builder.parse(new InputSource(new StringReader(xmlString)));
+            Document document = builder.parse(new InputSource(inputStream));
+            System.out.println("*******************");
+
+            ColladaImporter2 colladaImporter = new ColladaImporter2();
+            mesh = colladaImporter.readMeshFromColladaFile(document);
+            Skeleton skeleton = colladaImporter.readSkeletonFromColladaFile(document);
+
+
+            Node libraryAnimation = document.getElementsByTagName("library_animations").item(0);
+            NodeList animationInformationNodes = libraryAnimation.getChildNodes();
+            String jointAnimationInformationSuffix = "_pose_matrix";
+
+            System.out.println(jointAnimationInformationSuffix);
+
+            skeleton=colladaImporter.addAnimationInterpolationToSkeleton(document, skeleton);
+
+            for(int i=0;i<skeleton.getJointIndexed().size();i++){
+                Node jointAnimationInformationNode = colladaImporter.getNodeByAttribute(animationInformationNodes,"id",skeleton.getJointIndexed().get(i).getName()+jointAnimationInformationSuffix);
+                Node samplerNode = colladaImporter.getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id","sampler");
+                Node inputFromSamplerNode = colladaImporter.getNodeByAttribute(samplerNode.getChildNodes(),"semantic","INPUT");
+                String inputSourceName = colladaImporter.getSourceFromNode(inputFromSamplerNode);
+                Node outputFromSamplerNode = colladaImporter.getNodeByAttribute(samplerNode.getChildNodes(),"semantic","OUTPUT");
+                String outputSourceName = colladaImporter.getSourceFromNode(outputFromSamplerNode);
+
+                Node animationTimeKeysNode = colladaImporter.getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id",inputSourceName);
+                Node animationTransformationsNode = colladaImporter.getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id",outputSourceName);
+
+                String[] animationTimeKeysStringArr = animationTimeKeysNode.getTextContent().replace("\n","").split(" ");
+                List<Double> animationTimeKeysList = new ArrayList<>();
+                for(int j=0;j<animationTimeKeysStringArr.length;j++){
+                    if(!animationTimeKeysStringArr[j].isEmpty()){
+                        animationTimeKeysList.add(Double.valueOf(animationTimeKeysStringArr[j]));
+                    }
+                }
+                //get stride
+
+                String[] animationTransformationsStringArr = animationTransformationsNode.getTextContent().replace("\n","").split(" ");
+                List<Double> animationTransformationsList = new ArrayList<>();
+                List<Matrix> animationTransformationMatrices = new ArrayList<>();
+                for(int j=0;j<animationTransformationsStringArr.length;j++){
+                    if(!animationTransformationsStringArr[j].isEmpty()){
+                        animationTransformationsList.add(Double.valueOf(animationTransformationsStringArr[j]));
+                    }
+                }
+                for(int j=0;j<animationTransformationsList.size();j+=16){
+                    animationTransformationMatrices.add(new Matrix(animationTransformationsList.get(j),animationTransformationsList.get(j+1),
+                            animationTransformationsList.get(j+2),animationTransformationsList.get(j+3),
+                            animationTransformationsList.get(j+4),animationTransformationsList.get(j+5),
+                            animationTransformationsList.get(j+6),animationTransformationsList.get(j+7),
+                            animationTransformationsList.get(j+8),animationTransformationsList.get(j+9),
+                            animationTransformationsList.get(j+10),animationTransformationsList.get(j+11),
+                            animationTransformationsList.get(j+12),animationTransformationsList.get(j+13),
+                            animationTransformationsList.get(j+14),animationTransformationsList.get(j+15)));
+                    //todo nicht immer sicher ob transponiert
+                }
+
+                for(int j=0;j<animationTimeKeysList.size();j++){
+                    skeleton.getJointIndexed().get(i).addKeyFrame(animationTimeKeysList.get(j),animationTransformationMatrices.get(j));
+                }
+
+            }
+
+
+
+            System.out.println("*******************");
+            if(document==null){
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(xmlString);
+        return mesh;
+
+    }
+
     /**
      * Get in input stream from a file.
      */
-    private InputStream getInputStream(String filename) {
+    public InputStream getInputStream(String filename) {
         InputStream stream = AssetPath.getInstance().readTextFileToStream(filename);
         if (stream == null) {
             Log.i(Constants.LOGTAG,

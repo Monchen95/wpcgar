@@ -2,12 +2,14 @@ package edu.hawhamburg.shared.importer.util;
 
 import org.w3c.dom.Document;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +44,7 @@ public class ColladaImporter {
 
     }
 
-    private Node getNodeByName(NodeList nodeList, String nodeName){
+    public Node getNodeByName(NodeList nodeList, String nodeName){
         Node node = null;
         for(int i=0;i<nodeList.getLength();i++){
             if(nodeList.item(i).getNodeName().equals(nodeName)){
@@ -52,7 +54,7 @@ public class ColladaImporter {
         return node;
     }
 
-    private Node getNodeByContainsString(NodeList nodeList, String nodeName){
+    public Node getNodeByContainsString(NodeList nodeList, String nodeName){
         Node node = null;
         for(int i=0;i<nodeList.getLength();i++){
             if(nodeList.item(i).getNodeName().contains(nodeName)){
@@ -62,7 +64,7 @@ public class ColladaImporter {
         return node;
     }
 
-    private String getAttributeFromNodeByKey(Node node, String key){
+    public String getAttributeFromNodeByKey(Node node, String key){
         if(!node.hasAttributes()){
             return "";
         }
@@ -77,18 +79,8 @@ public class ColladaImporter {
         }
     }
 
-    private Node getNodeByAttribute(NodeList nodeList, String key, String value){
-        Node node = null;
 
-        for(int i=0;i<nodeList.getLength();i++){
-            if(nodeHasAttribute(nodeList.item(i),key,value)){
-                node=nodeList.item(i);
-            }
-        }
-        return node;
-    }
-
-    private boolean nodeHasAttribute(Node node, String key, String value){
+    public boolean nodeHasAttribute(Node node, String key, String value){
         if(!node.hasAttributes()){
             return false;
         }
@@ -104,7 +96,7 @@ public class ColladaImporter {
         return false;
     }
 
-    private boolean nodeHasAttribute(Node node, String key){
+    public boolean nodeHasAttribute(Node node, String key){
         if(!node.hasAttributes()){
             return false;
         }
@@ -115,19 +107,19 @@ public class ColladaImporter {
         return false;
     }
 
-    private void printNodeList(NodeList nodeList){
+    public void printNodeList(NodeList nodeList){
         for(int i=0;i<nodeList.getLength();i++){
             System.out.println(nodeList.item(i).getNodeName());
         }
     }
 
-    private void printNodeAttribute(Node node){
+    public void printNodeAttribute(Node node){
         for(int i=0;i<node.getAttributes().getLength();i++){
             System.out.println(node.getAttributes().item(i));
         }
     }
 
-    private int getPolyStructureOffset(NodeList nodeList){
+    public int getPolyStructureOffset(NodeList nodeList){
         int offset=0;
         for(int i=0;i<nodeList.getLength();i++){
             if(nodeHasAttribute(nodeList.item(i),"offset")){
@@ -139,8 +131,43 @@ public class ColladaImporter {
         return offset;
     }
 
-    private String getSourceFromNode(Node node){
+    public Node getNodeByAttribute(NodeList nodeList, String key, String value){
+        Node node = null;
+
+        for(int i=0;i<nodeList.getLength();i++){
+            if(nodeHasAttribute(nodeList.item(i),key,value)){
+                node=nodeList.item(i);
+            }
+        }
+        return node;
+    }
+    public Node findNodeByKeyAndValue(NodeList nodeList, String key, String value){
+
+        Node foundNode = null;
+        for(int i=0;i<nodeList.getLength();i++){
+            if( nodeList.item(i).getAttributes()!=null){
+                NamedNodeMap nnm = nodeList.item(i).getAttributes();
+                Node attrNode = nnm.getNamedItem(key);
+                if(attrNode!=null){
+                    if(attrNode.getTextContent().equalsIgnoreCase(value)){
+                        System.out.println("Found the Node");
+                        System.out.println(attrNode.getTextContent());
+                        foundNode=nnm.getNamedItem("source");
+                    }
+                }
+            }
+        }
+        return foundNode;
+    }
+
+
+    public String getSourceFromNode(Node node){
         String notStripped = node.getAttributes().getNamedItem("source").toString();
+        return notStripped.replace("source=","").replace("\"","").replace("#","");
+    }
+
+    public String getSourceFromNode2(Node node){
+        String notStripped = node.getTextContent();
         return notStripped.replace("source=","").replace("\"","").replace("#","");
     }
 
@@ -167,8 +194,46 @@ public class ColladaImporter {
         return skeletalAnimatedMesh;
     }
 
-    private Document readColladaFile(String filepath) {
+    public SkeletalAnimatedMesh importColladaFile(Document doc){
+        TriangleMesh mesh = readMeshFromColladaFile(doc);
+        Skeleton skeleton = readSkeletonFromColladaFile(doc);
+        SkeletonAnimationController skeletonAnimationController = readAnimationControlFromColladaFile(doc,mesh,skeleton);
+
+        SkeletalAnimatedMesh skeletalAnimatedMesh = new SkeletalAnimatedMesh(mesh,skeleton,skeletonAnimationController);
+
+        return skeletalAnimatedMesh;
+    }
+
+    public static Document readColladaFile(String filepath) {
         File colladaFile = new File(filepath);
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        Document doc = null;
+
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(colladaFile);
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        return doc;
+    }
+
+    public static Document readColladaFile(InputStream is) {
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = null;
+        Document doc = null;
+
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+            doc = dBuilder.parse(is);
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        return doc;
+    }
+
+    public static Document readColladaFile(File colladaFile) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
         Document doc = null;
@@ -659,5 +724,9 @@ public class ColladaImporter {
         SkeletonAnimationController skeletonAnimationController = new SkeletonAnimationController(vertexWeightControllers,vertexGroupList,keyFrames);
 
         return skeletonAnimationController;
+    }
+
+    public static SkeletalAnimatedMesh getStub(){
+        return null;
     }
 }
