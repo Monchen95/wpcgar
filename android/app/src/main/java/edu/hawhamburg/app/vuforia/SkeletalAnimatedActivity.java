@@ -96,7 +96,7 @@ public class SkeletalAnimatedActivity extends Scene {
 
         //meshTransformationNode.setTransformation(getTransformationSightLine(findSightLine()));
         //meshTransformationNode.setTransformation(meshTransformationNode.getTransformation().multiply(Matrix.createRotationMatrix4(new Vector(1,0,0),-90)));
-        
+
         t++;
 
     }
