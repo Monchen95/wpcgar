@@ -3,10 +3,10 @@ package edu.hawhamburg.shared.importer.math;
 import edu.hawhamburg.shared.math.Vector;
 
 public class Quaternion {
-    private float w;
-    private float x;
-    private float y;
-    private float z;
+    private double w;
+    private double x;
+    private double y;
+    private double z;
 
     public Quaternion(){
         this.w=0;
@@ -17,60 +17,60 @@ public class Quaternion {
 
     public Quaternion(Vector v){
         this.w=0;
-        this.x=(float) v.get(0);
-        this.y=(float) v.get(1);
-        this.z=(float) v.get(2);
+        this.x=(double) v.get(0);
+        this.y=(double) v.get(1);
+        this.z=(double) v.get(2);
     }
 
-    public Quaternion(float w, float x, float y, float z) {
+    public Quaternion(double w, double x, double y, double z) {
         this.w = w;
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public float getZ() {
+    public double getZ() {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
 
-    public float getW() {
+    public double getW() {
         return w;
     }
 
-    public void setW(float w) {
+    public void setW(double w) {
         this.w = w;
     }
 
-    public float lengthEuclidian(){
-        return (float) Math.sqrt(lenghtNoSqrt());
+    public double lengthEuclidian(){
+        return (double) Math.sqrt(lenghtNoSqrt());
     }
 
-    public float lenghtNoSqrt(){
+    public double lenghtNoSqrt(){
         return x*x+y*y+z*z+w*w;
     }
 
     public Quaternion normalize() {
-        float mag = (float) Math.sqrt(w * w + x * x + y * y + z * z);
+        double mag = (double) Math.sqrt(w * w + x * x + y * y + z * z);
         w /= mag;
         x /= mag;
         y /= mag;
@@ -78,7 +78,7 @@ public class Quaternion {
         return new Quaternion(w,x,y,z);
     }
 
-    public float getByIdx(int idx){
+    public double getByIdx(int idx){
         if(idx==0){
             return w;
         } else if(idx==0){
@@ -102,12 +102,12 @@ public class Quaternion {
         return this;
     }
 
-    public Quaternion multiply(float a){
+    public Quaternion multiply(double a){
 
-        float w = this.w * a;
-        float x = this.x * a;
-        float y = this.y * a;
-        float z = this.z * a;
+        double w = this.w * a;
+        double x = this.x * a;
+        double y = this.y * a;
+        double z = this.z * a;
 
         return new Quaternion(w,x,y,z);
     }
@@ -116,7 +116,7 @@ public class Quaternion {
         return hamiltonProduct(other);
     }
 
-    public Quaternion mul3 (float scalar) {
+    public Quaternion mul3 (double scalar) {
         this.x *= scalar;
         this.y *= scalar;
         this.z *= scalar;
@@ -125,14 +125,14 @@ public class Quaternion {
     }
 
     public Quaternion add(Quaternion other){
-        float w = this.w+other.getW();
-        float x = this.x+other.getX();
-        float y = this.y+other.getY();
-        float z = this.z+other.getZ();
+        double w = this.w+other.getW();
+        double x = this.x+other.getX();
+        double y = this.y+other.getY();
+        double z = this.z+other.getZ();
         return new Quaternion(w,x,y,z);
     }
 
-    public float dot(Quaternion other){
+    public double dot(Quaternion other){
         return this.w*other.getW()+this.x*other.getX()+this.y*other.getY()+this.z*other.getZ();
     }
 
@@ -141,10 +141,10 @@ public class Quaternion {
     }
 
     public Quaternion hamiltonProduct(Quaternion other){
-        float w = this.w*other.getW()-this.x*other.getX()-this.y*other.getY()-this.z*other.getZ();
-        float x = this.w*other.getX()+this.x*other.getW()+this.y*other.getZ()-this.z*other.getY();
-        float y = this.w*other.getY()-this.x*other.getZ()+this.y*other.getW()+this.z*other.getX();
-        float z = this.w*other.getZ()+this.x*other.getY()-this.y*other.getX()+this.z*other.getW();
+        double w = this.w*other.getW()-this.x*other.getX()-this.y*other.getY()-this.z*other.getZ();
+        double x = this.w*other.getX()+this.x*other.getW()+this.y*other.getZ()-this.z*other.getY();
+        double y = this.w*other.getY()-this.x*other.getZ()+this.y*other.getW()+this.z*other.getX();
+        double z = this.w*other.getZ()+this.x*other.getY()-this.y*other.getX()+this.z*other.getW();
         return new Quaternion(w,x,y,z);
     }
 

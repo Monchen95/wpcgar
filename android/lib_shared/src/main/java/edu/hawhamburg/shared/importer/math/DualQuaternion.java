@@ -16,13 +16,13 @@ public class DualQuaternion {
     }
 
     public DualQuaternion normalize(){
-        float norm = rotation.lengthEuclidian();
+        double norm = rotation.lengthEuclidian();
         Quaternion rotation = this.rotation.multiply(1/norm);
         Quaternion displacement = this.displacement.multiply(1/norm);
         return new DualQuaternion(rotation,displacement);
     }
 
-    public DualQuaternion multiply(float f){
+    public DualQuaternion multiply(double f){
         Quaternion rotation= this.rotation.multiply(f);
         Quaternion displacement= this.displacement.multiply(f);
         return new DualQuaternion(rotation,displacement);

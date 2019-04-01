@@ -77,9 +77,13 @@ public class SkeletalAnimatedMesh {
      *           dafür modus rein (dqs, lbs usw.)
      * @return
      */
-        public TriangleMesh animate(float delta){
-        update(delta);
+    public TriangleMesh animate(double delta, String mode){
+        update(delta,mode);
         return this.mesh;
+    }
+
+    public void animate2(double delta, String mode){
+        update2(delta,mode);
     }
 
     private Matrix getKeyFrameAnimationForJoint(){
@@ -91,12 +95,12 @@ public class SkeletalAnimatedMesh {
     }
 
     private void calculateAnimationTransformsForSkeleton(){
-            //hole für jeden joint die der zeit entsprechenden keyframes
+        //hole für jeden joint die der zeit entsprechenden keyframes
         //interpoliere()
     }
 
     private void updateStub(float delta){
-            calculateAnimationTransformsForSkeleton();
+        calculateAnimationTransformsForSkeleton();
     }
 
     private void applyAnimationTransformsOnMesh(){
@@ -115,26 +119,23 @@ public class SkeletalAnimatedMesh {
 
             for(int j = 0; j<skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.size(); j++){
 
-                Matrix jointMatrix = skeleton.getJoint(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(j)).getTransformForCurrentKeyFrame();
+                Matrix jointMatrix = skeleton.getJoint(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(j)).getTransformForCurrentKeyFrame5();
                 float weight = skeletonAnimationController.vertexWeightControllers[i].weightThatAffectsVertex.get(j);
 
                 blendMatrix = blendMatrix.add(jointMatrix.multiply(weight));
 
-                //sumOfPositionVector =sumOfPositionVector.add(multiplyVectorWithMatrice(positionVector,jointMatrix).multiply(weight));
-                //sumOfNormalVector =sumOfNormalVector.add(multiplyVectorWithMatrice(normalVector,jointMatrix).multiply(weight));
 
             }
-            sumOfPositionVector = animationHelper.multiplyVectorWithMatrice(positionVector,blendMatrix);
-            sumOfNormalVector = animationHelper.multiplyVectorWithMatrice(normalVector,blendMatrix);
-//            sumOfPositionVector.set(3,1);
-//            sumOfNormalVector.set(3,1);
-            mesh.getVertex(i).getPosition().copy(sumOfPositionVector);
-            mesh.getVertex(i).getNormal().copy(sumOfNormalVector);
-            //mesh.getVertex(i).getColor().copy(new Vector(255 / 255.0, 238 / 255.0, 173 / 255.0, 1));
-           if(show){
-            debug("LBS",i,blendMatrix,skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.size());
+            Matrix inbetween = blendMatrix.multiply(skeleton.getBsm());
+            sumOfPositionVector = inbetween.multiply(positionVector);
+            sumOfNormalVector = inbetween.multiply(normalVector);
+            sumOfPositionVector.set(3,1);
+            sumOfNormalVector.set(3,1);
+            Vector tmpPos = new Vector(sumOfPositionVector.x(),sumOfPositionVector.y(),sumOfPositionVector.z());
+            Vector tmpNor = new Vector(sumOfNormalVector.x(),sumOfNormalVector.y(),sumOfNormalVector.z());
+            mesh.getVertex(i).getPosition().copy(tmpPos);
+            mesh.getVertex(i).getNormal().copy(tmpNor);
 
-           }
 
         }
     }
@@ -161,37 +162,27 @@ public class SkeletalAnimatedMesh {
             if(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.size()>0){
                 int pivotJoint = getHighestWeight(skeletonAnimationController.vertexWeightControllers[i]);
                 pivot = AnimationHelper.convert4x4MatrixToDQ(
-                        skeleton.getJoint(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(pivotJoint)).getTransformForCurrentKeyFrame().getTransposed());
-                        //skeleton.getJoint(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(0)).getTransformForCurrentKeyFrame().getTransposed());
-
-              /*
-                if(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.size()>1){
-                            System.out.println("Vertex: "+i);
-                            for(int p=0;p<skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.size(); p++) {
-                                System.out.println("Joint idx: "+p);
-                                System.out.println("Joint number: "+skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(p));
-                                skeletonAnimationController.vertexWeightControllers[i].
-                            }
-                }
-                */
+                        skeleton.getJoint(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(pivotJoint)).getTransformForCurrentKeyFrame5());
             }
 
 
 
-                boolean setColor=false;
 
             for(int j = 0; j<skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.size(); j++){
 
-                Matrix jointMatrix = skeleton.getJoint(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(j)).getTransformForCurrentKeyFrame();
-                DualQuaternion jointDQ = AnimationHelper.convert4x4MatrixToDQ(jointMatrix.getTransposed());
+                Matrix jointMatrix = skeleton.getJoint(skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.get(j)).getTransformForCurrentKeyFrame5();
+                Matrix inbetween = jointMatrix.multiply(skeleton.getBsm());
+                DualQuaternion jointDQ = AnimationHelper.convert4x4MatrixToDQ(inbetween);
 
-                float weight = skeletonAnimationController.vertexWeightControllers[i].weightThatAffectsVertex.get(j);
+
+
+                double weight = skeletonAnimationController.vertexWeightControllers[i].weightThatAffectsVertex.get(j);
 
                 //kürzester weg
                 //if(jointDQ.getRotation().dot(pivot.getRotation())<0.f){
-                if(pivot.getRotation().dot(jointDQ.getRotation())<0.f){
-                   weight=weight*-1.f;
-                    setColor = true;
+                if(pivot.getRotation().dot(jointDQ.getRotation())<0.0){
+                    weight=weight*-1.0;
+
                 }
 
                 jointDQ = jointDQ.multiply(weight);
@@ -199,46 +190,48 @@ public class SkeletalAnimatedMesh {
 
 
             }
-            Matrix transform = AnimationHelper.convertDQToMatrix(blendDQS).getTransposed();
-            //Matrix transform = AnimationHelper.convertDQToMatrix2(blendDQS);
 
-           // Vector newPosition = animationHelper.multiplyVectorWithMatrice(positionVector,transform);
+            Matrix transform = AnimationHelper.convertDQToMatrix(blendDQS);
+            //Matrix transform = AnimationHelper.convertDQToMatrix2(blendDQS);
+            //Vector newPosition = transform.multiply(positionVector);
             Vector newPosition = AnimationHelper.transformVectorWithDQ(blendDQS,positionVector);
             newPosition = Vector.makeHomogenious(newPosition);
 
-            Vector newNormal = animationHelper.multiplyVectorWithMatrice(normalVector,transform);
-          //  Vector newNormal = AnimationHelper.transformVectorWithDQ(blendDQS,normalVector);
+            //Vector newNormal = transform.multiply(normalVector);
+            Vector newNormal = AnimationHelper.transformVectorWithDQ(blendDQS,normalVector);
             newNormal = Vector.makeHomogenious(newNormal);
 
-            //newPosition.set(3,1);
-            //newNormal.set(3,1);
+            mesh.getVertex(i).getColor().copy(new Vector(1, 1, 1, 1));
             mesh.getVertex(i).getPosition().copy(newPosition);
             mesh.getVertex(i).getNormal().copy(newNormal);
-            if(show){
-                debug("DQS",i,transform,skeletonAnimationController.vertexWeightControllers[i].jointsThatAffectsVertex.size());
-            }
 
-            if(setColor){
-              //  mesh.getVertex(i).getPosition().copy(mesh.getVertex(i).getPosition().multiply(2));
 
-            }
         }
     }
 
-    private void debug(String technique, int i, Matrix m, int jointnumber){
-        System.out.println("Technique: "+technique);
-        System.out.println("Vertex: "+i);
-        System.out.println("Matrix: "+m);
-        System.out.println("No of Joints: "+jointnumber);
-    }
-
-    private void update(float delta){
+    private void update(double delta, String mode){
         //finde für jeden joint den nächsten keyframe
         for(int i=0;i<skeleton.getJointIndexed().size();i++){
-            skeleton.getJoint(i).calculateAnimationPoseToWorldMatrix(skeletonAnimationController.keyFrames.get(i).getKeyFrameAnimationForTimeT(delta,"nlerp"));
+            skeleton.getJoint(i).calculateAnimationPoseToWorldMatrix(skeletonAnimationController.keyFrames.get(i).getKeyFrameAnimationForTimeT(delta,"slerp"));
         }
-        linearBlendSkinning();
-        //dualQuaternionBlendSkinning();
+        if(mode.equalsIgnoreCase("lbs")){
+            linearBlendSkinning();
+        } else {
+            dualQuaternionBlendSkinning();
+        }
+
+    }
+
+    private void update2(double delta, String mode){
+        //finde für jeden joint den nächsten keyframe
+        for(int i=0;i<skeleton.getJointIndexed().size();i++){
+            skeleton.getJoint(i).calculateAnimationPoseToWorldMatrix(skeletonAnimationController.keyFrames.get(i).getKeyFrameAnimationForTimeT(delta,"slerp"));
+        }
+        if(mode.equalsIgnoreCase("lbs")){
+            linearBlendSkinning();
+        } else {
+            dualQuaternionBlendSkinning();
+        }
 
     }
 

@@ -88,8 +88,8 @@ public class OberverScene extends Scene {
         scaleT.addChild(headNodeT);
         targetNode = scaleT;
 
-        markerTarget.addChild(targetTranslation);
         targetTranslation.addChild(targetNode);
+        markerTarget.addChild(targetTranslation);
 
         rootNode.addChild(markerTarget);
 

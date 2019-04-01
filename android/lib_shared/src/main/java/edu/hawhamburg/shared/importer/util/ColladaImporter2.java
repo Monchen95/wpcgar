@@ -555,6 +555,29 @@ public class ColladaImporter2 {
         Node libraryControllers = document.getElementsByTagName("library_controllers").item(0);
         Node controllerNode = getNodeByName(libraryControllers.getChildNodes(),"controller");
         Node skinNode = getNodeByName(controllerNode.getChildNodes(),"skin");
+
+        Node bsmNode = getNodeByName(skinNode.getChildNodes(),"bind_shape_matrix");
+        String[] bsmNodeMatrixAsStringArr = bsmNode.getTextContent().replace("\n","").split(" ");
+        List<Double> bsmAsStringList = new ArrayList<>();
+        for(int j=0;j<bsmNodeMatrixAsStringArr.length;j++){
+            if(!bsmNodeMatrixAsStringArr[j].isEmpty()){
+                bsmAsStringList.add(Double.valueOf(bsmNodeMatrixAsStringArr[j]));
+            }
+        }
+
+
+        skeleton.setBsm(new Matrix(bsmAsStringList.get(0),bsmAsStringList.get(1),
+                bsmAsStringList.get(2),bsmAsStringList.get(3),
+                bsmAsStringList.get(4),bsmAsStringList.get(5),
+                bsmAsStringList.get(6),bsmAsStringList.get(7),
+                bsmAsStringList.get(8),bsmAsStringList.get(9),
+                bsmAsStringList.get(10),bsmAsStringList.get(11),
+                bsmAsStringList.get(12),bsmAsStringList.get(13),
+                bsmAsStringList.get(14),bsmAsStringList.get(15)));
+
+        System.out.println(skeleton.getBsm());
+
+
         Node jointsNode = getNodeByName(skinNode.getChildNodes(),"joints");
         printNodeAttribute(controllerNode);
         Node invBindMatrixSourceNode = getNodeByAttribute(jointsNode.getChildNodes(),"semantic","INV_BIND_MATRIX");
@@ -626,9 +649,10 @@ public class ColladaImporter2 {
 
            String[] animationTimeKeysStringArr = animationTimeKeysNode.getTextContent().replace("\n","").split(" ");
            List<Double> animationTimeKeysList = new ArrayList<>();
+           double normBase = Double.valueOf(animationTimeKeysStringArr[animationTimeKeysStringArr.length-1]);
            for(int j=0;j<animationTimeKeysStringArr.length;j++){
                if(!animationTimeKeysStringArr[j].isEmpty()){
-                   animationTimeKeysList.add(Double.valueOf(animationTimeKeysStringArr[j]));
+                   animationTimeKeysList.add(Double.valueOf(animationTimeKeysStringArr[j])/normBase);
                }
            }
            //get stride

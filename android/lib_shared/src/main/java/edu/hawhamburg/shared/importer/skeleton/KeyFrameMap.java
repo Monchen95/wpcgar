@@ -37,7 +37,7 @@ public class KeyFrameMap {
         return null;
     }
 
-    public Matrix getKeyFrameAnimationForTimeT(float f, String mode){
+    public Matrix getKeyFrameAnimationForTimeT(double f, String mode){
 
         List<Double> keyTime = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class KeyFrameMap {
 
         //todo magic numbers hier raus bzw. auf 0...1 normieren
         double key1=0;
-        double key2=0.8333333;
+        double key2=1;
         for(int i=0;i<keyTime.size();i++){
             if(keyTime.get(i)<=f&&keyTime.get(i)>=key1){
                 key1=keyTime.get(i);
@@ -65,10 +65,11 @@ public class KeyFrameMap {
 
         Matrix m1 = getKeyFrameAnimation(key1);
         Matrix m2 = getKeyFrameAnimation(key2);
+        double numerator = f-key1;
+        double denominator = key2-key1;
 
-        double progression = (f/(key1+key2));
-        //double progression = (d-key1);
-        Matrix animatedMatrix = AnimationHelper.linearInterpolate4x4Matrices(m1,m2,f,mode);
+        double progression = (numerator/denominator);
+        Matrix animatedMatrix = AnimationHelper.linearInterpolate4x4Matrices(m1,m2,progression,mode);
 
         return animatedMatrix;
     }

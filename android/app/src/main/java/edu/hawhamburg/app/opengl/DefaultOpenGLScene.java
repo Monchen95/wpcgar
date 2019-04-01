@@ -70,7 +70,7 @@ public class DefaultOpenGLScene extends Scene {
     List<TransformationNode> jointNodesBindPose = new ArrayList<>();
     List<TransformationNode> boneNodes = new ArrayList<>();
     int t = 0;
-    float progression =0;
+    double progression =0;
 
     public DefaultOpenGLScene() {
         super(100, INode.RenderMode.REGULAR);
@@ -124,7 +124,7 @@ public class DefaultOpenGLScene extends Scene {
 
 
 
-        TriangleMesh animatedMesh = skeletalAnimatedMesh.animate(progression);
+        TriangleMesh animatedMesh = skeletalAnimatedMesh.animate(progression,"lbs");
         progression = progression + 0.05f;
         if(progression>0.8333f){
             progression=0.01f;

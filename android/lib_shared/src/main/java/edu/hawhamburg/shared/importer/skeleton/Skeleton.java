@@ -7,10 +7,20 @@ import edu.hawhamburg.shared.math.Matrix;
 public class Skeleton {
     private Joint rootJoint;
     private List<Joint> jointIndexed;
+    private Matrix bsm;
 
     public Skeleton(Joint rootJoint, List<Joint> jointIndexed) {
         this.rootJoint = rootJoint;
         this.jointIndexed=jointIndexed;
+        this.bsm = Matrix.createIdentityMatrix4();
+    }
+
+    public Matrix getBsm() {
+        return bsm;
+    }
+
+    public void setBsm(Matrix bsm) {
+        this.bsm = bsm;
     }
 
     public Joint getRootJoint() {

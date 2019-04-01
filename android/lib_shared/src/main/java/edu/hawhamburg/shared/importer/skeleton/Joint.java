@@ -31,7 +31,7 @@ public class Joint {
     }
 
     public Matrix getDefaultPose(){
-    if(parentJoint==null){
+        if(parentJoint==null){
             return inversBindMatrix.multiply(bindPoseToParentMatrix);
         }
         return inversBindMatrix.multiply(getBindPoseToWorldMatrix());
@@ -53,6 +53,22 @@ public class Joint {
     public Matrix getTransformForCurrentKeyFrame2(){
         //beide matrizen transponieren, weil openGL
         return inversBindMatrix.multiply(animationPoseToWorldMatrix);
+    }
+
+
+    public Matrix getTransformForCurrentKeyFrame3(){
+        //beide matrizen transponieren, weil openGL
+        return inversBindMatrix.getTransposed().multiply(animationPoseToWorldMatrix);
+    }
+
+    public Matrix getTransformForCurrentKeyFrame4(){
+        //beide matrizen transponieren, weil openGL
+        return (animationPoseToWorldMatrix.multiply(inversBindMatrix)).getTransposed();
+    }
+
+    public Matrix getTransformForCurrentKeyFrame5(){
+        //beide matrizen transponieren, weil openGL
+        return (animationPoseToWorldMatrix.multiply(inversBindMatrix));
     }
 
 
