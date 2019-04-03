@@ -36,45 +36,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SkeletalAnimatedActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/SkeletalAnimatedActivity.java">
+      <file leaf-file-name="SkeletalAnimatedScene.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/SkeletalAnimatedScene.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="224" selection-start-line="224" selection-end-line="224" />
+            <state relative-caret-position="261">
+              <caret line="150" column="64" selection-start-line="150" selection-start-column="47" selection-end-line="150" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1992#1993#0" expanded="true" />
-                <element signature="e#2017#2018#0" expanded="true" />
-                <element signature="e#2621#2745#0" expanded="true" />
-                <element signature="e#2744#2745#0" expanded="true" />
+                <element signature="e#1600#1601#0" expanded="true" />
+                <element signature="e#1641#1642#0" expanded="true" />
+                <element signature="e#1670#1671#0" expanded="true" />
+                <element signature="e#1712#1713#0" expanded="true" />
+                <element signature="e#1751#1752#0" expanded="true" />
+                <element signature="e#1793#1794#0" expanded="true" />
+                <element signature="e#1829#1830#0" expanded="true" />
+                <element signature="e#1865#1866#0" expanded="true" />
+                <element signature="e#1901#1902#0" expanded="true" />
+                <element signature="e#1953#1954#0" expanded="true" />
+                <element signature="e#1989#1990#0" expanded="true" />
+                <element signature="e#2037#2038#0" expanded="true" />
+                <element signature="e#2225#2354#0" expanded="true" />
+                <element signature="e#2353#2354#0" expanded="true" />
+                <element signature="e#2468#2598#0" expanded="true" />
+                <element signature="e#2597#2598#0" expanded="true" />
+                <element signature="e#2720#2857#0" expanded="true" />
+                <element signature="e#2856#2857#0" expanded="true" />
+                <element signature="e#2986#3123#0" expanded="true" />
+                <element signature="e#3122#3123#0" expanded="true" />
+                <element signature="e#3254#3391#0" expanded="true" />
+                <element signature="e#3390#3391#0" expanded="true" />
+                <element signature="e#3521#3661#0" expanded="true" />
+                <element signature="e#3660#3661#0" expanded="true" />
+                <element signature="e#4882#5088#0" expanded="true" />
+                <element signature="e#5087#5088#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AnimationConfig.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/AnimationConfig.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Vector.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/math/Vector.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="109" selection-start-line="109" selection-end-line="109" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefaultOpenGLScene.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/DefaultOpenGLScene.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="126" column="81" selection-start-line="126" selection-start-column="81" selection-end-line="126" selection-end-column="81" />
             </state>
           </provider>
         </entry>
@@ -82,38 +77,25 @@
       <file leaf-file-name="ObjReader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/datastructures/mesh/ObjReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="171" column="43" selection-start-line="171" selection-start-column="43" selection-end-line="171" selection-end-column="43" />
+            <state relative-caret-position="255">
+              <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="method#getInputStream#0;class#ObjReader#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ColladaImporter2.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter2.java">
+      <file leaf-file-name="SkeletalAnimatedMesh.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletalAnimatedMesh.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="654" column="99" selection-start-line="654" selection-start-column="99" selection-end-line="654" selection-end-column="99" />
+            <state relative-caret-position="510">
+              <caret line="178" column="40" lean-forward="true" selection-start-line="178" selection-start-column="40" selection-end-line="178" selection-end-column="40" />
               <folding>
-                <element signature="method#getAttributeFromNodeByKey2#0;class#ColladaImporter2#0" />
-                <element signature="method#nodeHasAttribute#1;class#ColladaImporter2#0" />
-                <element signature="method#printNodeList#0;class#ColladaImporter2#0" />
-                <element signature="method#printNodeAttribute#0;class#ColladaImporter2#0" />
-                <element signature="method#removeElements#0;class#ColladaImporter2#0" />
-                <element signature="method#ColladaImporter2#0;class#ColladaImporter2#0" />
-                <element signature="method#importColladaFile#1;class#ColladaImporter2#0" />
-                <element signature="method#readColladaFile#0;class#ColladaImporter2#0" />
-                <element signature="method#readColladaFile#1;class#ColladaImporter2#0" />
-                <element signature="method#readColladaFile#2;class#ColladaImporter2#0" />
-                <element signature="method#findFirstSkeletonJoint#0;class#ColladaImporter2#0" />
-                <element signature="method#isChildOf#0;class#ColladaImporter2#0" />
-                <element signature="method#getMatrixFromNode#0;class#ColladaImporter2#0" />
-                <element signature="method#createSkeletonFromNodeList#0;class#ColladaImporter2#0" />
-                <element signature="method#createJointFromNode#0;class#ColladaImporter2#0" />
-                <element signature="method#cleanUpStringArray#0;class#ColladaImporter2#0" />
+                <element signature="imports" expanded="true" />
+                <element signature="method#SkeletalAnimatedMesh#0;class#SkeletalAnimatedMesh#0" />
+                <element signature="method#getSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
+                <element signature="method#setSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
               </folding>
             </state>
           </provider>
@@ -122,58 +104,86 @@
       <file leaf-file-name="KeyFrameMap.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/KeyFrameMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
+            <state relative-caret-position="669">
               <caret line="71" column="101" selection-start-line="71" selection-start-column="101" selection-end-line="71" selection-end-column="101" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SkeletalAnimatedMesh.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletalAnimatedMesh.java">
+      <file leaf-file-name="Joint.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/Joint.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="136" column="53" selection-start-line="136" selection-start-column="53" selection-end-line="136" selection-end-column="53" />
+            <state relative-caret-position="68">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AnimationConfig.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/AnimationConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
               <folding>
-                <element signature="method#SkeletalAnimatedMesh#0;class#SkeletalAnimatedMesh#0" />
-                <element signature="method#getSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
-                <element signature="method#setSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
-                <element signature="e#2867#2868#0" expanded="true" />
-                <element signature="e#2902#2903#0" expanded="true" />
-                <element signature="e#2954#2955#0" expanded="true" />
-                <element signature="e#2981#2982#0" expanded="true" />
-                <element signature="method#getHighestWeight#0;class#SkeletalAnimatedMesh#0" />
+                <element signature="e#298#299#0" expanded="true" />
+                <element signature="e#327#328#0" expanded="true" />
+                <element signature="e#604#605#0" expanded="true" />
+                <element signature="e#636#637#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AnimationHelper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/AnimationHelper.java">
+      <file leaf-file-name="SkeletonLock.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletonLock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="93" selection-start-line="93" selection-end-line="93" />
+            <state relative-caret-position="136">
+              <caret line="8" lean-forward="true" selection-end-line="8" />
               <folding>
-                <element signature="method#main#0;class#AnimationHelper#0" />
-                <element signature="method#TgetTranslationFromTransformationMatrix#0;class#AnimationHelper#0" />
-                <element signature="method#directLinearInterpolate4x4Matrices#0;class#AnimationHelper#0" />
-                <element signature="method#convertQuaternionTo4x4Matric#0;class#AnimationHelper#0" />
-                <element signature="method#TconvertQuaternionTo4x4Matric#0;class#AnimationHelper#0" />
-                <element signature="method#convert4x4MatrixToQuaternion#0;class#AnimationHelper#0" />
-                <element signature="method#convert4x4MatrixToQuaternion2#0;class#AnimationHelper#0" />
-                <element signature="method#Tconvert4x4MatrixToQuaternion2#0;class#AnimationHelper#0" />
-                <element signature="method#vectorLerp#0;class#AnimationHelper#0" />
-                <element signature="method#quaternioenLerp#0;class#AnimationHelper#0" />
-                <element signature="method#quaternioenSLerp#0;class#AnimationHelper#0" />
-                <element signature="method#quaternioenSLerp2#0;class#AnimationHelper#0" />
-                <element signature="method#quaternioenSLerp3#0;class#AnimationHelper#0" />
-                <element signature="method#quaternioenNLerp#0;class#AnimationHelper#0" />
-                <element signature="docComment;method#convertQuaternionAndVectorToDQ2#0;class#AnimationHelper#0" />
-                <element signature="method#convertQuaternionAndVectorToDQ#0;class#AnimationHelper#0" />
-                <element signature="method#convert4x4MatrixToDQ#0;class#AnimationHelper#0" />
-                <element signature="method#transformVectorWithDQ#0;class#AnimationHelper#0" />
-                <element signature="method#convertDQToMatrix#0;class#AnimationHelper#0" />
-                <element signature="method#convertDQToMatrix2#0;class#AnimationHelper#0" />
-                <element signature="method#multiplyVectorWithMatrice#0;class#AnimationHelper#0" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ColladaImporter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-236">
+              <caret line="302" column="37" selection-start-line="302" selection-end-line="303" />
+              <folding>
+                <element signature="method#getNodeByName#0;class#ColladaImporter2#0" />
+                <element signature="method#getNodeByContainsString#0;class#ColladaImporter2#0" />
+                <element signature="method#getAttributeFromNodeByKey2#0;class#ColladaImporter2#0" />
+                <element signature="method#getAttributeFromNodeByKey#0;class#ColladaImporter2#0" />
+                <element signature="method#nodeHasAttribute#0;class#ColladaImporter2#0" />
+                <element signature="method#nodeHasAttribute#1;class#ColladaImporter2#0" />
+                <element signature="method#printNodeList#0;class#ColladaImporter2#0" />
+                <element signature="method#printNodeAttribute#0;class#ColladaImporter2#0" />
+                <element signature="method#getPolyStructureOffset#0;class#ColladaImporter2#0" />
+                <element signature="method#getNodeByAttribute2#0;class#ColladaImporter2#0" />
+                <element signature="method#getNodeByAttribute#0;class#ColladaImporter2#0" />
+                <element signature="method#findNamedNodeMapByKeyAndValue#0;class#ColladaImporter2#0" />
+                <element signature="method#getSourceFromNode#0;class#ColladaImporter2#0" />
+                <element signature="method#cleanNodeContext#0;class#ColladaImporter2#0" />
+                <element signature="method#removeElements#0;class#ColladaImporter2#0" />
+                <element signature="method#ColladaImporter2#0;class#ColladaImporter2#0" />
+                <element signature="method#importColladaFile#0;class#ColladaImporter2#0" />
+                <element signature="method#importColladaFile#1;class#ColladaImporter2#0" />
+                <element signature="method#readColladaFile#0;class#ColladaImporter2#0" />
+                <element signature="method#readColladaFile#1;class#ColladaImporter2#0" />
+                <element signature="method#readColladaFile#2;class#ColladaImporter2#0" />
+                <element signature="method#findFirstSkeletonJoint#0;class#ColladaImporter2#0" />
+                <element signature="method#findJointNodes#0;class#ColladaImporter2#0" />
+                <element signature="method#findSkeletonEntryNode#0;class#ColladaImporter2#0" />
+                <element signature="method#isChildOf#0;class#ColladaImporter2#0" />
+                <element signature="method#getMatrixFromNode#0;class#ColladaImporter2#0" />
+                <element signature="method#createSkeletonFromNodeList#0;class#ColladaImporter2#0" />
+                <element signature="method#createJointFromNode#0;class#ColladaImporter2#0" />
+                <element signature="method#readSkeletonFromColladaFile#0;class#ColladaImporter2#0" />
+                <element signature="method#cleanUpStringArray#0;class#ColladaImporter2#0" />
+                <element signature="method#addAnimationInterpolationToSkeleton#0;class#ColladaImporter2#0" />
+                <element signature="method#readAnimationControlFromColladaFile#0;class#ColladaImporter2#0" />
               </folding>
             </state>
           </provider>
@@ -4997,23 +5007,26 @@
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/CowBoy.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SimpleTestFactory.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter.java" />
-        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/datastructures/mesh/ObjReader.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/scenegraph/InnerNode.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/VuforiaActivity.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/deprecated/EulerAngle.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/OberverScene.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/AnimationConfig.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/AnimationHelper.java" />
-        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/math/Quaternion.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/Joint.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/Skeleton.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/math/DualQuaternion.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/DefaultOpenGLScene.java" />
-        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletalAnimatedMesh.java" />
-        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter2.java" />
         <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/KeyFrameMap.java" />
+        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletonLock.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/AnimationConfig.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/SkeletalAnimatedActivity.java" />
+        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletalAnimatedMesh.java" />
+        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/math/Quaternion.java" />
+        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter2.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/SkeletalAnimatedScene.java" />
+        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/AnimationConfig.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/DefaultOpenGLScene.java" />
+        <option value="$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/datastructures/mesh/ObjReader.java" />
       </list>
     </option>
   </component>
@@ -5079,6 +5092,12 @@
               <item name="android" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
               <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
@@ -5089,18 +5108,73 @@
             </path>
             <path>
               <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="shared" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="shared" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="datastructures" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="shared" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="datastructures" type="462c0819:PsiDirectoryNode" />
+              <item name="mesh" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="shared" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="importer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="shared" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="importer" type="462c0819:PsiDirectoryNode" />
+              <item name="math" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="shared" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="importer" type="462c0819:PsiDirectoryNode" />
+              <item name="skeleton" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="lib_shared" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="shared" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="importer" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
               <item name="lib_vuforia" type="feadf853:AndroidModuleNode" />
             </path>
             <path>
               <item name="android" type="1abcf292:AndroidViewProjectNode" />
               <item name="lib_vuforia" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="lib_vuforia" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="vuforia" type="cbb59c9e:AndroidPsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -5126,6 +5200,7 @@
       <recent name="C:\Users\Devran\AndroidStudioProjects\new_cg\wpcgar\android\assets\meshes" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="edu.hawhamburg.shared.importer.skeleton" />
       <recent name="edu.hawhamburg.shared.importer.util" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -5327,14 +5402,14 @@
       <window_info id="Build Variants" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" />
       <window_info anchor="bottom" id="Event Log" sideWeight="0.5143923" side_tool="true" weight="0.39955604" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.8315565" visible="true" weight="0.33296338" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8315565" weight="0.33296338" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" sideWeight="0.49946696" weight="0.32963374" />
       <window_info anchor="bottom" id="Logcat" sideWeight="0.4978678" weight="0.32963374" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17590618" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17590618" />
       <window_info anchor="bottom" id="Build" sideWeight="0.4989339" weight="0.32963374" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32963374" />
       <window_info anchor="right" id="Gradle" />
@@ -5356,15 +5431,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter.java</url>
-          <line>255</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="40" />
+      <option name="time" value="42" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -5377,27 +5444,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib_vuforia/src/main/java/edu/hawhamburg/vuforia/VuforiaKey.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-26/android.jar!/java/util/Comparator.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletonAnimationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-195">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/VertexWeightController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-42">
@@ -5505,16 +5551,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/misc/Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="175" selection-start-line="175" selection-end-line="175" />
-          <folding>
-            <element signature="e#0#733#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/datastructures/mesh/TriangleMesh.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -5593,13 +5629,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/VuforiaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="103" selection-start-line="103" selection-end-line="103" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/datastructures/mesh/Vertex.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -5628,27 +5657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib_vuforia/src/main/java/edu/hawhamburg/vuforia/VuforiaRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-170">
-          <caret line="58" column="13" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/math/Quaternion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="168" selection-start-line="168" selection-end-line="168" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/Joint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1695">
-          <caret line="176" selection-start-line="176" selection-end-line="176" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/Skeleton.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="692">
@@ -5664,24 +5672,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/math/DualQuaternion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/datastructures/mesh/ObjReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="171" column="43" selection-start-line="171" selection-start-column="43" selection-end-line="171" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getInputStream#0;class#ObjReader#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider editor-type-id="android-manifest">
         <state />
@@ -5689,37 +5679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/DefaultOpenGLScene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="126" column="81" selection-start-line="126" selection-start-column="81" selection-end-line="126" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/math/Vector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="109" selection-start-line="109" selection-end-line="109" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletalAnimatedMesh.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="136" column="53" selection-start-line="136" selection-start-column="53" selection-end-line="136" selection-end-column="53" />
-          <folding>
-            <element signature="method#SkeletalAnimatedMesh#0;class#SkeletalAnimatedMesh#0" />
-            <element signature="method#getSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
-            <element signature="method#setSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
-            <element signature="e#2867#2868#0" expanded="true" />
-            <element signature="e#2902#2903#0" expanded="true" />
-            <element signature="e#2954#2955#0" expanded="true" />
-            <element signature="e#2981#2982#0" expanded="true" />
-            <element signature="method#getHighestWeight#0;class#SkeletalAnimatedMesh#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5753,63 +5712,237 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter2.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/AnimationConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="654" column="99" selection-start-line="654" selection-start-column="99" selection-end-line="654" selection-end-column="99" />
+        <state relative-caret-position="119">
+          <caret line="7" column="41" lean-forward="true" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
           <folding>
-            <element signature="method#getAttributeFromNodeByKey2#0;class#ColladaImporter2#0" />
-            <element signature="method#nodeHasAttribute#1;class#ColladaImporter2#0" />
-            <element signature="method#printNodeList#0;class#ColladaImporter2#0" />
-            <element signature="method#printNodeAttribute#0;class#ColladaImporter2#0" />
-            <element signature="method#removeElements#0;class#ColladaImporter2#0" />
-            <element signature="method#ColladaImporter2#0;class#ColladaImporter2#0" />
-            <element signature="method#importColladaFile#1;class#ColladaImporter2#0" />
-            <element signature="method#readColladaFile#0;class#ColladaImporter2#0" />
-            <element signature="method#readColladaFile#1;class#ColladaImporter2#0" />
-            <element signature="method#readColladaFile#2;class#ColladaImporter2#0" />
-            <element signature="method#findFirstSkeletonJoint#0;class#ColladaImporter2#0" />
-            <element signature="method#isChildOf#0;class#ColladaImporter2#0" />
-            <element signature="method#getMatrixFromNode#0;class#ColladaImporter2#0" />
-            <element signature="method#createSkeletonFromNodeList#0;class#ColladaImporter2#0" />
-            <element signature="method#createJointFromNode#0;class#ColladaImporter2#0" />
-            <element signature="method#cleanUpStringArray#0;class#ColladaImporter2#0" />
+            <element signature="e#237#238#0" expanded="true" />
+            <element signature="e#269#270#0" expanded="true" />
+            <element signature="e#337#338#0" expanded="true" />
+            <element signature="e#367#368#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/KeyFrameMap.java">
+    <entry file="file://$PROJECT_DIR$/lib_vuforia/src/main/java/edu/hawhamburg/vuforia/VuforiaRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="71" column="101" selection-start-line="71" selection-start-column="101" selection-end-line="71" selection-end-column="101" />
+        <state relative-caret-position="153">
+          <caret line="243" column="5" selection-start-line="243" selection-start-column="5" selection-end-line="243" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/AnimationConfig.java">
+    <entry file="jar://$PROJECT_DIR$/libs/Vuforia.jar!/com/vuforia/DataSet.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="68">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-26/android.jar!/android/app/Activity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_vuforia/src/main/java/edu/hawhamburg/vuforia/SessionControllable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-198">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/misc/Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-208">
+          <caret line="93" column="18" selection-start-line="93" selection-start-column="18" selection-end-line="93" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#733#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/math/Quaternion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-195">
+          <caret line="110" column="4" selection-start-line="110" selection-start-column="4" selection-end-line="110" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/math/DualQuaternion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-433">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/math/Vector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="440" column="18" selection-start-line="440" selection-start-column="18" selection-end-line="440" selection-end-column="18" />
+          <folding>
+            <element signature="e#12134#12135#0" expanded="true" />
+            <element signature="e#12182#12183#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/AnimationConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+          <folding>
+            <element signature="e#298#299#0" expanded="true" />
+            <element signature="e#327#328#0" expanded="true" />
+            <element signature="e#604#605#0" expanded="true" />
+            <element signature="e#636#637#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletonLock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-end-line="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/opengl/DefaultOpenGLScene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="72" column="8" selection-start-line="72" selection-start-column="8" selection-end-line="72" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/math/Matrix.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="221" column="18" selection-start-line="221" selection-start-column="18" selection-end-line="221" selection-end-column="18" />
+          <caret line="201" selection-start-line="201" selection-end-line="201" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/SkeletalAnimatedActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/VuforiaActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="224" selection-start-line="224" selection-end-line="224" />
+        <state relative-caret-position="176">
+          <caret line="76" column="37" lean-forward="true" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/datastructures/mesh/ObjReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="26" column="26" lean-forward="true" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+          <folding>
+            <element signature="method#getInputStream#0;class#ObjReader#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hawhamburg/app/vuforia/SkeletalAnimatedScene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="150" column="64" selection-start-line="150" selection-start-column="47" selection-end-line="150" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1992#1993#0" expanded="true" />
-            <element signature="e#2017#2018#0" expanded="true" />
-            <element signature="e#2621#2745#0" expanded="true" />
-            <element signature="e#2744#2745#0" expanded="true" />
+            <element signature="e#1600#1601#0" expanded="true" />
+            <element signature="e#1641#1642#0" expanded="true" />
+            <element signature="e#1670#1671#0" expanded="true" />
+            <element signature="e#1712#1713#0" expanded="true" />
+            <element signature="e#1751#1752#0" expanded="true" />
+            <element signature="e#1793#1794#0" expanded="true" />
+            <element signature="e#1829#1830#0" expanded="true" />
+            <element signature="e#1865#1866#0" expanded="true" />
+            <element signature="e#1901#1902#0" expanded="true" />
+            <element signature="e#1953#1954#0" expanded="true" />
+            <element signature="e#1989#1990#0" expanded="true" />
+            <element signature="e#2037#2038#0" expanded="true" />
+            <element signature="e#2225#2354#0" expanded="true" />
+            <element signature="e#2353#2354#0" expanded="true" />
+            <element signature="e#2468#2598#0" expanded="true" />
+            <element signature="e#2597#2598#0" expanded="true" />
+            <element signature="e#2720#2857#0" expanded="true" />
+            <element signature="e#2856#2857#0" expanded="true" />
+            <element signature="e#2986#3123#0" expanded="true" />
+            <element signature="e#3122#3123#0" expanded="true" />
+            <element signature="e#3254#3391#0" expanded="true" />
+            <element signature="e#3390#3391#0" expanded="true" />
+            <element signature="e#3521#3661#0" expanded="true" />
+            <element signature="e#3660#3661#0" expanded="true" />
+            <element signature="e#4882#5088#0" expanded="true" />
+            <element signature="e#5087#5088#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/util/ColladaImporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-236">
+          <caret line="302" column="37" selection-start-line="302" selection-end-line="303" />
+          <folding>
+            <element signature="method#getNodeByName#0;class#ColladaImporter2#0" />
+            <element signature="method#getNodeByContainsString#0;class#ColladaImporter2#0" />
+            <element signature="method#getAttributeFromNodeByKey2#0;class#ColladaImporter2#0" />
+            <element signature="method#getAttributeFromNodeByKey#0;class#ColladaImporter2#0" />
+            <element signature="method#nodeHasAttribute#0;class#ColladaImporter2#0" />
+            <element signature="method#nodeHasAttribute#1;class#ColladaImporter2#0" />
+            <element signature="method#printNodeList#0;class#ColladaImporter2#0" />
+            <element signature="method#printNodeAttribute#0;class#ColladaImporter2#0" />
+            <element signature="method#getPolyStructureOffset#0;class#ColladaImporter2#0" />
+            <element signature="method#getNodeByAttribute2#0;class#ColladaImporter2#0" />
+            <element signature="method#getNodeByAttribute#0;class#ColladaImporter2#0" />
+            <element signature="method#findNamedNodeMapByKeyAndValue#0;class#ColladaImporter2#0" />
+            <element signature="method#getSourceFromNode#0;class#ColladaImporter2#0" />
+            <element signature="method#cleanNodeContext#0;class#ColladaImporter2#0" />
+            <element signature="method#removeElements#0;class#ColladaImporter2#0" />
+            <element signature="method#ColladaImporter2#0;class#ColladaImporter2#0" />
+            <element signature="method#importColladaFile#0;class#ColladaImporter2#0" />
+            <element signature="method#importColladaFile#1;class#ColladaImporter2#0" />
+            <element signature="method#readColladaFile#0;class#ColladaImporter2#0" />
+            <element signature="method#readColladaFile#1;class#ColladaImporter2#0" />
+            <element signature="method#readColladaFile#2;class#ColladaImporter2#0" />
+            <element signature="method#findFirstSkeletonJoint#0;class#ColladaImporter2#0" />
+            <element signature="method#findJointNodes#0;class#ColladaImporter2#0" />
+            <element signature="method#findSkeletonEntryNode#0;class#ColladaImporter2#0" />
+            <element signature="method#isChildOf#0;class#ColladaImporter2#0" />
+            <element signature="method#getMatrixFromNode#0;class#ColladaImporter2#0" />
+            <element signature="method#createSkeletonFromNodeList#0;class#ColladaImporter2#0" />
+            <element signature="method#createJointFromNode#0;class#ColladaImporter2#0" />
+            <element signature="method#readSkeletonFromColladaFile#0;class#ColladaImporter2#0" />
+            <element signature="method#cleanUpStringArray#0;class#ColladaImporter2#0" />
+            <element signature="method#addAnimationInterpolationToSkeleton#0;class#ColladaImporter2#0" />
+            <element signature="method#readAnimationControlFromColladaFile#0;class#ColladaImporter2#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/SkeletalAnimatedMesh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="178" column="40" lean-forward="true" selection-start-line="178" selection-start-column="40" selection-end-line="178" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#SkeletalAnimatedMesh#0;class#SkeletalAnimatedMesh#0" />
+            <element signature="method#getSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
+            <element signature="method#setSkeletonAnimationController#0;class#SkeletalAnimatedMesh#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/KeyFrameMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="669">
+          <caret line="71" column="101" selection-start-line="71" selection-start-column="101" selection-end-line="71" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib_shared/src/main/java/edu/hawhamburg/shared/importer/skeleton/Joint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
         </state>
       </provider>
     </entry>

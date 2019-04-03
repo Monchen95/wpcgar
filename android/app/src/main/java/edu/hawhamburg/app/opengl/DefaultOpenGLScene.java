@@ -12,39 +12,14 @@
  */
 package edu.hawhamburg.app.opengl;
 
-import android.util.Log;
-
-import org.w3c.dom.Document;
-
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import edu.hawhamburg.shared.datastructures.halfEdgeMesh.HalfEdgeTriangleMesh;
-import edu.hawhamburg.shared.datastructures.halfEdgeMesh.HalfEdgeUtility;
 import edu.hawhamburg.shared.datastructures.mesh.ITriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.ObjReader;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
-import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshFactory;
-import edu.hawhamburg.shared.datastructures.mesh.TriangleMeshTools;
-import edu.hawhamburg.shared.importer.skeleton.SimpleTestFactory;
 import edu.hawhamburg.shared.importer.skeleton.SkeletalAnimatedMesh;
-import edu.hawhamburg.shared.importer.util.ColladaImporter;
-import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
-import edu.hawhamburg.shared.misc.AssetPath;
-import edu.hawhamburg.shared.misc.Button;
-import edu.hawhamburg.shared.misc.ButtonHandler;
-import edu.hawhamburg.shared.misc.Constants;
 import edu.hawhamburg.shared.misc.Scene;
 import edu.hawhamburg.shared.scenegraph.INode;
 import edu.hawhamburg.shared.scenegraph.InnerNode;
@@ -95,18 +70,7 @@ public class DefaultOpenGLScene extends Scene {
         scaleNode.addChild(meshTransformationNode);
         node.addChild(scaleNode);
         getRoot().addChild(node);
-        //SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile(doc);
 
-
-
-        /*
-        File file = new File(url.getPath());
-
-        Document doc = ColladaImporter.readColladaFile(file);
-
-        SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile(doc);
-        //SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile("meshes/cowboy.dae");
-        */
     }
 
     @Override
@@ -116,28 +80,6 @@ public class DefaultOpenGLScene extends Scene {
 
     @Override
     public void onSceneRedraw() {
-        System.out.println("mulm");
-
-
-
-        t++;
-
-
-
-        TriangleMesh animatedMesh = skeletalAnimatedMesh.animate(progression,"lbs");
-        progression = progression + 0.05f;
-        if(progression>0.8333f){
-            progression=0.01f;
-        }
-
-
-
-        meshTransformationNode.removeChild(mNode);
-        mNode = new TriangleMeshNode(animatedMesh);
-
-        meshTransformationNode.addChild(mNode);
-
-        t=0;
 
     }
 }

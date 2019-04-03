@@ -92,15 +92,7 @@ public class Quaternion {
         }
     }
 
-    public Quaternion normalize2(){
-        if(lenghtNoSqrt()!=0.0 && lenghtNoSqrt()!=1.0){
-            w /= lenghtNoSqrt();
-            x /= lenghtNoSqrt();
-            y /= lenghtNoSqrt();
-            z /= lenghtNoSqrt();
-        }
-        return this;
-    }
+
 
     public Quaternion multiply(double a){
 
@@ -116,13 +108,7 @@ public class Quaternion {
         return hamiltonProduct(other);
     }
 
-    public Quaternion mul3 (double scalar) {
-        this.x *= scalar;
-        this.y *= scalar;
-        this.z *= scalar;
-        this.w *= scalar;
-        return this;
-    }
+
 
     public Quaternion add(Quaternion other){
         double w = this.w+other.getW();

@@ -24,12 +24,12 @@
         "source": "C:\\Users\\Devran\\.android\\build-cache\\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\\output\\res\\layout\\design_text_input_password_icon.xml"
     },
     {
-        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_time.xml",
-        "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\layout\\notification_template_part_time.xml"
-    },
-    {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
         "source": "C:\\Users\\Devran\\.android\\build-cache\\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\\output\\res\\layout\\design_navigation_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_time.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\layout\\notification_template_part_time.xml"
     },
     {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_tab_text.xml",
@@ -52,12 +52,12 @@
         "source": "C:\\Users\\Devran\\.android\\build-cache\\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\\output\\res\\layout\\design_layout_snackbar_include.xml"
     },
     {
-        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_title_material.xml",
-        "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\layout\\abc_alert_dialog_title_material.xml"
-    },
-    {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_view.xml",
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\layout\\abc_search_view.xml"
+    },
+    {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_title_material.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\layout\\abc_alert_dialog_title_material.xml"
     },
     {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_content_include.xml",

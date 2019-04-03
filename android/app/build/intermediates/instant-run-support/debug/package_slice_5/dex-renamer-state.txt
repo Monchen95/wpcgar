@@ -1,4 +1,4 @@
-#Mon Apr 01 23:38:27 CEST 2019
+#Tue Apr 02 21:30:28 CEST 2019
 base.0=C\:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_5
 renamed.0=classes.dex
 file.0=C\:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_5\\classes.dex

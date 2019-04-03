@@ -1,7 +1,6 @@
 package edu.hawhamburg.shared.importer.util;
 
 import org.w3c.dom.Document;
-
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -21,28 +20,19 @@ import javax.xml.parsers.ParserConfigurationException;
 import edu.hawhamburg.shared.datastructures.mesh.Triangle;
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.Vertex;
+import edu.hawhamburg.shared.importer.skeleton.Joint;
 import edu.hawhamburg.shared.importer.skeleton.KeyFrameMap;
 import edu.hawhamburg.shared.importer.skeleton.SkeletalAnimatedMesh;
-import edu.hawhamburg.shared.importer.skeleton.Joint;
-import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.importer.skeleton.Skeleton;
 import edu.hawhamburg.shared.importer.skeleton.SkeletonAnimationController;
 import edu.hawhamburg.shared.importer.skeleton.VertexWeightController;
+import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
+
 public class ColladaImporter {
 
     private List<Vector> positions = new ArrayList<>();
-    public static void main(String... args){
-        ColladaImporter colladaImporter = new ColladaImporter();
-        //SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile("C:\\Users\\Devran\\AndroidStudioProjects\\cg_vr_ar\\cg_vr_ar_android\\lib_shared\\src\\main\\java\\edu\\hawhamburg\\shared\\importer\\resources\\cowboy.dae");
-        SkeletalAnimatedMesh skeletalAnimatedMesh = colladaImporter.importColladaFile("C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\lib_shared\\src\\main\\java\\edu\\hawhamburg\\shared\\importer\\resources\\cowboy.dae");
-        Skeleton skeleton = skeletalAnimatedMesh.getSkeleton();
-        Joint j = skeleton.getJointIndexed().get(2);
 
-
-        //ColladaImporter colladaImporter = new ColladaImporter("C:/Users/Devran/AndroidStudioProjects/TestAppl/app/src/main/java/resources/Wolf_dae.dae");
-
-    }
 
     public Node getNodeByName(NodeList nodeList, String nodeName){
         Node node = null;
@@ -64,7 +54,7 @@ public class ColladaImporter {
         return node;
     }
 
-    public String getAttributeFromNodeByKey(Node node, String key){
+    public String getAttributeFromNodeByKey2(Node node, String key){
         if(!node.hasAttributes()){
             return "";
         }
@@ -72,6 +62,21 @@ public class ColladaImporter {
         String tmpStr ="";
         if(tmp!=null){
             tmpStr = tmp.toString();
+            tmpStr = tmpStr.replace(key+"=","").replace("\"","");
+            return tmpStr;
+        } else {
+            return "";
+        }
+    }
+
+    public String getAttributeFromNodeByKey(Node node, String key){
+        if(!node.hasAttributes()){
+            return "";
+        }
+        Node tmp = node.getAttributes().getNamedItem(key);
+        String tmpStr ="";
+        if(tmp!=null){
+            tmpStr = tmp.getTextContent();
             tmpStr = tmpStr.replace(key+"=","").replace("\"","");
             return tmpStr;
         } else {
@@ -87,7 +92,7 @@ public class ColladaImporter {
         Node tmp = node.getAttributes().getNamedItem(key);
         String tmpStr ="";
         if(tmp!=null){
-            tmpStr = tmp.toString();
+            tmpStr = tmp.getTextContent();
             if(tmpStr.contains(value)) {
                 return true;
             }
@@ -123,7 +128,7 @@ public class ColladaImporter {
         int offset=0;
         for(int i=0;i<nodeList.getLength();i++){
             if(nodeHasAttribute(nodeList.item(i),"offset")){
-                String str = nodeList.item(i).getAttributes().getNamedItem("offset").toString();
+                String str = nodeList.item(i).getAttributes().getNamedItem("offset").getTextContent();
                 str=str.replace("offset=","").replace("\"","");
                 offset=Math.max(offset,Integer.parseInt(str));
             }
@@ -131,7 +136,7 @@ public class ColladaImporter {
         return offset;
     }
 
-    public Node getNodeByAttribute(NodeList nodeList, String key, String value){
+    public Node getNodeByAttribute2(NodeList nodeList, String key, String value){
         Node node = null;
 
         for(int i=0;i<nodeList.getLength();i++){
@@ -141,32 +146,50 @@ public class ColladaImporter {
         }
         return node;
     }
-    public Node findNodeByKeyAndValue(NodeList nodeList, String key, String value){
 
-        Node foundNode = null;
+    public Node getNodeByAttribute(NodeList nodeList, String key, String value){
+        Node node = null;
+        for(int i=0;i<nodeList.getLength();i++){
+            if( nodeList.item(i).getAttributes()!=null){
+                NamedNodeMap nnm = nodeList.item(i).getAttributes();
+                Node attrNode = nnm.getNamedItem(key);
+                if(attrNode!=null){
+                    //hier mit contains versuchen todo
+                    if(attrNode.getTextContent().equalsIgnoreCase(value)){
+                        //System.out.println("Found the Node");
+                        //System.out.println(attrNode.getTextContent());
+                        node=nodeList.item(i);
+                    }
+                }
+            }
+        }
+        return node;
+    }
+
+    public NamedNodeMap findNamedNodeMapByKeyAndValue(NodeList nodeList, String key, String value){
+
         for(int i=0;i<nodeList.getLength();i++){
             if( nodeList.item(i).getAttributes()!=null){
                 NamedNodeMap nnm = nodeList.item(i).getAttributes();
                 Node attrNode = nnm.getNamedItem(key);
                 if(attrNode!=null){
                     if(attrNode.getTextContent().equalsIgnoreCase(value)){
-                        System.out.println("Found the Node");
                         System.out.println(attrNode.getTextContent());
-                        foundNode=nnm.getNamedItem("source");
+                        return nnm;
                     }
                 }
             }
         }
-        return foundNode;
+        return null;
     }
 
 
     public String getSourceFromNode(Node node){
-        String notStripped = node.getAttributes().getNamedItem("source").toString();
+        String notStripped = node.getAttributes().getNamedItem("source").getTextContent();
         return notStripped.replace("source=","").replace("\"","").replace("#","");
     }
 
-    public String getSourceFromNode2(Node node){
+    public String cleanNodeContext(Node node){
         String notStripped = node.getTextContent();
         return notStripped.replace("source=","").replace("\"","").replace("#","");
     }
@@ -188,7 +211,6 @@ public class ColladaImporter {
         TriangleMesh mesh = readMeshFromColladaFile(doc);
         Skeleton skeleton = readSkeletonFromColladaFile(doc);
         SkeletonAnimationController skeletonAnimationController = readAnimationControlFromColladaFile(doc,mesh,skeleton);
-
         SkeletalAnimatedMesh skeletalAnimatedMesh = new SkeletalAnimatedMesh(mesh,skeleton,skeletonAnimationController);
 
         return skeletalAnimatedMesh;
@@ -246,7 +268,7 @@ public class ColladaImporter {
         return doc;
     }
 
-    private TriangleMesh readMeshFromColladaFile(Document document){
+    public TriangleMesh readMeshFromColladaFile(Document document){
         Node libraryGeometries = document.getElementsByTagName("library_geometries").item(0);
         Node geometry = getNodeByName(libraryGeometries.getChildNodes(),"geometry");
         Node meshNode = getNodeByName(geometry.getChildNodes(),"mesh");
@@ -274,6 +296,7 @@ public class ColladaImporter {
 
         //normals
         Node normals = getNodeByAttribute(meshNode.getChildNodes(),"id",normalSourceName);
+        Node normalsArrayNode = getNodeByAttribute(normals.getChildNodes(),"id",normalSourceName+"-array");
         String[] normalsElementsArrayAsString = normals.getTextContent().split(" ");
         List<String> normalsElementList = new ArrayList<>();
 
@@ -286,7 +309,7 @@ public class ColladaImporter {
         }
 
         double[] normalsElementArray = new double[normalsElementList.size()];
-        int amountOfNormalsElements = Integer.valueOf(getAttributeFromNodeByKey(getNodeByAttribute(normals.getChildNodes(),"id",normalSourceName),"count"));
+        int amountOfNormalsElements = Integer.valueOf(getAttributeFromNodeByKey(normalsArrayNode,"count"));
         int amountOfNormals = amountOfNormalsElements/3; //3 weil 3 dimensional
 
 
@@ -404,7 +427,7 @@ public class ColladaImporter {
         return mesh;
     }
 
-    private Node findFirstSkeletonJoint(Node node){
+    public Node findFirstSkeletonJoint(Node node){
         for(int i=0;i<node.getChildNodes().getLength();i++){
             for(int j=0;j<node.getChildNodes().item(i).getChildNodes().getLength();j++){
                 if(nodeHasAttribute(node.getChildNodes().item(i).getChildNodes().item(j),"type","JOINT")){
@@ -415,7 +438,7 @@ public class ColladaImporter {
         return null;
     }
 
-    private List<Node> findJointNodes(Node node, List<Node> toFillList){
+    public List<Node> findJointNodes(Node node, List<Node> toFillList){
             for(int i=0;i<node.getChildNodes().getLength();i++){
                 if(nodeHasAttribute(node.getChildNodes().item(i),"type","JOINT")){
                     toFillList.add(node.getChildNodes().item(i));
@@ -427,7 +450,7 @@ public class ColladaImporter {
         return toFillList;
     }
 
-    private Node findSkeletonEntryNode(Node node){
+    public Node findSkeletonEntryNode(Node node){
         for(int i=0;i<node.getChildNodes().getLength();i++){
             for(int j=0;j<node.getChildNodes().item(i).getChildNodes().getLength();j++){
                 if(nodeHasAttribute(node.getChildNodes().item(i).getChildNodes().item(j),"type","JOINT")){
@@ -438,14 +461,14 @@ public class ColladaImporter {
         return null;
     }
 
-    private boolean isChildOf(Node n2, Node n1){
+    public boolean isChildOf(Node n2, Node n1){
         if(n2.getParentNode().equals(n1)){
             return true;
         }
         return false;
     }
 
-    private Matrix getMatrixFromNode(Node node){
+    public Matrix getMatrixFromNode(Node node){
 
         for(int i=0;i<node.getChildNodes().getLength();i++){
             if(nodeHasAttribute(node.getChildNodes().item(i),"sid","transform")){
@@ -474,7 +497,7 @@ public class ColladaImporter {
         return null;
     }
 
-    private Skeleton createSkeletonFromNodeList(List<Node> nodeList){
+    public Skeleton createSkeletonFromNodeList(List<Node> nodeList){
         List<Joint> jointIndexed = new ArrayList<>();
         for(int i=0;i<nodeList.size();i++){
             jointIndexed.add(createJointFromNode(nodeList.get(i)));
@@ -493,7 +516,7 @@ public class ColladaImporter {
         return new Skeleton(jointIndexed.get(0),jointIndexed);
     }
 
-    private Joint createJointFromNode(Node node){
+    public Joint createJointFromNode(Node node){
         String name = getAttributeFromNodeByKey(node,"id");
         //andere matrize und inversen selbst berechnen
         Matrix transform = getMatrixFromNode(node);
@@ -501,7 +524,7 @@ public class ColladaImporter {
         return joint;
     }
 
-    private Skeleton readSkeletonFromColladaFile(Document document){
+    public Skeleton readSkeletonFromColladaFile(Document document){
 
         Node libraryVisualScenes = document.getElementsByTagName("library_visual_scenes").item(0);
         Node visualSceneNode = getNodeByAttribute(libraryVisualScenes.getChildNodes(),"id","Scene");
@@ -522,6 +545,29 @@ public class ColladaImporter {
         Node libraryControllers = document.getElementsByTagName("library_controllers").item(0);
         Node controllerNode = getNodeByName(libraryControllers.getChildNodes(),"controller");
         Node skinNode = getNodeByName(controllerNode.getChildNodes(),"skin");
+
+        Node bsmNode = getNodeByName(skinNode.getChildNodes(),"bind_shape_matrix");
+        String[] bsmNodeMatrixAsStringArr = bsmNode.getTextContent().replace("\n","").split(" ");
+        List<Double> bsmAsStringList = new ArrayList<>();
+        for(int j=0;j<bsmNodeMatrixAsStringArr.length;j++){
+            if(!bsmNodeMatrixAsStringArr[j].isEmpty()){
+                bsmAsStringList.add(Double.valueOf(bsmNodeMatrixAsStringArr[j]));
+            }
+        }
+
+
+        skeleton.setBsm(new Matrix(bsmAsStringList.get(0),bsmAsStringList.get(1),
+                bsmAsStringList.get(2),bsmAsStringList.get(3),
+                bsmAsStringList.get(4),bsmAsStringList.get(5),
+                bsmAsStringList.get(6),bsmAsStringList.get(7),
+                bsmAsStringList.get(8),bsmAsStringList.get(9),
+                bsmAsStringList.get(10),bsmAsStringList.get(11),
+                bsmAsStringList.get(12),bsmAsStringList.get(13),
+                bsmAsStringList.get(14),bsmAsStringList.get(15)));
+
+        System.out.println(skeleton.getBsm());
+
+
         Node jointsNode = getNodeByName(skinNode.getChildNodes(),"joints");
         printNodeAttribute(controllerNode);
         Node invBindMatrixSourceNode = getNodeByAttribute(jointsNode.getChildNodes(),"semantic","INV_BIND_MATRIX");
@@ -555,8 +601,7 @@ public class ColladaImporter {
         return skeleton;
     }
 
-    //todo zu generic machen leere einträge erkennen und löschen (stirng.emtpy oder null)
-    private String[] cleanUpStringArray(String[] stringArray){
+    public String[] cleanUpStringArray(String[] stringArray){
         List<String> stringList = new ArrayList<>();
         for(int i=0;i<stringArray.length;i++){
             if (!stringArray[i].isEmpty()&&!stringArray[i].equals("\n")){
@@ -572,7 +617,7 @@ public class ColladaImporter {
     }
 
 
-    private Skeleton addAnimationInterpolationToSkeleton(Document document, Skeleton skeleton){
+    public Skeleton addAnimationInterpolationToSkeleton(Document document, Skeleton skeleton){
        Node libraryAnimation = document.getElementsByTagName("library_animations").item(0);
        NodeList animationInformationNodes = libraryAnimation.getChildNodes();
        String jointAnimationInformationSuffix = "_pose_matrix";
@@ -580,7 +625,9 @@ public class ColladaImporter {
 
        for(int i=0;i<skeleton.getJointIndexed().size();i++){
            Node jointAnimationInformationNode = getNodeByAttribute(animationInformationNodes,"id",skeleton.getJointIndexed().get(i).getName()+jointAnimationInformationSuffix);
-           Node samplerNode = getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id","sampler");
+           Node samplerNode = getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id",skeleton.getJointIndexed().get(i).getName()+jointAnimationInformationSuffix+"-sampler");
+
+           // Node samplerNode = getNodeByAttribute(jointAnimationInformationNode.getChildNodes(),"id","sampler");
            Node inputFromSamplerNode = getNodeByAttribute(samplerNode.getChildNodes(),"semantic","INPUT");
            String inputSourceName = getSourceFromNode(inputFromSamplerNode);
            Node outputFromSamplerNode = getNodeByAttribute(samplerNode.getChildNodes(),"semantic","OUTPUT");
@@ -591,9 +638,10 @@ public class ColladaImporter {
 
            String[] animationTimeKeysStringArr = animationTimeKeysNode.getTextContent().replace("\n","").split(" ");
            List<Double> animationTimeKeysList = new ArrayList<>();
+           double normBase = Double.valueOf(animationTimeKeysStringArr[animationTimeKeysStringArr.length-1]);
            for(int j=0;j<animationTimeKeysStringArr.length;j++){
                if(!animationTimeKeysStringArr[j].isEmpty()){
-                   animationTimeKeysList.add(Double.valueOf(animationTimeKeysStringArr[j]));
+                   animationTimeKeysList.add(Double.valueOf(animationTimeKeysStringArr[j])/normBase);
                }
            }
            //get stride
@@ -630,7 +678,7 @@ public class ColladaImporter {
     }
 
 
-    private SkeletonAnimationController readAnimationControlFromColladaFile(Document document, TriangleMesh mesh, Skeleton skeleton){
+    public SkeletonAnimationController readAnimationControlFromColladaFile(Document document, TriangleMesh mesh, Skeleton skeleton){
         Node libraryAnimationContol = document.getElementsByTagName("library_controllers").item(0);
         Node controllerNode = getNodeByName(libraryAnimationContol.getChildNodes(),"controller");
         Node skinNode = getNodeByName(controllerNode.getChildNodes(),"skin");
@@ -726,7 +774,4 @@ public class ColladaImporter {
         return skeletonAnimationController;
     }
 
-    public static SkeletalAnimatedMesh getStub(){
-        return null;
-    }
 }

@@ -15,22 +15,13 @@ package edu.hawhamburg.shared.datastructures.mesh;
 import android.util.Log;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.StringReader;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,13 +35,9 @@ import edu.hawhamburg.shared.importer.skeleton.SkeletalAnimatedMesh;
 import edu.hawhamburg.shared.importer.skeleton.Skeleton;
 import edu.hawhamburg.shared.importer.skeleton.SkeletonAnimationController;
 import edu.hawhamburg.shared.importer.util.ColladaImporter;
-import edu.hawhamburg.shared.importer.util.ColladaImporter2;
-import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 import edu.hawhamburg.shared.misc.AssetPath;
 import edu.hawhamburg.shared.misc.Constants;
-import edu.hawhamburg.shared.rendering.Texture;
-import edu.hawhamburg.shared.rendering.TextureManager;
 
 /**
  * Read OBJ file and fill triangle mesh with the content.
@@ -164,9 +151,8 @@ public class ObjReader {
             builder = factory.newDocumentBuilder();
             //Document document = builder.parse(new InputSource(new StringReader(xmlString)));
             Document document = builder.parse(new InputSource(inputStream));
-            System.out.println("*******************");
 
-            ColladaImporter2 colladaImporter = new ColladaImporter2();
+            ColladaImporter colladaImporter = new ColladaImporter();
             TriangleMesh mesh = colladaImporter.readMeshFromColladaFile(document);
             Skeleton skeleton = colladaImporter.readSkeletonFromColladaFile(document);
             SkeletonAnimationController skeletonAnimationController = colladaImporter.readAnimationControlFromColladaFile(document,mesh,skeleton);
@@ -174,16 +160,6 @@ public class ObjReader {
             skeletalAnimatedMesh = new SkeletalAnimatedMesh(mesh,skeleton,skeletonAnimationController);
 
 
-
-
-
-
-
-
-            System.out.println("*******************");
-            if(document==null){
-
-            }
 
         } catch (Exception e) {
             e.printStackTrace();

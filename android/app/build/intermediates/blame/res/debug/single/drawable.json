@@ -8,16 +8,20 @@
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\drawable\\abc_edit_text_material.xml"
     },
     {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\play.png",
+        "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\play.png"
+    },
+    {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_textfield_search_material.xml",
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\drawable\\abc_textfield_search_material.xml"
     },
     {
-        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\design_fab_background.xml",
-        "source": "C:\\Users\\Devran\\.android\\build-cache\\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\\output\\res\\drawable\\design_fab_background.xml"
-    },
-    {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_light.xml",
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\drawable\\abc_item_background_holo_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\design_fab_background.xml",
+        "source": "C:\\Users\\Devran\\.android\\build-cache\\f1c49b883fbd39627dc43ace8cd96b4ec72aa772\\output\\res\\drawable\\design_fab_background.xml"
     },
     {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
@@ -60,12 +64,20 @@
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\drawable\\abc_text_cursor_material.xml"
     },
     {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\toggle.png",
+        "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\toggle.png"
+    },
+    {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_go_search_api_material.xml",
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\drawable\\abc_ic_go_search_api_material.xml"
     },
     {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\drawable\\abc_item_background_holo_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\stop.png",
+        "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\stop.png"
     },
     {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
@@ -94,6 +106,10 @@
     {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\lego.png",
         "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\lego.png"
+    },
+    {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\slow.png",
+        "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\slow.png"
     },
     {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_voice_search_api_material.xml",
@@ -240,7 +256,15 @@
         "source": "C:\\Users\\Devran\\.android\\build-cache\\a8afc8898d75acd524412ce4a58ca16eb02a9d39\\output\\res\\drawable\\abc_btn_borderless_material.xml"
     },
     {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\eye.png",
+        "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\eye.png"
+    },
+    {
         "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\building02.jpg",
         "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\building02.jpg"
+    },
+    {
+        "merged": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\fast.png",
+        "source": "C:\\Users\\Devran\\AndroidStudioProjects\\new_cg\\wpcgar\\android\\res\\drawable\\fast.png"
     }
 ]

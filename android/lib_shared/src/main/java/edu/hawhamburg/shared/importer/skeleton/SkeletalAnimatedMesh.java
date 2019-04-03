@@ -1,7 +1,5 @@
 package edu.hawhamburg.shared.importer.skeleton;
 
-import java.util.List;
-
 import edu.hawhamburg.shared.datastructures.mesh.TriangleMesh;
 import edu.hawhamburg.shared.datastructures.mesh.Vertex;
 import edu.hawhamburg.shared.importer.math.DualQuaternion;
@@ -9,15 +7,12 @@ import edu.hawhamburg.shared.math.Matrix;
 import edu.hawhamburg.shared.math.Vector;
 
 
-public class SkeletalAnimatedMesh {
+public class SkeletalAnimatedMesh extends Thread{
     private TriangleMesh meshInBindPose;
     private TriangleMesh mesh;
     private Skeleton skeleton;
-    private Skeleton defaultSkeleton;
     private SkeletonAnimationController skeletonAnimationController;
-    private AnimationHelper animationHelper;
-    int checknumber = 300;
-    boolean show = false;
+    double progression = 0;
 
     public SkeletalAnimatedMesh(TriangleMesh mesh, Skeleton skeleton, SkeletonAnimationController skeletonAnimationController) {
         //create reference mesh
@@ -38,11 +33,8 @@ public class SkeletalAnimatedMesh {
         }
 
         this.mesh = mesh;
-        this.defaultSkeleton = skeleton;
         this.skeleton = skeleton;
         this.skeletonAnimationController = skeletonAnimationController;
-        this.animationHelper= new AnimationHelper();
-        //skeleton.rotateX(90);
     }
 
     public TriangleMesh getMesh() {
@@ -69,47 +61,8 @@ public class SkeletalAnimatedMesh {
         this.skeletonAnimationController = skeletonAnimationController;
     }
 
-
-    /**
-     * @param
-     *  delta raus, einfach das mesh animieren mit vector.copy
-     *           meshvertices ändern
-     *           dafür modus rein (dqs, lbs usw.)
-     * @return
-     */
-    public TriangleMesh animate(double delta, String mode){
-        update(delta,mode);
-        return this.mesh;
-    }
-
-    public void animate2(double delta, String mode){
-        update2(delta,mode);
-    }
-
-    private Matrix getKeyFrameAnimationForJoint(){
-        return null;
-    }
-
-    private void calcuateAnimationTransformForJoint(Matrix animationMatrix){
-
-    }
-
-    private void calculateAnimationTransformsForSkeleton(){
-        //hole für jeden joint die der zeit entsprechenden keyframes
-        //interpoliere()
-    }
-
-    private void updateStub(float delta){
-        calculateAnimationTransformsForSkeleton();
-    }
-
-    private void applyAnimationTransformsOnMesh(){
-
-    }
-
     private void linearBlendSkinning(){
         for(int i=0;i<mesh.getNumberOfVertices();i++){
-            //neue vertex posi = alte* summe aus  gewichtet * matrize
             Vector positionVector = Vector.makeHomogenious(meshInBindPose.getVertex(i).getPosition());
             Vector normalVector = Vector.makeHomogenious(meshInBindPose.getVertex(i).getNormal());
             Vector sumOfPositionVector = new Vector(0,0,0,0);
@@ -135,7 +88,6 @@ public class SkeletalAnimatedMesh {
             Vector tmpNor = new Vector(sumOfNormalVector.x(),sumOfNormalVector.y(),sumOfNormalVector.z());
             mesh.getVertex(i).getPosition().copy(tmpPos);
             mesh.getVertex(i).getNormal().copy(tmpNor);
-
 
         }
     }
@@ -179,7 +131,6 @@ public class SkeletalAnimatedMesh {
                 double weight = skeletonAnimationController.vertexWeightControllers[i].weightThatAffectsVertex.get(j);
 
                 //kürzester weg
-                //if(jointDQ.getRotation().dot(pivot.getRotation())<0.f){
                 if(pivot.getRotation().dot(jointDQ.getRotation())<0.0){
                     weight=weight*-1.0;
 
@@ -191,23 +142,21 @@ public class SkeletalAnimatedMesh {
 
             }
 
-            Matrix transform = AnimationHelper.convertDQToMatrix(blendDQS);
-            //Matrix transform = AnimationHelper.convertDQToMatrix2(blendDQS);
-            //Vector newPosition = transform.multiply(positionVector);
             Vector newPosition = AnimationHelper.transformVectorWithDQ(blendDQS,positionVector);
             newPosition = Vector.makeHomogenious(newPosition);
 
-            //Vector newNormal = transform.multiply(normalVector);
             Vector newNormal = AnimationHelper.transformVectorWithDQ(blendDQS,normalVector);
             newNormal = Vector.makeHomogenious(newNormal);
 
-            mesh.getVertex(i).getColor().copy(new Vector(1, 1, 1, 1));
-            mesh.getVertex(i).getPosition().copy(newPosition);
-            mesh.getVertex(i).getNormal().copy(newNormal);
+            Vector tmpPos = new Vector(newPosition.x(),newPosition.y(),newPosition.z());
+            Vector tmpNor = new Vector(newNormal.x(),newNormal.y(),newNormal.z());
+            mesh.getVertex(i).getPosition().copy(tmpPos);
+            mesh.getVertex(i).getNormal().copy(tmpNor);
 
 
         }
     }
+
 
     private void update(double delta, String mode){
         //finde für jeden joint den nächsten keyframe
@@ -222,18 +171,23 @@ public class SkeletalAnimatedMesh {
 
     }
 
-    private void update2(double delta, String mode){
-        //finde für jeden joint den nächsten keyframe
-        for(int i=0;i<skeleton.getJointIndexed().size();i++){
-            skeleton.getJoint(i).calculateAnimationPoseToWorldMatrix(skeletonAnimationController.keyFrames.get(i).getKeyFrameAnimationForTimeT(delta,"slerp"));
+    @Override
+    public void run() {
+        while(true){
+            SkeletonLock.mutex.lock();
+            update(progress(AnimationConfig.speed),AnimationConfig.skinning);
+            SkeletonLock.mutex.unlock();
         }
-        if(mode.equalsIgnoreCase("lbs")){
-            linearBlendSkinning();
-        } else {
-            dualQuaternionBlendSkinning();
-        }
-
     }
 
-
+    public double progress(double speed){
+        if(!AnimationConfig.getAnimate()){
+            return progression;
+        }
+        progression += speed;
+        if(progression>1){
+            progression=0.0;
+        }
+        return progression;
+    }
 }
